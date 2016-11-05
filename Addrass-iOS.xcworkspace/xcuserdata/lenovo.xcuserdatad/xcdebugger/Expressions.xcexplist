@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "SignInViewController.(setImage() -&gt; ()).(closure #1):SignInViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SignInViewController.setImage(sender : UIView?) -&gt; ():SignInViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tagTextField?.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SignInViewController.(setImage(sender : UIView?) -&gt; ()).(closure #1):SignInViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
