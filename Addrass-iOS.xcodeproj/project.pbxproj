@@ -8,7 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		53BD48C87B11EDE77F99652F /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAF856E8FB978A0823DF4619 /* Pods_Addrass_iOS.framework */; };
-		F5EC09591DCE81EA003C8DD9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EC09581DCE81EA003C8DD9 /* SignInViewController.swift */; };
+		F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */; };
+		F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */; };
+		F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */; };
+		F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392971DCF5B25006621B5 /* SignInViewController.swift */; };
+		F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */; };
+		F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */; };
 		F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */; };
 		F5FF3D5B1DCE7EC200BAD7B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */; };
 		F5FF3D5E1DCE7EC200BAD7B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5FF3D5C1DCE7EC200BAD7B9 /* LaunchScreen.storyboard */; };
@@ -18,7 +23,12 @@
 		223EAB79E7566333BC215B1C /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A85483640A4AEFF7BADCCF0C /* Pods-Addrass-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		BAF856E8FB978A0823DF4619 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5EC09581DCE81EA003C8DD9 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Addrass.swift"; sourceTree = "<group>"; };
+		F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Addrass.swift"; sourceTree = "<group>"; };
+		F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+AddrassLocalization.swift"; sourceTree = "<group>"; };
+		F5B392971DCF5B25006621B5 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADPaddedTextField.swift; sourceTree = "<group>"; };
+		F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F5FF3D501DCE7EC200BAD7B9 /* Addrass-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Addrass-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,10 +65,45 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F5B3928E1DCF490A006621B5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */,
+				F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */,
+				F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		F5B392951DCF57EC006621B5 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				F5EC09571DCE81C2003C8DD9 /* Welcome */,
+				F5B392961DCF5B11006621B5 /* Sign In */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		F5B392961DCF5B11006621B5 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				F5B392971DCF5B25006621B5 /* SignInViewController.swift */,
+			);
+			name = "Sign In";
+			sourceTree = "<group>";
+		};
+		F5B3929B1DCF6484006621B5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		F5EC09571DCE81C2003C8DD9 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				F5EC09581DCE81EA003C8DD9 /* SignInViewController.swift */,
+				F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */,
 			);
 			name = Welcome;
 			sourceTree = "<group>";
@@ -84,7 +129,9 @@
 		F5FF3D521DCE7EC200BAD7B9 /* Addrass-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				F5EC09571DCE81C2003C8DD9 /* Welcome */,
+				F5B392951DCF57EC006621B5 /* Scenes */,
+				F5B3929B1DCF6484006621B5 /* Views */,
+				F5B3928E1DCF490A006621B5 /* Helpers */,
 				F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */,
 				F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */,
 				F5FF3D5C1DCE7EC200BAD7B9 /* LaunchScreen.storyboard */,
@@ -217,8 +264,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5EC09591DCE81EA003C8DD9 /* SignInViewController.swift in Sources */,
+				F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */,
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
+				F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */,
+				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
+				F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */,
+				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,
+				F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

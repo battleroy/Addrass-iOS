@@ -8,91 +8,120 @@
 
 import UIKit
 import SnapKit
-import Alamofire
-import SwiftGifOrigin
 
 class SignInViewController: UIViewController {
     
-    var iconImageView: UIImageView?
-    var tagTextField: UITextField?
-    var againButton: UIButton?
+    // MARK: Variables
     
-    var currentRequest: DataRequest?
+    static let textFieldPadding = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)
+    
+    var headerLabel: UILabel?
+    
+    var loginTextField: ADPaddedTextField?
+    var passwordTextField: ADPaddedTextField?
+    
+    var loginButton: UIButton?
+    
+    
+    // MARK: VCL
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.ad.darkGray
 
-        self.title = "Login"
-        self.view.backgroundColor = UIColor.green
+        headerLabel = UILabel()
+        headerLabel?.textColor = UIColor.ad.white
+        headerLabel?.font = UIFont.ad.heading1Font
+        headerLabel?.text = String.ad.introduceYourself
+        view.addSubview(headerLabel!)
         
-        self.iconImageView = UIImageView()
-        self.iconImageView?.backgroundColor = UIColor.clear
-        self.iconImageView?.contentMode = .scaleAspectFit
-        self.view.addSubview(self.iconImageView!)
+        loginTextField = ADPaddedTextField(forPadding: SignInViewController.textFieldPadding)
+        loginTextField?.backgroundColor = UIColor.clear
+        loginTextField?.font = UIFont.ad.bodyFont
+        loginTextField?.textColor = UIColor.ad.white
+        loginTextField?.attributedPlaceholder = NSAttributedString(
+            string: String.ad.login,
+            attributes: [
+                NSFontAttributeName: UIFont.ad.bodyFont,
+                NSForegroundColorAttributeName: UIColor.ad.lightGray
+            ]
+        )
+        loginTextField?.layer.cornerRadius = 15.0
+        loginTextField?.layer.borderColor = UIColor.white.cgColor
+        loginTextField?.layer.borderWidth = 1.0
+        view.addSubview(loginTextField!)
         
-        self.iconImageView?.snp.makeConstraints { (make) in
-            make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(10.0)
-            make.left.right.equalTo(self.view).inset(UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0))
-            make.width.equalTo(self.iconImageView!.snp.height)
-        }
+        passwordTextField = ADPaddedTextField(forPadding: SignInViewController.textFieldPadding)
+        passwordTextField?.backgroundColor = UIColor.clear
+        passwordTextField?.font = UIFont.ad.bodyFont
+        passwordTextField?.textColor = UIColor.ad.white
+        passwordTextField?.attributedPlaceholder = NSAttributedString(
+            string: String.ad.password,
+            attributes: [
+                NSFontAttributeName: UIFont.ad.bodyFont,
+                NSForegroundColorAttributeName: UIColor.ad.lightGray
+            ]
+        )
+        passwordTextField?.layer.cornerRadius = 15.0
+        passwordTextField?.layer.borderColor = UIColor.white.cgColor
+        passwordTextField?.layer.borderWidth = 1.0
+        view.addSubview(passwordTextField!)
         
-        self.againButton = UIButton(type: .roundedRect)
-        self.againButton?.setTitle("Again", for: .normal)
-        self.againButton?.addTarget(self, action: #selector(setImage), for: .touchUpInside)
-        self.againButton?.setContentHuggingPriority(500, for: .horizontal)
-        self.view.addSubview(self.againButton!)
+        loginButton = UIButton(type: .roundedRect)
+        loginButton?.backgroundColor = UIColor.yellow
+        loginButton?.setAttributedTitle(
+            NSAttributedString(string: String.ad.enter, attributes: [
+                NSFontAttributeName: UIFont.ad.boldFont,
+                NSForegroundColorAttributeName: UIColor.darkGray
+                ]),
+            for: .normal)
+        loginButton?.layer.masksToBounds = true
+        loginButton?.layer.cornerRadius = 20.0
+        view.addSubview(loginButton!)
         
-        self.againButton?.snp.makeConstraints { (make) in
-            make.right.equalTo(self.iconImageView!)
-            make.top.equalTo(self.iconImageView!.snp.bottom).offset(10.0)
-        }
+        setConstraints()
+    }
+    
+    
+    // MARK: Overrides
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    
+    
+    
+    
+    // MARK: Private methods
+    
+    func setConstraints() {
         
-        self.tagTextField = UITextField()
-        self.tagTextField?.placeholder = "Enter tag"
-        self.tagTextField?.borderStyle = .roundedRect
-        self.tagTextField?.backgroundColor = UIColor.white
-        self.tagTextField?.setContentHuggingPriority(400, for: .horizontal)
-        self.view.addSubview(self.tagTextField!)
+        headerLabel?.snp.makeConstraints({ (make) in
+            make.left.equalTo(loginTextField!)
+            make.bottom.equalTo(loginTextField!.snp.top).offset(-50.0)
+        })
         
-        self.tagTextField?.snp.makeConstraints({ (make) in
-            make.left.equalTo(self.iconImageView!)
-            make.top.equalTo(self.againButton!)
-            make.right.equalTo(self.againButton!.snp.left).offset(-10.0)
+        loginTextField?.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(view).inset(UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0))
+            make.centerY.equalTo(view)
+            make.height.equalTo(40.0)
+        })
+        
+        passwordTextField?.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField!)
+            make.top.equalTo(loginTextField!.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField!)
+        })
+        
+        loginButton?.snp.makeConstraints({ (make) in
+            make.right.equalTo(passwordTextField!)
+            make.top.equalTo(passwordTextField!.snp.bottom).offset(10.0)
+            make.width.equalTo(60.0)
+            make.height.equalTo(40.0)
         })
         
     }
-    
-    
-    func setImage(sender: UIButton?) {
-        self.iconImageView!.image = nil
-        
-        if let imageRequest = self.currentRequest {
-            imageRequest.cancel()
-            self.currentRequest = nil
-        }
-        
-        var tagText: String!
-        
-        if let trueText = self.tagTextField?.text {
-            tagText = trueText
-        } else {
-            tagText = "404"
-        }
-        
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        self.currentRequest = Alamofire.request(
-            "http://api.giphy.com/v1/gifs/random", parameters: [
-                "api_key": "dc6zaTOxFJmzC",
-                "tag": tagText
-            ]).responseJSON { (response) in
-                let responseDict = response.result.value as! Dictionary<String, AnyObject>
-                let imageURL = responseDict["data"]!["image_url"] as! String
-                Alamofire.request(imageURL).responseData(completionHandler: { (response) in
-                    self.iconImageView!.image = UIImage.gif(data: response.data!)
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                })
-        }
-    }
-
 
 }
