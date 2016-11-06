@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
         
-        let startVC = SignInViewController()
+        let startVC = RootNavigationViewController(rootViewController: WelcomeViewController())
         
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()

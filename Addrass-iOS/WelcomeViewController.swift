@@ -25,8 +25,15 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupSubviews()
+    }
+    
+    
+    // MARK: Private Methods
+    
+    func setupSubviews() {
         view.backgroundColor = UIColor.ad.darkGray
-
+        
         headerImageView = UIImageView(image: UIImage(named: "logo", in: nil, compatibleWith: nil))
         headerImageView?.contentMode = .scaleAspectFit
         view.addSubview(headerImageView!)
@@ -49,6 +56,7 @@ class WelcomeViewController: UIViewController {
         signInButton?.layer.borderColor = UIColor.ad.darkGray.cgColor
         signInButton?.layer.masksToBounds = true
         signInButton?.layer.cornerRadius = 20.0
+        signInButton?.addTarget(self, action: #selector(signInButtonPressed(_:)), for: .touchUpInside)
         view.addSubview(signInButton!)
         
         signUpButton = UIButton(type: .roundedRect)
@@ -69,17 +77,9 @@ class WelcomeViewController: UIViewController {
     }
     
     
-    // MARK: Overrides
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    // MARK: Private Methods
-    
     func setConstraints() {
         headerImageView?.snp.makeConstraints({ (make) in
-            make.bottom.equalTo(headerLabel!.snp.top).offset(-10.0)
+            make.bottom.equalTo(headerLabel!.snp.top).offset(-60.0)
             make.left.equalTo(headerLabel!)
             make.height.width.equalTo(60.0)
         })
@@ -100,4 +100,12 @@ class WelcomeViewController: UIViewController {
             make.top.equalTo(signInButton!.snp.bottom).offset(10.0)
         })
     }
+    
+    
+    // MARK: Actions
+    
+    func signInButtonPressed(_ sender: UIButton) {
+        navigationController?.pushViewController(SignInViewController(), animated: true)
+    }
+    
 }

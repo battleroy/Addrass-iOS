@@ -12,8 +12,9 @@ extension UIFont {
     
     struct ADFonts {
         
-        let bodyFont    = UIFont(name: "HelveticaNeue", size: 14.0)!
-        let boldFont    = UIFont(name: "HelveticaNeue-Bold", size: 14.0)!
+        let bodyFont     = UIFont(name: "HelveticaNeue", size: 14.0)!
+        let boldFont     = UIFont(name: "HelveticaNeue-Bold", size: 14.0)!
+        let largeFont    = UIFont(name: "HelveticaNeue", size: 17.0)!
         let heading1Font = UIFont(name: "HelveticaNeue-Bold", size: 24.0)!
         
     }
