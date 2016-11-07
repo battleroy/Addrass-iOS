@@ -14,7 +14,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Variables
     
-    static let textFieldPadding = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)
+    private let textFieldPadding = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)
     
     var contentScrollView: UIScrollView?
     
@@ -22,6 +22,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     var loginTextField: ADPaddedTextField?
     var passwordTextField: ADPaddedTextField?
     var loginButton: UIButton?
+    
+    var nonEmptyTextFields: [UITextField]?
     
     var bottomSpaceAccumulator: CGFloat = 0.0
     
@@ -64,7 +66,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         headerLabel?.text = String.ad.introduceYourself
         contentScrollView?.addSubview(headerLabel!)
         
-        loginTextField = ADPaddedTextField(forPadding: SignInViewController.textFieldPadding)
+        loginTextField = ADPaddedTextField(forPadding: textFieldPadding)
         loginTextField?.delegate = self
         loginTextField?.returnKeyType = .next
         loginTextField?.backgroundColor = UIColor.clear
@@ -82,7 +84,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         loginTextField?.layer.borderWidth = 1.0
         contentScrollView?.addSubview(loginTextField!)
         
-        passwordTextField = ADPaddedTextField(forPadding: SignInViewController.textFieldPadding)
+        
+        passwordTextField = ADPaddedTextField(forPadding: textFieldPadding)
         passwordTextField?.delegate = self
         passwordTextField?.returnKeyType = .done
         passwordTextField?.backgroundColor = UIColor.clear
@@ -100,6 +103,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         passwordTextField?.layer.borderWidth = 1.0
         contentScrollView?.addSubview(passwordTextField!)
         
+        
+        nonEmptyTextFields = [loginTextField!, passwordTextField!]
+        
+        
         loginButton = UIButton(type: .roundedRect)
         loginButton?.backgroundColor = UIColor.yellow
         loginButton?.setAttributedTitle(
@@ -110,6 +117,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             for: .normal)
         loginButton?.layer.masksToBounds = true
         loginButton?.layer.cornerRadius = 20.0
+        loginButton?.addTarget(self, action: #selector(loginButtonPressed(_:)), for: .touchUpInside)
         contentScrollView?.addSubview(loginButton!)
         
         setConstraints()
@@ -119,7 +127,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     func setConstraints() {
         
         contentScrollView?.snp.makeConstraints({ (make) in
-            make.edges.equalTo(view)
+            make.left.right.bottom.equalTo(view)
+            make.top.equalTo(topLayoutGuide.snp.top)
         })
         
         headerLabel?.snp.makeConstraints({ (make) in
@@ -159,6 +168,23 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         
         loginTextField?.resignFirstResponder()
         passwordTextField?.resignFirstResponder()
+        
+    }
+    
+    
+    func loginButtonPressed(_ sender: UIButton) {
+        
+        if let nonEmptyTextFields = nonEmptyTextFields {
+            
+            for nonEmptyField in nonEmptyTextFields {
+                
+                if nonEmptyField.text?.characters.count == 0 {
+                    nonEmptyField.blink(blinkColor: UIColor.red)
+                }
+                
+            }
+            
+        }
         
     }
     

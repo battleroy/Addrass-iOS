@@ -24,9 +24,7 @@ class RootNavigationViewController: UINavigationController {
             NSFontAttributeName: UIFont.ad.largeFont,
             NSForegroundColorAttributeName: UIColor.ad.white
         ], for: .normal)
-        
-        
-        
+             
     }
     
 

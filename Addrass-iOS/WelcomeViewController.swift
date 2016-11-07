@@ -71,6 +71,7 @@ class WelcomeViewController: UIViewController {
         signUpButton?.layer.borderColor = UIColor.ad.yellow.cgColor
         signUpButton?.layer.masksToBounds = true
         signUpButton?.layer.cornerRadius = 20.0
+        signUpButton?.addTarget(self, action: #selector(signUpButtonPressed(_:)), for: .touchUpInside)
         view.addSubview(signUpButton!)
         
         setConstraints()
@@ -106,6 +107,11 @@ class WelcomeViewController: UIViewController {
     
     func signInButtonPressed(_ sender: UIButton) {
         navigationController?.pushViewController(SignInViewController(), animated: true)
+    }
+    
+    
+    func signUpButtonPressed(_ sender: UIButton) {
+        navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
 }

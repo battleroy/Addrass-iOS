@@ -21,6 +21,14 @@ extension String {
         let password          = "Your Password"
         
         let signUp            = "Sign Up"
+        let fillTheFields     = "Fill the Fields..."
+        let done              = "Done"
+        let repeatPassword    = "Repeat Password"
+        let yourName          = "Your Name"
+        let yourPhone         = "Your Phone"
+        let yourEmail         = "Your E-mail"
+        let yourCompany       = "Your Company"
+        let yourAddress       = "Your Address"
         
     }
     

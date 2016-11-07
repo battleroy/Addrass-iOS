@@ -14,6 +14,8 @@
 		F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392971DCF5B25006621B5 /* SignInViewController.swift */; };
 		F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */; };
 		F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B3929C1DCFB3F9006621B5 /* RootNavigationViewController.swift */; };
+		F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */; };
+		F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */; };
 		F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */; };
 		F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */; };
 		F5FF3D5B1DCE7EC200BAD7B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */; };
@@ -30,6 +32,8 @@
 		F5B392971DCF5B25006621B5 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADPaddedTextField.swift; sourceTree = "<group>"; };
 		F5B3929C1DCFB3F9006621B5 /* RootNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationViewController.swift; sourceTree = "<group>"; };
+		F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Addrass.swift"; sourceTree = "<group>"; };
 		F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F5FF3D501DCE7EC200BAD7B9 /* Addrass-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Addrass-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +74,7 @@
 		F56275DB1DCFE4E700B1B6F9 /* Sign Up */ = {
 			isa = PBXGroup;
 			children = (
+				F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */,
 			);
 			name = "Sign Up";
 			sourceTree = "<group>";
@@ -80,6 +85,7 @@
 				F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */,
 				F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */,
 				F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */,
+				F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -278,9 +284,11 @@
 				F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */,
 				F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */,
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
+				F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */,
 				F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */,
 				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
 				F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */,
+				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
 				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,
 				F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */,
 			);
