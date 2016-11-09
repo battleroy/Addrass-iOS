@@ -15,11 +15,16 @@ class RootNavigationViewController: UINavigationController {
     override func viewDidLoad() {
         
         let bar = navigationBar
-        
-        bar.setBackgroundImage(UIImage(), for: .default)
+
         bar.shadowImage = UIImage()
-        bar.isTranslucent = true
+        bar.setBackgroundImage(UIImage(), for: .default)
+        bar.isTranslucent = false
         bar.tintColor = UIColor.ad.white
+        bar.barTintColor = UIColor.ad.darkGray
+        bar.titleTextAttributes = [
+            NSFontAttributeName: UIFont.ad.largeBoldFont,
+            NSForegroundColorAttributeName: UIColor.ad.white
+        ]
         UIBarButtonItem.appearance().setTitleTextAttributes([
             NSFontAttributeName: UIFont.ad.largeFont,
             NSForegroundColorAttributeName: UIColor.ad.white
