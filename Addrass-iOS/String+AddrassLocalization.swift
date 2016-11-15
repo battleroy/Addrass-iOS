@@ -26,9 +26,24 @@ extension String {
         let repeatPassword    = "Repeat Password"
         let yourName          = "Your Name"
         let yourPhone         = "Your Phone"
-        let yourEmail         = "Your E-mail"
+        let yourEmail         = "Your E-Mail"
         let yourCompany       = "Your Company"
         let yourAddress       = "Your Address"
+        
+        let contacts          = "Contacts"
+        
+        let close             = "Close"
+        let edit              = "Edit"
+        let color             = "Color"
+        let events            = "Events"
+        let details           = "Details"
+        let phone             = "Phone"
+        let email             = "E-Mail"
+        let company           = "Company"
+        let address           = "Address"
+        let notes             = "Notes"
+        let delete            = "Delete"
+        let toBlacklist       = "To blacklist"
         
     }
     

@@ -28,7 +28,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = true
-        title = "Contacts"
+        title = String.ad.contacts
         view.backgroundColor = UIColor.ad.gray
         
         searchController.searchResultsUpdater = self
@@ -134,6 +134,11 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let cdvc = ContactDetailsViewController()
+        cdvc.user = users?[indexPath.row]
+        
+        navigationController?.pushViewController(cdvc, animated: true)
     }
     
     

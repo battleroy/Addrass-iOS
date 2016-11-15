@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		53BD48C87B11EDE77F99652F /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAF856E8FB978A0823DF4619 /* Pods_Addrass_iOS.framework */; };
+		F55DC5BD1DDB7C970051276C /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */; };
 		F5AFC9221DD39BE5005963BD /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */; };
 		F5AFC9241DD39E41005963BD /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */; };
 		F5AFC9271DD39EC3005963BD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9261DD39EC3005963BD /* User.swift */; };
@@ -29,6 +30,7 @@
 		223EAB79E7566333BC215B1C /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		A85483640A4AEFF7BADCCF0C /* Pods-Addrass-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		BAF856E8FB978A0823DF4619 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
 		F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		F5AFC9261DD39EC3005963BD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -77,6 +79,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F55DC5BA1DDB7C580051276C /* List */ = {
+			isa = PBXGroup;
+			children = (
+				F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */,
+				F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */,
+			);
+			name = List;
+			sourceTree = "<group>";
+		};
+		F55DC5BB1DDB7C630051276C /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
 		F56275DB1DCFE4E700B1B6F9 /* Sign Up */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +107,8 @@
 		F5AFC9201DD39BC7005963BD /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */,
-				F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */,
+				F55DC5BB1DDB7C630051276C /* Details */,
+				F55DC5BA1DDB7C580051276C /* List */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -314,6 +333,7 @@
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
 				F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */,
 				F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */,
+				F55DC5BD1DDB7C970051276C /* ContactDetailsViewController.swift in Sources */,
 				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
 				F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */,
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
