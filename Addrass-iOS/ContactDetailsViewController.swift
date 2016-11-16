@@ -50,6 +50,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         setupSubviews()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -74,6 +75,9 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         infoTableView = UITableView()
         infoTableView?.dataSource = self
         infoTableView?.delegate = self
+        infoTableView?.register(ContactInfoTableViewCell.self, forCellReuseIdentifier: ContactInfoTableViewCell.cellIdentifier)
+        infoTableView?.backgroundColor = UIColor.ad.gray
+        infoTableView?.separatorStyle = .none;
         view.addSubview(infoTableView!)
         
         headerContainerView = UIView()
@@ -211,6 +215,8 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         contactImageView?.image = user?.image
         colorIconView?.backgroundColor = user?.color
         
+        let scrollPoint = CGPoint(x: 0.0, y: -infoTableView!.contentInset.top)
+        infoTableView?.setContentOffset(scrollPoint, animated: false)
     }
     
     
@@ -222,12 +228,80 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 5
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+
+        var cellIcon: UIImage?
+        var cellType: String?
+        var cellContent: String?
+        
+        switch indexPath.row {
+        case 0:
+            cellIcon = #imageLiteral(resourceName: "phone-light")
+            cellType = String.ad.phone
+            cellContent = user?.phone
+            break
+        case 1:
+            cellIcon = #imageLiteral(resourceName: "mail-light")
+            cellType = String.ad.email
+            cellContent = user?.email
+            break
+        case 2:
+            cellIcon = #imageLiteral(resourceName: "factory-light")
+            cellType = String.ad.company
+            cellContent = user?.company
+            break
+        case 3:
+            cellIcon = #imageLiteral(resourceName: "pin-light")
+            cellType = String.ad.address
+            cellContent = user?.address
+            break
+        case 4:
+            cellIcon = #imageLiteral(resourceName: "notes-light")
+            cellType = String.ad.notes
+            cellContent = user?.notes
+            break
+        default:
+            break
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactInfoTableViewCell.cellIdentifier, for: indexPath) as! ContactInfoTableViewCell
+        cell.infoTypeIcon = cellIcon
+        cell.infoTypeLabel?.text = cellType
+        cell.infoContentLabel?.text = cellContent
+        
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        var cellContent: String?
+        
+        switch indexPath.row {
+        case 0:
+            cellContent = user?.phone
+            break
+        case 1:
+            cellContent = user?.email
+            break
+        case 2:
+            cellContent = user?.company
+            break
+        case 3:
+            cellContent = user?.address
+            break
+        case 4:
+            cellContent = user?.notes
+            break
+        default:
+            break
+        }
+        
+        return ContactInfoTableViewCell.cellHeight(forInfoContent: cellContent)
     }
     
     
@@ -243,6 +317,8 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     func barButtonItemWasPressed(_ sender: UIBarButtonItem?) {
         if sender == leftBarButtonItem {
             _ = navigationController?.popViewController(animated: true)
+        } else if sender == rightBarButtonItem {
+            
         }
     }
     

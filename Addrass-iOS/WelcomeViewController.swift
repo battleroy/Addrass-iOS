@@ -34,7 +34,7 @@ class WelcomeViewController: UIViewController {
     func setupSubviews() {
         view.backgroundColor = UIColor.ad.darkGray
         
-        headerImageView = UIImageView(image: UIImage(named: "logo", in: nil, compatibleWith: nil))
+        headerImageView = UIImageView(image: #imageLiteral(resourceName: "logo"))
         headerImageView?.contentMode = .scaleAspectFit
         view.addSubview(headerImageView!)
         

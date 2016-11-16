@@ -36,8 +36,10 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         definesPresentationContext = true
 
         users = [
-            User(withName: "Sergei Zyazulkin", group: "Gods", image: UIImage(named: "logo"), color: UIColor.red),
-            User(withName: "Stanislav Baretskiy", group: "Beer Lovers", image: UIImage(named: "logo"), color: UIColor.green)
+            User(withName: "Sergei Zyazulkin", group: "Gods", image: #imageLiteral(resourceName: "logo"), color: UIColor.red, phone: "+375 44 2281488", email: "god@god.god", company: "God GmbH", address: "Heaven"
+                , notes: "Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss)"),
+            User(withName: "Stanislav Baretskiy", group: "Beer Lovers", image: #imageLiteral(resourceName: "logo"), color: UIColor.green, phone: "+7 44 2281488", email: "baret@sk.iy", company: "PivoObGolovu", address: "Petrograd"
+                , notes: "Shomen zhostkiy")
         ]
         
         setupSubviews()

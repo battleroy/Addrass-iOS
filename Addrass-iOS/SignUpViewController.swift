@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
     
     // MARK: Variables
     
@@ -67,6 +67,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         
         contentScrollView = UIScrollView()
+        contentScrollView?.delegate = self
         view.addSubview(contentScrollView!)
         
         
@@ -209,14 +210,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func backgroundTapped(_ sender: UIView) {
         
-        loginTextField?.resignFirstResponder()
-        passwordTextField?.resignFirstResponder()
-        repeatPasswordTextField?.resignFirstResponder()
-        nameTextField?.resignFirstResponder()
-        phoneTextField?.resignFirstResponder()
-        emailTextField?.resignFirstResponder()
-        organizationTextField?.resignFirstResponder()
-        addressTextField?.resignFirstResponder()
+        view.endEditing(false)
         
     }
     
@@ -277,5 +271,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    
+    // MARK: UIScrollViewDelegate
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(false)
     }
 }

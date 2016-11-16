@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-class SignInViewController: UIViewController, UITextFieldDelegate {
+class SignInViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
     
     // MARK: Variables
     
@@ -58,6 +58,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:))))
         
         contentScrollView = UIScrollView()
+        contentScrollView?.delegate = self
         view.addSubview(contentScrollView!)
         
         headerLabel = UILabel()
@@ -165,10 +166,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     // MARK: Actions
     
     func backgroundTapped(_ sender: UIView) {
-        
-        loginTextField?.resignFirstResponder()
-        passwordTextField?.resignFirstResponder()
-        
+        view.endEditing(false)
     }
     
     
@@ -216,6 +214,13 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    
+    // MARK: UIScrollViewDelegate
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(false)
     }
 
 }
