@@ -1,16 +1,21 @@
 PODS:
   - Alamofire (4.0.1)
+  - FSCalendar (2.5.1)
   - SnapKit (3.0.2)
   - SwiftGifOrigin (1.6.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - FSCalendar
   - SnapKit (~> 3.0.2)
   - SwiftGifOrigin (~> 1.6.1)
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  FSCalendar: 8efeb4b92240937204165c7743f4375923112fb5
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: d91d7a3c36ee03193d0d2181c71c2ee090d4bcd0
+
+COCOAPODS: 1.1.1

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FSCalendar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Addrass-iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<key>3F36EF3261F1FEC9EFEEFA3574B3744A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>940E3D02A52126F0E789BEB326C7FD63</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B780995DDC2241B7538A4204F969E823</key>
+		<key>C7563D5AE176C43B7EFA77306E3C43C9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B832738579FF5E3BA107204FF0B07647</key>
+		<key>DB066F8FFCE2F44587DF37093A4283E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F2FFC78796811FC938E6B61663E00D1E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

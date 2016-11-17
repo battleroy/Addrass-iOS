@@ -45,6 +45,8 @@ extension String {
         let delete            = "Delete"
         let toBlacklist       = "To blacklist"
         
+        let calendar          = "Calendar"
+        
     }
     
     static let ad = ADLocalization()

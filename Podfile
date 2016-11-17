@@ -8,6 +8,7 @@ target 'Addrass-iOS' do
 	pod 'Alamofire', '~> 4.0'
 	pod 'SnapKit', '~> 3.0.2'	
 	pod 'SwiftGifOrigin', '~> 1.6.1'
+	pod 'FSCalendar', '~> 2.5.1'
 
 end
 
