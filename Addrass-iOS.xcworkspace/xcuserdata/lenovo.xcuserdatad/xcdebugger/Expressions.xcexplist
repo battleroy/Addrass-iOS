@@ -6,15 +6,15 @@
          contextName = "SignInViewController.(setImage() -&gt; ()).(closure #1):SignInViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "SignInViewController.(setImage(sender : UIView?) -&gt; ()).(closure #1):SignInViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "SignInViewController.setImage(sender : UIView?) -&gt; ():SignInViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "tagTextField?.text">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SignInViewController.(setImage(sender : UIView?) -&gt; ()).(closure #1):SignInViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

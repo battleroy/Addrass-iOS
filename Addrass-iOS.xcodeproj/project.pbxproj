@@ -20,6 +20,7 @@
 		F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392971DCF5B25006621B5 /* SignInViewController.swift */; };
 		F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */; };
 		F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B3929C1DCFB3F9006621B5 /* RootNavigationViewController.swift */; };
+		F5C4AF701DDF7DFA00C775DF /* CalendarMonthDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C4AF6F1DDF7DFA00C775DF /* CalendarMonthDayCell.swift */; };
 		F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */; };
 		F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */; };
 		F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */; };
@@ -44,6 +45,7 @@
 		F5B392971DCF5B25006621B5 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADPaddedTextField.swift; sourceTree = "<group>"; };
 		F5B3929C1DCFB3F9006621B5 /* RootNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationViewController.swift; sourceTree = "<group>"; };
+		F5C4AF6F1DDF7DFA00C775DF /* CalendarMonthDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarMonthDayCell.swift; sourceTree = "<group>"; };
 		F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Addrass.swift"; sourceTree = "<group>"; };
 		F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				F53B40121DDE447A00B500F9 /* CalendarViewController.swift */,
+				F5C4AF6F1DDF7DFA00C775DF /* CalendarMonthDayCell.swift */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5C4AF701DDF7DFA00C775DF /* CalendarMonthDayCell.swift in Sources */,
 				F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */,
 				F5AFC9271DD39EC3005963BD /* User.swift in Sources */,
 				F5AFC9241DD39E41005963BD /* ContactTableViewCell.swift in Sources */,

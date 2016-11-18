@@ -22,6 +22,7 @@ extension UIFont {
         let largeBoldFont = UIFont(name: "HelveticaNeue-Bold", size: 17.0)!
         let heading1Font  = UIFont(name: "HelveticaNeue-Bold", size: 24.0)!
         
+        let calendarNumbersFont = UIFont(name: "HelveticaNeue", size: 24.0)!
     }
     
     static let ad = ADFonts()
