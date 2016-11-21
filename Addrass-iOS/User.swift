@@ -10,15 +10,19 @@ import UIKit
 
 class User: NSObject {
 
-    var name:    String?
-    var group:   String?
-    var image:   UIImage?
-    var color:   UIColor?
-    var phone:   String?
-    var email:   String?
-    var company: String?
-    var address: String?
-    var notes:   String?
+    var login:    String?
+    var password: String?
+    var name:     String?
+    var group:    String?
+    var image:    UIImage?
+    var color:    UIColor?
+    var phone:    String?
+    var email:    String?
+    var company:  String?
+    var address:  String?
+    var notes:    String?
+    var friends:  [User]?
+    var blacklist: [User]?
     
 //    convenience override init() {
 //        self.init(withName: nil, group: nil, image: nil, color: nil)

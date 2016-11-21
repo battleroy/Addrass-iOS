@@ -7,12 +7,36 @@
 //
 
 import UIKit
+import SnapKit
 
 class RootNavigationViewController: UINavigationController {
+    
+    // MARK: Initialization
+    
+    override convenience init(rootViewController viewController: UIViewController) {
+        self.init(rootViewController: viewController, tabBarImage: nil, title: nil)
+    }
+    
+    
+    init(rootViewController viewController: UIViewController, tabBarImage image: UIImage?, title: String?) {
+        super.init(nibName: nil, bundle: nil)
+        
+        viewControllers = [viewController]
+        
+        tabBarItem.image = image
+        tabBarItem.title = title
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // MARK: VCL
     
     override func viewDidLoad() {
+        edgesForExtendedLayout = []
         
         let bar = navigationBar
 
