@@ -64,6 +64,7 @@ class CalendarWeekDayCell: UICollectionViewCell {
                 backgroundColor = UIColor.ad.darkGray
                 dayName.textColor = UIColor.ad.gray
                 dayNumber.textColor = UIColor.ad.gray
+                dayMonth.textColor = UIColor.ad.darkGray
             }
         }
     }
@@ -74,8 +75,8 @@ class CalendarWeekDayCell: UICollectionViewCell {
         
         if (isSelected) {
             dayName.frame = CGRect(x: 0.0, y: 0.0, width: bounds.width, height: dayName.font.lineHeight)
-            dayMonth.frame = CGRect(x: 0.0, y: 5.0, width: bounds.width, height: dayMonth.font.lineHeight)
             dayNumber.frame = CGRect(x: 0.0, y: dayName.bounds.height, width: bounds.width, height: bounds.height - dayName.font.lineHeight - dayMonth.font.lineHeight)
+            dayMonth.frame = CGRect(x: 0.0, y: bounds.height - dayMonth.font.lineHeight, width: bounds.width, height: dayMonth.font.lineHeight)
         } else {
             let contentHeight = dayName.font.lineHeight + CalendarWeekDayCell.weekDayNumberGapUnselected + dayNumber.font.lineHeight
             let vGap = (bounds.height - contentHeight) / 2
@@ -103,6 +104,6 @@ class CalendarWeekDayCell: UICollectionViewCell {
         dayMonth = UILabel()
         dayMonth.font = UIFont.ad.bodyFont
         dayMonth.textAlignment = .center
-        contentView.addSubview(dayNumber)
+        contentView.addSubview(dayMonth)
     }
 }

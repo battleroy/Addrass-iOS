@@ -11,7 +11,7 @@ import UIKit
 import SnapKit
 import FSCalendar
 
-class CalendarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FSCalendarDataSource, FSCalendarDelegate {
+class CalendarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, FSCalendarDataSource, FSCalendarDelegate {
     
     // MARK: Constants
     
@@ -27,6 +27,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     var calendarView: FSCalendar!
     var weekCollectionView: UICollectionView!
+    var eventsTableView: UITableView!
     
     var currentWeekDaysCache: [Date]!
     
@@ -55,6 +56,13 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     lazy var titleDateFormatter: DateFormatter! = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy";
+        formatter.locale = Locale.current
+        return formatter
+    }()
+    
+    lazy var dayShortNameDateFormatter: DateFormatter! = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM";
         formatter.locale = Locale.current
         return formatter
     }()
@@ -120,10 +128,22 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         weekCollectionView.isHidden = true
         weekCollectionView.showsHorizontalScrollIndicator = false
         weekCollectionView.bounces = true
+        weekCollectionView.allowsMultipleSelection = false
+        weekCollectionView.backgroundColor = UIColor.ad.gray
         weekCollectionView.reloadData()
-        weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
         
         view.addSubview(weekCollectionView)
+        
+        
+        eventsTableView = UITableView()
+        eventsTableView.dataSource = self
+        eventsTableView.delegate = self
+        eventsTableView.register(EventTableViewCell.self, forCellReuseIdentifier: EventTableViewCell.cellIdentifier)
+        eventsTableView.isHidden = true
+        eventsTableView.tableFooterView = UIView()
+        eventsTableView.backgroundColor = UIColor.ad.gray
+        
+        view.addSubview(eventsTableView)
         
         
         leftBarButtonItem = UIBarButtonItem(title: String.ad.toMonth, style: .done, target: self, action: #selector(barButtonItemWasPressed(_:)))
@@ -148,11 +168,25 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
             make.left.right.top.equalTo(view)
             make.height.equalTo(CalendarViewController.todayCellHeight)
         }
+        
+        
+        eventsTableView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(view)
+            make.top.equalTo(weekCollectionView.snp.bottom)
+        }
     }
     
     
     func updateNavigationBarTitle() {
-        navigationItem.title = titleDateFormatter.string(from: calendarView.currentPage)
+        var title: String!
+        
+        if calendarView.isHidden {
+            title = String.ad.events
+        } else {
+            title = titleDateFormatter.string(from: calendarView.currentPage)
+        }
+        
+        navigationItem.title = title
     }
     
     
@@ -180,6 +214,41 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     
+    func switchShowMode() {
+        UIView.animate(
+            withDuration: 0.2, animations: {
+                self.weekCollectionView.alpha = 0.0
+                self.calendarView.alpha = 0.0
+                self.eventsTableView.alpha = 0.0
+            }, completion: { (isCompleted) in
+                if isCompleted {
+                    let isMonthShowing = !self.calendarView.isHidden
+                    
+                    self.calendarView.isHidden = isMonthShowing
+                    self.weekCollectionView.isHidden = !isMonthShowing
+                    self.eventsTableView.isHidden = !isMonthShowing
+                    self.updateDatesArray(self.calendarView.selectedDate)
+                    self.updateLeftBarButtonItemTitle()
+                    self.updateNavigationBarTitle()
+                    
+                    let appearanceTime = DispatchTime.now() + 0.1
+                    DispatchQueue.main.asyncAfter(deadline: appearanceTime, execute: {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.weekCollectionView.reloadData()
+                            let selectedIndexPath = IndexPath(item: self.currentWeekDaysCache.count / 2, section: 0)
+                            self.weekCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+                            
+                            self.weekCollectionView.alpha = 1.0
+                            self.calendarView.alpha = 1.0
+                            self.eventsTableView.alpha = 1.0
+                        })
+                    })
+                }
+            }
+        )
+    }
+    
+    
     // MARK: FSCalendarDataSource
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
@@ -202,7 +271,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     // MARK: FSCalendarDelegate
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date) {
-        
+        switchShowMode()
     }
     
     
@@ -237,7 +306,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         
         cell.dayName.text = weekdayDateFormatter.string(from: cellDate)
         cell.dayNumber.text = dayNumberDateFormatter.string(from: cellDate)
-        cell.dayMonth.text = titleDateFormatter.string(from: cellDate).uppercased()
+        cell.dayMonth.text = dayShortNameDateFormatter.string(from: cellDate).uppercased()
         
         return cell
     }
@@ -247,7 +316,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.bounds.width / CGFloat(CalendarViewController.weekDaysCollectionCount)
+        let width: CGFloat = collectionView.bounds.width / CGFloat(CalendarViewController.weekDaysCollectionCount)
         var height: CGFloat
         
         let cellDate = currentWeekDaysCache[indexPath.item]
@@ -280,17 +349,61 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let contentFullyScrolledToRightOffset = weekCollectionView.frame.width * 2
+        if (scrollView == weekCollectionView) {
         
-        if (scrollView.contentOffset.x == contentFullyScrolledToRightOffset) {
-            updateDatesArray(currentWeekDaysCache[currentWeekDaysCache.count - 1 - CalendarViewController.weekDaysCollectionCount / 2])
-            weekCollectionView.reloadData()
-            weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
-        } else if (scrollView.contentOffset.x == 0) {
-            updateDatesArray(currentWeekDaysCache[CalendarViewController.weekDaysCollectionCount / 2])
-            weekCollectionView.reloadData()
-            weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
+            let contentFullyScrolledToRightOffset = weekCollectionView.frame.width * 2
+            
+            if (scrollView.contentOffset.x == contentFullyScrolledToRightOffset) {
+                updateDatesArray(currentWeekDaysCache[currentWeekDaysCache.count - 1 - CalendarViewController.weekDaysCollectionCount / 2])
+                weekCollectionView.reloadData()
+                weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
+            } else if (scrollView.contentOffset.x == 0) {
+                updateDatesArray(currentWeekDaysCache[CalendarViewController.weekDaysCollectionCount / 2])
+                weekCollectionView.reloadData()
+                weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
+            }
+            
         }
+        
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        calendarView.select(currentWeekDaysCache[indexPath.item])
+        flowLayout.invalidateLayout()
+    }
+    
+    
+    // MARK: UITableViewDataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: EventTableViewCell.cellIdentifier, for: indexPath) as! EventTableViewCell
+        
+        cell.eventTitleLabel.text = "Title"
+        cell.eventTimeLabel.text = "12:00"
+        
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return EventTableViewCell.cellHeight()
+    }
+    
+    
+    // MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
@@ -299,29 +412,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func barButtonItemWasPressed(_ sender: UIBarButtonItem) {
         if (sender == leftBarButtonItem) {
-            UIView.animate(
-                withDuration: 0.2, animations: {
-                self.weekCollectionView.alpha = 0.0
-                self.calendarView.alpha = 0.0
-                }, completion: { (isCompleted) in
-                    if isCompleted {
-                        let isMonthShowing = !self.calendarView.isHidden
-                        
-                        self.calendarView.isHidden = isMonthShowing
-                        self.weekCollectionView.isHidden = !isMonthShowing
-                        
-                        self.updateLeftBarButtonItemTitle()
-                        let appearanceTime = DispatchTime.now() + 0.1
-                        DispatchQueue.main.asyncAfter(deadline: appearanceTime, execute: { 
-                            UIView.animate(withDuration: 0.2, animations: {
-                                self.weekCollectionView.reloadData()
-                                self.weekCollectionView.alpha = 1.0
-                                self.calendarView.alpha = 1.0
-                            })
-                        })
-                    }
-                }
-            )
+            switchShowMode()
         } else if (sender == rightBarButtonItem) {
             
         }

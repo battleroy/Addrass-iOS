@@ -270,8 +270,8 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactInfoTableViewCell.cellIdentifier, for: indexPath) as! ContactInfoTableViewCell
         cell.infoTypeIcon = cellIcon
-        cell.infoTypeLabel?.text = cellType
-        cell.infoContentLabel?.text = cellContent
+        cell.infoTypeLabel.text = cellType
+        cell.infoContentLabel.text = cellContent
         
         return cell
     }
