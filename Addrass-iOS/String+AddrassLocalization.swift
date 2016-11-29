@@ -12,7 +12,7 @@ extension String {
     
     struct ADLocalization {
         
-        let welcome           = "Welcome to AddrAss."
+        let welcome           = "Welcome to\nAdressbuch."
         
         let signIn            = "Sign In"
         let introduceYourself = "Introduce Yourself..."

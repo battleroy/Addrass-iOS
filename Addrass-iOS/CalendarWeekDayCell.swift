@@ -53,19 +53,22 @@ class CalendarWeekDayCell: UICollectionViewCell {
         set (_isSelected) {
             super.isSelected = _isSelected
             
-            dayMonth.isHidden = !_isSelected
-            
-            if (_isSelected) {
-                backgroundColor = UIColor.ad.lightGray
-                dayName.textColor = UIColor.ad.white
-                dayNumber.textColor = UIColor.ad.white
-                dayMonth.textColor = UIColor.ad.white
-            } else {
-                backgroundColor = UIColor.ad.darkGray
-                dayName.textColor = UIColor.ad.gray
-                dayNumber.textColor = UIColor.ad.gray
-                dayMonth.textColor = UIColor.ad.darkGray
+            UIView.animate(withDuration: 0.2) {
+                self.dayMonth.isHidden = !_isSelected
+                
+                if (_isSelected) {
+                    self.backgroundColor = UIColor.ad.lightGray
+                    self.dayName.textColor = UIColor.ad.white
+                    self.dayNumber.textColor = UIColor.ad.white
+                    self.dayMonth.textColor = UIColor.ad.white
+                } else {
+                    self.backgroundColor = UIColor.ad.darkGray
+                    self.dayName.textColor = UIColor.ad.gray
+                    self.dayNumber.textColor = UIColor.ad.gray
+                    self.dayMonth.textColor = UIColor.ad.darkGray
+                }
             }
+            
         }
     }
     
