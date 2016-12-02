@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate {
     
     // MARK: Variables
     
@@ -16,46 +16,27 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
     private let textFieldHeight                = 40.0
     private let textFieldCornerRadius: CGFloat = 15.0
     
-    var contentScrollView: UIScrollView?
+    var headerLabel: UILabel!
+    var loginTextField: ADPaddedTextField!
+    var passwordTextField: ADPaddedTextField!
+    var repeatPasswordTextField: ADPaddedTextField!
+    var nameTextField: ADPaddedTextField!
+    var phoneTextField: ADPaddedTextField!
+    var emailTextField: ADPaddedTextField!
+    var organizationTextField: ADPaddedTextField!
+    var addressTextField: ADPaddedTextField!
     
-    var headerLabel: UILabel?
-    var loginTextField: ADPaddedTextField?
-    var passwordTextField: ADPaddedTextField?
-    var repeatPasswordTextField: ADPaddedTextField?
-    var nameTextField: ADPaddedTextField?
-    var phoneTextField: ADPaddedTextField?
-    var emailTextField: ADPaddedTextField?
-    var organizationTextField: ADPaddedTextField?
-    var addressTextField: ADPaddedTextField?
+    var nonEmptyTextFields: [UITextField]!
     
-    var nonEmptyTextFields: [UITextField]?
-    
-    var doneButton: UIButton?
-    
-    var bottomSpaceAccumulator: CGFloat = 0.0
+    var doneButton: UIButton!
     
     
     // MARK: VCL
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        automaticallyAdjustsScrollViewInsets = false
         
         setupSubviews()
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardBoundsWillBeChanged(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: self)
     }
     
 
@@ -63,19 +44,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
     
     func setupSubviews() {
         view.backgroundColor = UIColor.ad.darkGray
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(backgroundTapped(_:))))
-        
-        
-        contentScrollView = UIScrollView()
-        contentScrollView?.delegate = self
-        view.addSubview(contentScrollView!)
         
         
         headerLabel = UILabel()
-        headerLabel?.textColor = UIColor.ad.white
-        headerLabel?.font = UIFont.ad.heading1Font
-        headerLabel?.text = String.ad.fillTheFields
-        contentScrollView?.addSubview(headerLabel!)
+        headerLabel.textColor = UIColor.ad.white
+        headerLabel.font = UIFont.ad.heading1Font
+        headerLabel.text = String.ad.fillTheFields
+        contentScrollView.addSubview(headerLabel)
         
         
         loginTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.login, withSafeInput: false)
@@ -87,20 +62,20 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
         organizationTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.yourCompany, withSafeInput: false)
         addressTextField = createTextField(withReturnType: .done, keyboardType: .default, placeholder: String.ad.yourAddress, withSafeInput: false)
 
-        nonEmptyTextFields = [loginTextField!, passwordTextField!, repeatPasswordTextField!, nameTextField!, phoneTextField!]
+        nonEmptyTextFields = [loginTextField, passwordTextField, repeatPasswordTextField, nameTextField, phoneTextField]
         
         doneButton = UIButton(type: .roundedRect)
-        doneButton?.backgroundColor = UIColor.yellow
-        doneButton?.setAttributedTitle(
+        doneButton.backgroundColor = UIColor.yellow
+        doneButton.setAttributedTitle(
             NSAttributedString(string: String.ad.done, attributes: [
                 NSFontAttributeName: UIFont.ad.boldFont,
                 NSForegroundColorAttributeName: UIColor.darkGray
                 ]),
             for: .normal)
-        doneButton?.layer.masksToBounds = true
-        doneButton?.layer.cornerRadius = 20.0
-        doneButton?.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
-        contentScrollView?.addSubview(doneButton!)
+        doneButton.layer.masksToBounds = true
+        doneButton.layer.cornerRadius = 20.0
+        doneButton.addTarget(self, action: #selector(doneButtonPressed(_:)), for: .touchUpInside)
+        contentScrollView.addSubview(doneButton)
         
         setConstraints()
     }
@@ -126,7 +101,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
         textField.layer.cornerRadius = textFieldCornerRadius
         textField.layer.borderColor = UIColor.white.cgColor
         textField.layer.borderWidth = 1.0
-        contentScrollView?.addSubview(textField)
+        contentScrollView.addSubview(textField)
      
         return textField
     }
@@ -134,86 +109,74 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
     
     func setConstraints() {
         
-        contentScrollView?.snp.makeConstraints({ (make) in
-            make.left.right.bottom.equalTo(view)
-            make.top.equalTo(topLayoutGuide.snp.bottom)
+        headerLabel.snp.makeConstraints({ (make) in
+            make.left.equalTo(loginTextField)
+            make.top.equalTo(contentScrollView).offset(10.0)
         })
         
-        headerLabel?.snp.makeConstraints({ (make) in
-            make.left.equalTo(loginTextField!)
-            make.top.equalTo(contentScrollView!).offset(10.0)
-        })
-        
-        loginTextField?.snp.makeConstraints({ (make) in
+        loginTextField.snp.makeConstraints({ (make) in
             let insets = UIEdgeInsetsMake(0.0, 30.0, 0.0, 30.0)
             
             make.left.right.equalTo(view).inset(insets)
-            make.left.right.equalTo(contentScrollView!).inset(insets)
-            make.top.equalTo(headerLabel!.snp.bottom).offset(10.0)
+            make.left.right.equalTo(contentScrollView).inset(insets)
+            make.top.equalTo(headerLabel.snp.bottom).offset(10.0)
             make.height.equalTo(textFieldHeight)
         })
         
-        passwordTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(loginTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        passwordTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(loginTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
         
-        repeatPasswordTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(passwordTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        repeatPasswordTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
         
-        nameTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(repeatPasswordTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        nameTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(repeatPasswordTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
         
-        phoneTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(nameTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        phoneTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(nameTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
 
-        emailTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(phoneTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        emailTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(phoneTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
 
-        organizationTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(emailTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        organizationTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(emailTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
         
-        addressTextField?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField!)
-            make.top.equalTo(organizationTextField!.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField!)
+        addressTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(organizationTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
         })
         
-        doneButton?.snp.makeConstraints({ (make) in
-            make.right.equalTo(addressTextField!)
-            make.top.equalTo(addressTextField!.snp.bottom).offset(10.0)
+        doneButton.snp.makeConstraints({ (make) in
+            make.right.equalTo(addressTextField)
+            make.top.equalTo(addressTextField.snp.bottom).offset(10.0)
             make.width.equalTo(60.0)
             make.height.equalTo(40.0)
-            make.bottom.equalTo(contentScrollView!).offset(-10.0)
+            make.bottom.equalTo(contentScrollView).offset(-10.0)
         })
         
     }
     
     
     // MARK: Actions
-    
-    func backgroundTapped(_ sender: UIView) {
-        
-        view.endEditing(false)
-        
-    }
-    
     
     func doneButtonPressed(_ sender: UIButton) {
         
@@ -232,51 +195,28 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
     }
     
     
-    // MARK: Notifications
-    
-    func keyboardBoundsWillBeChanged(_ note: Notification) {
-        if let beginRect = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue,
-            let endRect   = (note.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            let deltaY = beginRect.origin.y + beginRect.size.height - (endRect.origin.y + endRect.size.height);
-            bottomSpaceAccumulator += deltaY;
-            
-            let newInsets = UIEdgeInsetsMake(0.0, 0.0, bottomSpaceAccumulator, 0.0)
-            contentScrollView?.contentInset = newInsets
-            contentScrollView?.scrollIndicatorInsets = newInsets
-            
-        }
-    }
-    
-    
     // MARK: UITextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == loginTextField {
-            passwordTextField?.becomeFirstResponder()
+            passwordTextField.becomeFirstResponder()
         } else if textField == passwordTextField {
-            repeatPasswordTextField?.becomeFirstResponder()
+            repeatPasswordTextField.becomeFirstResponder()
         } else if textField == repeatPasswordTextField {
-            nameTextField?.becomeFirstResponder()
+            nameTextField.becomeFirstResponder()
         } else if textField == nameTextField {
-            phoneTextField?.becomeFirstResponder()
+            phoneTextField.becomeFirstResponder()
         } else if textField == phoneTextField {
-            emailTextField?.becomeFirstResponder()
+            emailTextField.becomeFirstResponder()
         } else if textField == emailTextField {
-            organizationTextField?.becomeFirstResponder()
+            organizationTextField.becomeFirstResponder()
         } else if textField == organizationTextField {
-            addressTextField?.becomeFirstResponder()
+            addressTextField.becomeFirstResponder()
         } else {
-            addressTextField?.resignFirstResponder()
+            addressTextField.resignFirstResponder()
         }
         
         return true
     }
     
-    
-    // MARK: UIScrollViewDelegate
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        view.endEditing(false)
-    }
 }

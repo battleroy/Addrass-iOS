@@ -43,8 +43,9 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = String.ad.details
+        title = ""
         view.backgroundColor = UIColor.ad.darkGray
+        edgesForExtendedLayout = []
         
         setupNavigationBar()
         setupSubviews()
@@ -318,7 +319,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         if sender == leftBarButtonItem {
             _ = navigationController?.popViewController(animated: true)
         } else if sender == rightBarButtonItem {
-            
+            navigationController?.pushViewController(ContactEditViewController(), animated: true)
         }
     }
     

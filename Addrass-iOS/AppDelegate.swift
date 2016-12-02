@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
         
-        let startVC = RootNavigationViewController(rootViewController: WelcomeViewController()) // CommonTabBarViewController()
+        let startVC = CommonTabBarViewController() // RootNavigationViewController(rootViewController: WelcomeViewController()) // 
         
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()

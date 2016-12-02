@@ -32,6 +32,12 @@ extension String {
         
         let contacts          = "Contacts"
         
+        let name              = "Name"
+        let family            = "Family"
+        let friends           = "Friends"
+        let work              = "Work"
+        let others            = "Others"
+        
         let close             = "Close"
         let edit              = "Edit"
         let color             = "Color"
