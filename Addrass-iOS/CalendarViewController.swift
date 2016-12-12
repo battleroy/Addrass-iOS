@@ -414,7 +414,8 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         if (sender == leftBarButtonItem) {
             switchShowMode()
         } else if (sender == rightBarButtonItem) {
-            
+            let newEventVC = EventEditViewController()
+            navigationController?.pushViewController(newEventVC, animated: true)
         }
     }
 

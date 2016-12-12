@@ -53,9 +53,14 @@ extension String {
         
         let calendar          = "Calendar"
         
-        let toMonth             = "To month"
-        let toWeek              = "To week"
+        let toMonth           = "To month"
+        let toWeek            = "To week"
         
+        let save              = "Save"
+        let owner             = "Owner"
+        let members           = "Members"
+        let back              = "Back"
+        let cancel            = "Cancel"
     }
     
     static let ad = ADLocalization()
