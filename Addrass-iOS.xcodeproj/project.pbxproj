@@ -549,7 +549,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 13B86A992DA0B6D58BD27562 /* Pods-Addrass-iOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8UCVL6EQ78;
 				INFOPLIST_FILE = "Addrass-iOS/Info.plist";
@@ -565,7 +564,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8UCVL6EQ78;
 				INFOPLIST_FILE = "Addrass-iOS/Info.plist";

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CZPicker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FSCalendar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,12 +37,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3F36EF3261F1FEC9EFEEFA3574B3744A</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
+		<key>984E4E95F704EFF80994BB7005DC8022</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A45CCCC7CAD954E1C8E10252C63FA413</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A77C97FF9DAE0DCBA2086425ECAF1FD0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,12 +62,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DB066F8FFCE2F44587DF37093A4283E1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F2FFC78796811FC938E6B61663E00D1E</key>
+		<key>FD0EA4E3DD886BC6C7B27855C4BCD3EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>

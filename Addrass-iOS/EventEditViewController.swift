@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CZPicker
 
 class EventEditViewController: ScrollableContentViewController {
     

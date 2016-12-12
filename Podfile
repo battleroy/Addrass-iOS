@@ -9,6 +9,7 @@ target 'Addrass-iOS' do
 	pod 'SnapKit', '~> 3.0.2'	
 	pod 'SwiftGifOrigin', '~> 1.6.1'
 	pod 'FSCalendar', '~> 2.5.1'
+	pod 'CZPicker', '~> 0.4.3'	
 
 end
 
