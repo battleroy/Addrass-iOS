@@ -38,6 +38,10 @@ extension String {
         let work              = "Work"
         let others            = "Others"
         
+        let pickImageFrom     = "Pick image from"
+        let gallery           = "Gallery"
+        let camera            = "Camera"
+        
         let close             = "Close"
         let edit              = "Edit"
         let color             = "Color"

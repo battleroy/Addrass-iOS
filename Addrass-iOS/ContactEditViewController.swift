@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactEditViewController: ScrollableContentViewController, UITextFieldDelegate {
+class ContactEditViewController: ScrollableContentViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: Variables
     
@@ -64,12 +64,19 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         
         
         imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = imageViewSize / 2
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.ad.yellow.cgColor
         imageView.layer.borderWidth = 1.0
         imageView.image = #imageLiteral(resourceName: "noavatar")
+        imageView.addGestureRecognizer(
+            UITapGestureRecognizer(
+                target: self,
+                action: #selector(userImagePressed(_:))
+            )
+        )
         contentScrollView.addSubview(imageView)
         
         
@@ -191,5 +198,58 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         
         return true
     }
+    
+    
+    // MARK: UIImagePickerControllerDelegate
 
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let pickedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        imageView.image = pickedImage
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // MARK: Actions
+    
+    func userImagePressed(_ sender: UITapGestureRecognizer) {
+        let ac = UIAlertController(title: String.ad.pickImageFrom, message: nil, preferredStyle: .actionSheet)
+        
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        var isAnySourceAvailable = false
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            ac.addAction(UIAlertAction(title: String.ad.gallery, style: .default, handler: { _ in
+                picker.sourceType = .photoLibrary
+                self.present(picker, animated: true, completion: nil)
+            }))
+         
+            isAnySourceAvailable = true
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            ac.addAction(UIAlertAction(title: String.ad.camera, style: .default, handler: { _ in
+                picker.sourceType = .camera
+                self.present(picker, animated: true, completion: nil)
+            }))
+         
+            isAnySourceAvailable = true
+        }
+        
+        if isAnySourceAvailable {
+            ac.addAction(UIAlertAction(title: String.ad.cancel, style: .destructive, handler: { _ in
+                ac.dismiss(animated: true, completion: nil)
+            }))
+            
+            present(ac, animated: true, completion: nil)
+        }
+    }
 }

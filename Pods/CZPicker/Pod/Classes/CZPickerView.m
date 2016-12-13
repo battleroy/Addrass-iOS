@@ -15,6 +15,8 @@
 #define CZP_BACKGROUND_ALPHA 0.3
 #endif
 
+#define AD_UICOLOR_GRAY [UIColor colorWithRed:0.51f green:0.51f blue:0.51f alpha:1.0f]
+
 
 
 typedef void (^CZDismissCompletionCallback)(void);
@@ -192,6 +194,7 @@ typedef void (^CZDismissCompletionCallback)(void);
         tableRect = CGRectMake(0, 44.0, newRect.size.width, newRect.size.height - heightOffset);
     }
     UITableView *tableView = [[UITableView alloc] initWithFrame:tableRect style:UITableViewStylePlain];
+    tableView.backgroundColor = AD_UICOLOR_GRAY;
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -335,6 +338,7 @@ typedef void (^CZDismissCompletionCallback)(void);
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier: cellIdentifier];
+        cell.backgroundColor = AD_UICOLOR_GRAY;
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
     for(NSIndexPath *ip in self.selectedIndexPaths){

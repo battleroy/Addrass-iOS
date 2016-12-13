@@ -9,9 +9,11 @@
 import UIKit
 import CZPicker
 
-class EventEditViewController: ScrollableContentViewController {
+class EventEditViewController: ScrollableContentViewController, CZPickerViewDataSource, CZPickerViewDelegate {
     
     // MARK: Constants
+    
+    let users = ["Yana", "Dasha", "Vasya", "Petya", "Katya"]
     
     static let textFieldInset: CGFloat = 8.0
     static let eventTypes = [String.ad.company, String.ad.family, String.ad.others]
@@ -26,6 +28,8 @@ class EventEditViewController: ScrollableContentViewController {
     var editMembersButton: UIButton!
     var datePicker: UIDatePicker!
     var eventTypeSegmentedControl: UISegmentedControl!
+    
+    var usersPicker: CZPickerView!
     
     
     // MARK: VCL
@@ -76,7 +80,7 @@ class EventEditViewController: ScrollableContentViewController {
         membersLabel.font = UIFont.ad.bodyFont
         membersLabel.textColor = UIColor.ad.lightGray
         membersLabel.numberOfLines = 0
-        membersLabel.text = String.ad.members + ": " + "Vasiliy Gnidov, Tatiana Kozlyatskaya, Dmitriy Glinomesov"
+        membersLabel.text = String.ad.members + ": " + users.joined(separator: ", ")
         contentScrollView.addSubview(membersLabel)
         
         editMembersButton = UIButton()
@@ -104,6 +108,22 @@ class EventEditViewController: ScrollableContentViewController {
         eventTypeSegmentedControl.selectedSegmentIndex = 0
         eventTypeSegmentedControl.tintColor = UIColor.ad.yellow
         contentScrollView.addSubview(eventTypeSegmentedControl)
+        
+        usersPicker = CZPickerView(headerTitle: String.ad.members, cancelButtonTitle: String.ad.cancel, confirmButtonTitle: String.ad.save)
+        usersPicker.dataSource = self
+        usersPicker.delegate = self
+        usersPicker.tapBackgroundToDismiss = false
+        usersPicker.allowMultipleSelection = true
+        usersPicker.checkmarkColor = UIColor.ad.yellow
+        usersPicker.headerBackgroundColor = UIColor.ad.darkGray
+        usersPicker.headerTitleFont = UIFont.ad.boldFont
+        usersPicker.headerTitleColor = UIColor.ad.white
+        usersPicker.cancelButtonBackgroundColor = UIColor.ad.darkGray
+        usersPicker.cancelButtonNormalColor = UIColor.ad.white
+        usersPicker.cancelButtonHighlightedColor = UIColor.ad.white
+        usersPicker.confirmButtonBackgroundColor = UIColor.ad.darkGray
+        usersPicker.confirmButtonNormalColor = UIColor.ad.white
+        usersPicker.confirmButtonHighlightedColor = UIColor.ad.white
     }
     
     
@@ -146,10 +166,35 @@ class EventEditViewController: ScrollableContentViewController {
     }
     
     
+    // MARK: CZPickerViewDataSource
+    
+    func numberOfRows(in pickerView: CZPickerView!) -> Int {
+        return users.count
+    }
+    
+    
+    func czpickerView(_ pickerView: CZPickerView!, attributedTitleForRow row: Int) -> NSAttributedString! {
+        return NSAttributedString(
+            string: users[row],
+            attributes: [
+                NSFontAttributeName: UIFont.ad.bodyFont,
+                NSForegroundColorAttributeName: UIColor.ad.white
+            ]
+        )
+    }
+    
+    
+    // MARK: CZPickerViewDelegate
+    
+    func czpickerViewWillDismiss(_ pickerView: CZPickerView!) {
+        
+    }
+    
+    
     // MARK: Actions
     
     func editContactsButtonPressed(_ sender: UIButton) {
-        
+        usersPicker.show()
     }
     
     
