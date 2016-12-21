@@ -62,7 +62,12 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
         organizationTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.yourCompany, withSafeInput: false)
         addressTextField = createTextField(withReturnType: .done, keyboardType: .default, placeholder: String.ad.yourAddress, withSafeInput: false)
 
-        nonEmptyTextFields = [loginTextField, passwordTextField, repeatPasswordTextField, nameTextField, phoneTextField]
+        nonEmptyTextFields = Array<UITextField>()
+        nonEmptyTextFields.append(loginTextField)
+        nonEmptyTextFields.append(passwordTextField)
+        nonEmptyTextFields.append(repeatPasswordTextField)
+        nonEmptyTextFields.append(nameTextField)
+        nonEmptyTextFields.append(phoneTextField)
         
         doneButton = UIButton(type: .roundedRect)
         doneButton.backgroundColor = UIColor.yellow
@@ -180,14 +185,39 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
     
     func doneButtonPressed(_ sender: UIButton) {
         
+        var isEmptyFieldPresented = false
         if let nonEmptyTextFields = nonEmptyTextFields {
             
             for nonEmptyField in nonEmptyTextFields {
                 
                 if nonEmptyField.text?.characters.count == 0 {
                     nonEmptyField.blink(blinkColor: UIColor.red)
+                    isEmptyFieldPresented = true
                 }
                 
+            }
+            
+        }
+        
+        if !isEmptyFieldPresented {
+            
+            let newUser = User()
+            newUser.login = loginTextField.text
+            newUser.password = passwordTextField.text
+            newUser.name = nameTextField.text
+            newUser.phone = phoneTextField.text
+            newUser.email = emailTextField.text
+            newUser.company = organizationTextField.text
+            newUser.address = addressTextField.text
+        
+            
+            APIManager.register(newUser) { errorText in
+                guard (errorText == nil) else {
+                    UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
+                    return
+                }
+                
+                UIAlertController.presentInfoAlert(withText: String.ad.registered, parentController: self)
             }
             
         }

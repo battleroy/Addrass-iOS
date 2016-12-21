@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B619CBEE5453F21EFAE87D57 /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */; };
+		F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5020BA01E0497A000AB36F7 /* SessionManager.swift */; };
 		F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53B40121DDE447A00B500F9 /* CalendarViewController.swift */; };
 		F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54045671DF2067B003C600F /* ScrollableContentViewController.swift */; };
 		F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */; };
@@ -32,6 +33,7 @@
 		F5CC58441DE049EB00133B01 /* CommonTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC58431DE049EB00133B01 /* CommonTabBarViewController.swift */; };
 		F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */; };
 		F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */; };
+		F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */; };
 		F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */; };
 		F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FEAD4B1DE98BA500901069 /* EventTableViewCell.swift */; };
 		F5FEAD4E1DE98BF900901069 /* ADTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FEAD4D1DE98BF900901069 /* ADTableViewCell.swift */; };
@@ -44,6 +46,7 @@
 		13B86A992DA0B6D58BD27562 /* Pods-Addrass-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F5020BA01E0497A000AB36F7 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		F53B40121DDE447A00B500F9 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F54045671DF2067B003C600F /* ScrollableContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableContentViewController.swift; sourceTree = "<group>"; };
 		F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarWeekDayCell.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		F5CC58431DE049EB00133B01 /* CommonTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTabBarViewController.swift; sourceTree = "<group>"; };
 		F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Addrass.swift"; sourceTree = "<group>"; };
+		F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertExtensions.swift; sourceTree = "<group>"; };
 		F5EC09581DCE81EA003C8DD9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F5FEAD4B1DE98BA500901069 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		F5FEAD4D1DE98BF900901069 /* ADTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADTableViewCell.swift; sourceTree = "<group>"; };
@@ -105,6 +109,14 @@
 				BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F5020B9F1E04974000AB36F7 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F5020BA01E0497A000AB36F7 /* SessionManager.swift */,
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 		F53B40111DDE445D00B500F9 /* Calendar */ = {
@@ -170,6 +182,7 @@
 				F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */,
 				F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */,
 				F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */,
+				F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -270,6 +283,7 @@
 		F5FF3D521DCE7EC200BAD7B9 /* Addrass-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				F5020B9F1E04974000AB36F7 /* Managers */,
 				F5CC58371DE0463000133B01 /* API */,
 				F5AFC9251DD39EB7005963BD /* Model */,
 				F5B392951DCF57EC006621B5 /* Scenes */,
@@ -412,6 +426,7 @@
 				F5CC58391DE0463E00133B01 /* APIManager.swift in Sources */,
 				F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */,
 				F5AFC9271DD39EC3005963BD /* User.swift in Sources */,
+				F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */,
 				F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */,
 				F5AFC9241DD39E41005963BD /* ContactTableViewCell.swift in Sources */,
 				F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */,
@@ -432,6 +447,7 @@
 				F5CC583C1DE0484200133B01 /* EventDetailsViewController.swift in Sources */,
 				F5CC58401DE0487700133B01 /* ContactEditViewController.swift in Sources */,
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
+				F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */,
 				F5CC58421DE0488100133B01 /* EventEditViewController.swift in Sources */,
 				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,
 				F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */,

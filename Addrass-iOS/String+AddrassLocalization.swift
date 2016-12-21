@@ -65,6 +65,14 @@ extension String {
         let members           = "Members"
         let back              = "Back"
         let cancel            = "Cancel"
+        
+        let info              = "Info"
+        let error             = "Error"
+        let OK                = "OK"
+        
+        let registered        = "Registered successfully"
+        
+        let signOut           = "Sign out"
     }
     
     static let ad = ADLocalization()

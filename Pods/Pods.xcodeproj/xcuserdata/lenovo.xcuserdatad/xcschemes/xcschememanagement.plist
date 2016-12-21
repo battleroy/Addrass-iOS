@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AlamofireImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CZPicker.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,27 +42,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>081D9D7A6B6BBB69F92FB138D1BDC92E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>984E4E95F704EFF80994BB7005DC8022</key>
+		<key>9EFE4C70245EE2857D336B8B9FA4E825</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A45CCCC7CAD954E1C8E10252C63FA413</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A77C97FF9DAE0DCBA2086425ECAF1FD0</key>
+		<key>BD7C1760CDD2989B888053FB066BBB6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C7563D5AE176C43B7EFA77306E3C43C9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DECBFDE7EE488AD2730180C8E9624273</key>
 		<dict>
 			<key>primary</key>
 			<true/>

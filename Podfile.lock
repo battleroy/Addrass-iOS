@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (4.2.0)
+  - AlamofireImage (3.2.0):
+    - Alamofire (~> 4.1)
   - CZPicker (0.4.3)
   - FSCalendar (2.5.1)
   - SnapKit (3.0.2)
@@ -7,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - AlamofireImage (~> 3.1)
   - CZPicker (~> 0.4.3)
   - FSCalendar (~> 2.5.1)
   - SnapKit (~> 3.0.2)
@@ -14,11 +17,12 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   CZPicker: 55aa1751ea26e209814552da1a9a08cba8bbf72a
   FSCalendar: 8efeb4b92240937204165c7743f4375923112fb5
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
 
-PODFILE CHECKSUM: 2a76b7e4bc6706d02c9218c08792ed7e9c3da7a3
+PODFILE CHECKSUM: 20ae77cdde2db3b574e9c5f3a049c238b8c1f00f
 
 COCOAPODS: 1.1.1

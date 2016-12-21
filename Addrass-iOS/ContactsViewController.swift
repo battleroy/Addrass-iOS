@@ -13,14 +13,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: Variables
     
-    var contactsTableView: UITableView?
-    var searchBarContainerView: UIView?
-    weak var searchBar: UISearchBar?
-    var users: [User]?
+    var contactsTableView: UITableView!
+    var searchBarContainerView: UIView!
+    var searchBar: UISearchBar?
     
     var searchBarConstraints: [Constraint]?
     
     let searchController = UISearchController(searchResultsController: nil)
+    
+    var contacts: [User]?
     
     
     // MARK: VCL
@@ -34,13 +35,6 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-
-        users = [
-            User(withName: "Sergei Zyazulkin", group: "Gods", image: #imageLiteral(resourceName: "logo"), color: UIColor.red, phone: "+375 44 2281488", email: "god@god.god", company: "God GmbH", address: "Heaven"
-                , notes: "Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss) Very good man (boss)"),
-            User(withName: "Stanislav Baretskiy", group: "Beer Lovers", image: #imageLiteral(resourceName: "logo"), color: UIColor.green, phone: "+7 44 2281488", email: "baret@sk.iy", company: "PivoObGolovu", address: "Petrograd"
-                , notes: "Shomen zhostkiy")
-        ]
         
         setupSubviews()
     }
@@ -49,7 +43,16 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        contactsTableView?.reloadData()
+        APIManager.contacts(forUser: SessionManager.currentUser!) { (contacts, errorText) in
+            guard let userContacts = contacts else {
+                UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
+                return
+            }
+            
+            self.contacts = userContacts
+            self.contactsTableView.reloadData()
+        }
+        
     }
     
     
@@ -58,21 +61,24 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     func setupSubviews() {
         
         searchBarContainerView = UIView()
-        view.addSubview(searchBarContainerView!)
+        view.addSubview(searchBarContainerView)
         
         searchBar = searchController.searchBar
         searchBar?.delegate = self
         searchBar?.backgroundImage = UIImage()
-        searchBarContainerView?.addSubview(searchBar!)
+        searchBarContainerView.addSubview(searchBar!)
         
         contactsTableView = UITableView()
-        contactsTableView?.backgroundColor = UIColor.ad.gray
-        contactsTableView?.dataSource = self
-        contactsTableView?.delegate = self
-        contactsTableView?.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.cellIdentifier)
-        contactsTableView?.tableFooterView = UIView()
+        contactsTableView.backgroundColor = UIColor.ad.gray
+        contactsTableView.dataSource = self
+        contactsTableView.delegate = self
+        contactsTableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.cellIdentifier)
+        contactsTableView.tableFooterView = UIView()
         
-        view.addSubview(contactsTableView!)
+        view.addSubview(contactsTableView)
+        
+        let signOutBarButtonItem = UIBarButtonItem(title: String.ad.signOut, style: .plain, target: self, action: #selector(signOutBarButtonItemPressed(_:)))
+        navigationItem.leftBarButtonItem = signOutBarButtonItem
         
         setConstraints()
     }
@@ -80,20 +86,33 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func setConstraints() {
         
-        searchBarContainerView?.snp.makeConstraints({ (make) in
+        searchBarContainerView.snp.makeConstraints({ (make) in
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.left.right.equalTo(view)
             make.height.equalTo(44.0)
         })
         
-        contactsTableView?.snp.makeConstraints({ (make) in
-            make.top.equalTo(searchBarContainerView!.snp.bottom)
+        contactsTableView.snp.makeConstraints({ (make) in
+            make.top.equalTo(searchBarContainerView.snp.bottom)
             make.left.right.bottom.equalTo(view)
         })
         
         searchBar?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         searchBar?.translatesAutoresizingMaskIntoConstraints = true
         searchBar?.frame = CGRect.zero
+    }
+    
+    
+    func user(forRow row: Int) -> User {
+        
+        var cellUser: User? = nil
+        if row == 0 {
+            cellUser = SessionManager.currentUser!
+        } else if let userContacts = contacts {
+            cellUser = userContacts[row - 1]
+        }
+        
+        return cellUser!
     }
     
     
@@ -105,18 +124,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users?.count ?? 0
+        return 1 + (contacts != nil ? contacts!.count : 0)
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.cellIdentifier, for: indexPath) as! ContactTableViewCell
+
         
-        if let users = users {
-            
-            cell.updateCell(withContact: users[indexPath.row])
-            
-        }
+        cell.updateCell(withContact: user(forRow: indexPath.row))
         
         return cell
     }
@@ -124,11 +140,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if let users = users {
-            return ContactTableViewCell.cellHeight(forContact: users[indexPath.row])
-        }
-        
-        return 0.0
+        return ContactTableViewCell.cellHeight(forContact: user(forRow: indexPath.row))
     }
 
     
@@ -138,7 +150,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRow(at: indexPath, animated: true)
         
         let cdvc = ContactDetailsViewController()
-        cdvc.user = users?[indexPath.row]
+        cdvc.user = user(forRow: indexPath.row)
         
         navigationController?.pushViewController(cdvc, animated: true)
     }
@@ -168,5 +180,14 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func updateSearchResults(for searchController: UISearchController) {
         
+    }
+    
+    
+    // MARK: Actions
+    
+    func signOutBarButtonItemPressed(_ sender: UIBarButtonItem) {
+        APIManager.signOut {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }

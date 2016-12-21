@@ -18,25 +18,25 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     var user: User?
     
-    var leftBarButtonItem: UIBarButtonItem?
-    var rightBarButtonItem: UIBarButtonItem?
+    var leftBarButtonItem: UIBarButtonItem!
+    var rightBarButtonItem: UIBarButtonItem!
     
-    var headerContainerView: UIView?
-    var contactNameLabel: UILabel?
-    var contactGroupLabel: UILabel?
-    var contactImageView: UIImageView?
-    var colorButton: UIButton?
-    var colorIconView: UIView?
-    var eventsButton: UIButton?
-    var eventsImageView: UIImageView?
+    var headerContainerView: UIView!
+    var contactNameLabel: UILabel!
+    var contactGroupLabel: UILabel!
+    var contactImageView: UIImageView!
+    var colorButton: UIButton!
+    var colorIconView: UIView!
+    var eventsButton: UIButton!
+    var eventsImageView: UIImageView!
     
-    var infoTableView: UITableView?
+    var infoTableView: UITableView!
     
-    var footerContainerView: UIView?
-    var deleteButton: UIButton?
-    var deleteImageView: UIImageView?
-    var blacklistButton: UIButton?
-    var blacklistImageView: UIView?
+    var footerContainerView: UIView!
+    var deleteButton: UIButton!
+    var deleteImageView: UIImageView!
+    var blacklistButton: UIButton!
+    var blacklistImageView: UIView!
     
     
     // MARK: VCL
@@ -74,116 +74,116 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     func setupSubviews() {
         
         infoTableView = UITableView()
-        infoTableView?.dataSource = self
-        infoTableView?.delegate = self
-        infoTableView?.register(ContactInfoTableViewCell.self, forCellReuseIdentifier: ContactInfoTableViewCell.cellIdentifier)
-        infoTableView?.backgroundColor = UIColor.ad.gray
-        infoTableView?.separatorStyle = .none;
-        view.addSubview(infoTableView!)
+        infoTableView.dataSource = self
+        infoTableView.delegate = self
+        infoTableView.register(ContactInfoTableViewCell.self, forCellReuseIdentifier: ContactInfoTableViewCell.cellIdentifier)
+        infoTableView.backgroundColor = UIColor.ad.gray
+        infoTableView.separatorStyle = .none;
+        view.addSubview(infoTableView)
         
         headerContainerView = UIView()
-        headerContainerView?.backgroundColor = UIColor.ad.darkGray
-        view.addSubview(headerContainerView!)
+        headerContainerView.backgroundColor = UIColor.ad.darkGray
+        view.addSubview(headerContainerView)
         
         contactNameLabel = UILabel()
-        contactNameLabel?.font = UIFont.ad.largeBoldFont
-        contactNameLabel?.textColor = UIColor.ad.white
-        headerContainerView?.addSubview(contactNameLabel!)
+        contactNameLabel.font = UIFont.ad.largeBoldFont
+        contactNameLabel.textColor = UIColor.ad.white
+        headerContainerView.addSubview(contactNameLabel)
         
         contactGroupLabel = UILabel()
-        contactGroupLabel?.font = UIFont.ad.bodyFont
-        contactGroupLabel?.textColor = UIColor.ad.white
-        headerContainerView?.addSubview(contactGroupLabel!)
+        contactGroupLabel.font = UIFont.ad.bodyFont
+        contactGroupLabel.textColor = UIColor.ad.white
+        headerContainerView.addSubview(contactGroupLabel)
         
         contactImageView = UIImageView()
-        contactImageView?.contentMode = .scaleAspectFill
-        contactImageView?.layer.cornerRadius = ContactDetailsViewController.imageViewSize / 2
-        contactImageView?.layer.masksToBounds = true
-        contactImageView?.layer.borderColor = UIColor.ad.yellow.cgColor
-        contactImageView?.layer.borderWidth = 1.0
-        headerContainerView?.addSubview(contactImageView!)
+        contactImageView.contentMode = .scaleAspectFill
+        contactImageView.layer.cornerRadius = ContactDetailsViewController.imageViewSize / 2
+        contactImageView.layer.masksToBounds = true
+        contactImageView.layer.borderColor = UIColor.ad.yellow.cgColor
+        contactImageView.layer.borderWidth = 1.0
+        headerContainerView.addSubview(contactImageView)
         
         colorIconView = UIView()
-        colorIconView?.layer.cornerRadius = ContactDetailsViewController.buttonIconSize / 2
-        colorIconView?.layer.masksToBounds = true
-        colorButton = createIconButton(colorIconView!, title: String.ad.color)
-        headerContainerView?.addSubview(colorButton!)
+        colorIconView.layer.cornerRadius = ContactDetailsViewController.buttonIconSize / 2
+        colorIconView.layer.masksToBounds = true
+        colorButton = createIconButton(colorIconView, title: String.ad.color)
+        headerContainerView.addSubview(colorButton)
         
         eventsImageView = UIImageView(image: UIImage(named: "calendar-light"))
-        eventsImageView?.contentMode = .scaleAspectFit
-        eventsButton = createIconButton(eventsImageView!, title: String.ad.events)
-        headerContainerView?.addSubview(eventsButton!)
+        eventsImageView.contentMode = .scaleAspectFit
+        eventsButton = createIconButton(eventsImageView, title: String.ad.events)
+        headerContainerView.addSubview(eventsButton)
         
         footerContainerView = UIView()
-        footerContainerView?.backgroundColor = UIColor.ad.gray
-        view.addSubview(footerContainerView!)
+        footerContainerView.backgroundColor = UIColor.ad.gray
+        view.addSubview(footerContainerView)
         
         deleteImageView = UIImageView(image: UIImage(named: "delete-light"))
-        deleteImageView?.contentMode = .scaleAspectFit
-        deleteButton = createIconButton(deleteImageView!, title: String.ad.delete)
-        footerContainerView?.addSubview(deleteButton!)
+        deleteImageView.contentMode = .scaleAspectFit
+        deleteButton = createIconButton(deleteImageView, title: String.ad.delete)
+        footerContainerView.addSubview(deleteButton)
         
         blacklistImageView = UIImageView(image: UIImage(named: "blacklist-light"))
-        blacklistImageView?.contentMode = .scaleAspectFit
-        blacklistButton = createIconButton(blacklistImageView!, title: String.ad.toBlacklist)
-        footerContainerView?.addSubview(blacklistButton!)
+        blacklistImageView.contentMode = .scaleAspectFit
+        blacklistButton = createIconButton(blacklistImageView, title: String.ad.toBlacklist)
+        footerContainerView.addSubview(blacklistButton)
         
         setConstraints()
     }
     
     
     func setConstraints() {
-        infoTableView?.snp.makeConstraints({ (make) in
+        infoTableView.snp.makeConstraints({ (make) in
             make.edges.equalTo(view)
         })
         
-        headerContainerView?.snp.makeConstraints({ (make) in
+        headerContainerView.snp.makeConstraints({ (make) in
             make.height.equalTo(view).multipliedBy(0.3)
-            make.left.right.top.equalTo(infoTableView!)
+            make.left.right.top.equalTo(infoTableView)
         })
         
-        contactImageView?.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(headerContainerView!)
-            make.bottom.equalTo(headerContainerView!).offset(15.0)
+        contactImageView.snp.makeConstraints({ (make) in
+            make.centerX.equalTo(headerContainerView)
+            make.bottom.equalTo(headerContainerView).offset(15.0)
             make.height.width.equalTo(ContactDetailsViewController.imageViewSize)
         })
         
-        contactGroupLabel?.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(headerContainerView!)
-            make.bottom.equalTo(contactImageView!.snp.top).offset(-8.0)
+        contactGroupLabel.snp.makeConstraints({ (make) in
+            make.centerX.equalTo(headerContainerView)
+            make.bottom.equalTo(contactImageView.snp.top).offset(-8.0)
         })
         
-        contactNameLabel?.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(headerContainerView!)
-            make.bottom.equalTo(contactGroupLabel!.snp.top).offset(-8.0)
+        contactNameLabel.snp.makeConstraints({ (make) in
+            make.centerX.equalTo(headerContainerView)
+            make.bottom.equalTo(contactGroupLabel.snp.top).offset(-8.0)
         })
         
-        colorButton?.snp.makeConstraints({ (make) in
-            make.left.equalTo(headerContainerView!).offset(5.0)
-            make.bottom.equalTo(headerContainerView!).offset(-5.0)
+        colorButton.snp.makeConstraints({ (make) in
+            make.left.equalTo(headerContainerView).offset(5.0)
+            make.bottom.equalTo(headerContainerView).offset(-5.0)
         })
         
-        eventsButton?.snp.makeConstraints({ (make) in
-            make.right.equalTo(headerContainerView!).offset(-5.0)
-            make.bottom.equalTo(headerContainerView!).offset(-5.0)
+        eventsButton.snp.makeConstraints({ (make) in
+            make.right.equalTo(headerContainerView).offset(-5.0)
+            make.bottom.equalTo(headerContainerView).offset(-5.0)
         })
         
-        footerContainerView?.snp.makeConstraints({ (make) in
+        footerContainerView.snp.makeConstraints({ (make) in
             make.height.equalTo(view).multipliedBy(0.1)
             make.left.right.bottom.equalTo(view)
         })
         
-        deleteButton?.snp.makeConstraints({ (make) in
-            make.left.equalTo(footerContainerView!).offset(5.0)
-            make.bottom.equalTo(footerContainerView!).offset(-5.0)
+        deleteButton.snp.makeConstraints({ (make) in
+            make.left.equalTo(footerContainerView).offset(5.0)
+            make.bottom.equalTo(footerContainerView).offset(-5.0)
         })
         
-        blacklistButton?.snp.makeConstraints({ (make) in
-            make.right.equalTo(footerContainerView!).offset(-5.0)
-            make.bottom.equalTo(footerContainerView!).offset(-5.0)
+        blacklistButton.snp.makeConstraints({ (make) in
+            make.right.equalTo(footerContainerView).offset(-5.0)
+            make.bottom.equalTo(footerContainerView).offset(-5.0)
         })
         
-        infoTableView?.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
+        infoTableView.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
     }
     
     
@@ -211,13 +211,19 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     func updateView() {
         
-        contactNameLabel?.text = user?.name
-        contactGroupLabel?.text = user?.group
-        contactImageView?.image = user?.image
-        colorIconView?.backgroundColor = user?.color
+        contactNameLabel.text = user?.name
+        contactGroupLabel.text = user?.group
+        colorIconView.backgroundColor = nil
         
         let scrollPoint = CGPoint(x: 0.0, y: -infoTableView!.contentInset.top)
         infoTableView?.setContentOffset(scrollPoint, animated: false)
+        
+        guard let imageLink = user?.image, let imageURL = URL(string: imageLink) else {
+            contactImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
+            return
+        }
+        
+        contactImageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "user-icon-placeholder"))
     }
     
     

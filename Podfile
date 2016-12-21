@@ -10,6 +10,7 @@ target 'Addrass-iOS' do
 	pod 'SwiftGifOrigin', '~> 1.6.1'
 	pod 'FSCalendar', '~> 2.5.1'
 	pod 'CZPicker', '~> 0.4.3'	
+	pod 'AlamofireImage', '~> 3.1'	
 
 end
 

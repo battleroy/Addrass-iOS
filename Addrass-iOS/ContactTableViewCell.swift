@@ -24,12 +24,12 @@ class ContactTableViewCell: UITableViewCell {
     
     // MARK: Variables
     
-    var contactImageView:    UIImageView?
-    var colorView:           UIView?
-    var chevronView:         UIImageView?
-    var labelsContainerView: UIView?
-    var nameLabel:           UILabel?
-    var groupLabel:          UILabel?
+    var contactImageView:    UIImageView!
+    var colorView:           UIView!
+    var chevronView:         UIImageView!
+    var labelsContainerView: UIView!
+    var nameLabel:           UILabel!
+    var groupLabel:          UILabel!
     
     
     // MARK: Overrides
@@ -49,9 +49,9 @@ class ContactTableViewCell: UITableViewCell {
     
     
     override func setSelected(_ selected: Bool, animated: Bool) {
-        let circleColor = colorView?.backgroundColor
+        let circleColor = colorView.backgroundColor
         super.setSelected(selected, animated: animated)
-        colorView?.backgroundColor = circleColor
+        colorView.backgroundColor = circleColor
     }
     
 
@@ -59,11 +59,15 @@ class ContactTableViewCell: UITableViewCell {
     
     func updateCell(withContact contact: User) {
         
-        contactImageView?.image = contact.image
-        colorView?.backgroundColor = contact.color
-        nameLabel?.text = contact.name
-        groupLabel?.text = contact.group
+        nameLabel.text = contact.name
+        groupLabel.text = contact.group
         
+        guard let imageLink = contact.image, let imageURL = URL(string: imageLink) else {
+            contactImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
+            return
+        }
+        
+        contactImageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "user-icon-placeholder"))
     }
     
     
@@ -91,34 +95,34 @@ class ContactTableViewCell: UITableViewCell {
     
     func setupSubviews() {
         contactImageView = UIImageView()
-        contactImageView?.contentMode = .scaleAspectFill
-        contactImageView?.layer.cornerRadius = ContactTableViewCell.imageViewSize / 2
-        contactImageView?.layer.masksToBounds = true
-        contactImageView?.layer.borderWidth = 1.0
-        contactImageView?.layer.borderColor = UIColor.ad.yellow.cgColor
-        addSubview(contactImageView!)
+        contactImageView.contentMode = .scaleAspectFill
+        contactImageView.layer.cornerRadius = ContactTableViewCell.imageViewSize / 2
+        contactImageView.layer.masksToBounds = true
+        contactImageView.layer.borderWidth = 1.0
+        contactImageView.layer.borderColor = UIColor.ad.yellow.cgColor
+        addSubview(contactImageView)
         
         colorView = UIView()
-        colorView?.layer.cornerRadius = ContactTableViewCell.colorViewSize / 2
-        colorView?.layer.masksToBounds = true
-        addSubview(colorView!)
+        colorView.layer.cornerRadius = ContactTableViewCell.colorViewSize / 2
+        colorView.layer.masksToBounds = true
+        addSubview(colorView)
         
         labelsContainerView = UIView()
-        addSubview(labelsContainerView!)
+        addSubview(labelsContainerView)
         
         nameLabel = UILabel()
-        nameLabel?.font = UIFont.ad.bodyFont
-        nameLabel?.textColor = UIColor.ad.white
-        labelsContainerView?.addSubview(nameLabel!)
+        nameLabel.font = UIFont.ad.bodyFont
+        nameLabel.textColor = UIColor.ad.white
+        labelsContainerView.addSubview(nameLabel)
         
         groupLabel = UILabel()
-        groupLabel?.font = UIFont.ad.smallFont
-        groupLabel?.textColor = UIColor.ad.darkGray
-        labelsContainerView?.addSubview(groupLabel!)
+        groupLabel.font = UIFont.ad.smallFont
+        groupLabel.textColor = UIColor.ad.darkGray
+        labelsContainerView.addSubview(groupLabel)
         
         chevronView = UIImageView(image: UIImage(named: ContactTableViewCell.chevronImageName))
-        chevronView?.contentMode = .scaleAspectFit
-        addSubview(chevronView!)
+        chevronView.contentMode = .scaleAspectFit
+        addSubview(chevronView)
         
         setConstraints()
     }
@@ -126,40 +130,40 @@ class ContactTableViewCell: UITableViewCell {
     
     func setConstraints() {
         
-        contactImageView?.snp.makeConstraints({ (make) in
+        contactImageView.snp.makeConstraints({ (make) in
             make.width.height.equalTo(ContactTableViewCell.imageViewSize)
             make.top.equalTo(self).offset(8.0)
             make.bottom.lessThanOrEqualTo(self).offset(-8.0)
         })
         
-        colorView?.snp.makeConstraints({ (make) in
+        colorView.snp.makeConstraints({ (make) in
             make.width.height.equalTo(ContactTableViewCell.colorViewSize)
-            make.centerY.equalTo(contactImageView!)
+            make.centerY.equalTo(contactImageView)
             make.left.equalTo(self).offset(8.0)
-            make.right.equalTo(contactImageView!.snp.left).offset(-8.0)
+            make.right.equalTo(contactImageView.snp.left).offset(-8.0)
         })
         
-        chevronView?.snp.makeConstraints({ (make) in
+        chevronView.snp.makeConstraints({ (make) in
             make.width.height.equalTo(ContactTableViewCell.chevronViewSize)
-            make.centerY.equalTo(contactImageView!)
+            make.centerY.equalTo(contactImageView)
             make.right.equalTo(self).offset(-8.0)
         })
         
-        nameLabel?.snp.makeConstraints({ (make) in
-            make.top.equalTo(labelsContainerView!)
-            make.left.right.equalTo(labelsContainerView!)
+        nameLabel.snp.makeConstraints({ (make) in
+            make.top.equalTo(labelsContainerView)
+            make.left.right.equalTo(labelsContainerView)
         })
         
-        groupLabel?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(nameLabel!)
-            make.top.equalTo(nameLabel!.snp.bottom).offset(ContactTableViewCell.nameGroupGap)
-            make.bottom.equalTo(labelsContainerView!)
+        groupLabel.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(nameLabel)
+            make.top.equalTo(nameLabel.snp.bottom).offset(ContactTableViewCell.nameGroupGap)
+            make.bottom.equalTo(labelsContainerView)
         })
         
-        labelsContainerView?.snp.makeConstraints({ (make) in
-            make.left.equalTo(contactImageView!.snp.right).offset(8.0)
-            make.right.equalTo(chevronView!.snp.left).offset(-8.0)
-            make.centerY.equalTo(contactImageView!)
+        labelsContainerView.snp.makeConstraints({ (make) in
+            make.left.equalTo(contactImageView.snp.right).offset(8.0)
+            make.right.equalTo(chevronView.snp.left).offset(-8.0)
+            make.centerY.equalTo(contactImageView)
         })
         
     }
