@@ -201,7 +201,8 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
         
         if !isEmptyFieldPresented {
             
-            let newUser = User()
+            var newUser = User()
+            
             newUser.login = loginTextField.text
             newUser.password = passwordTextField.text
             newUser.name = nameTextField.text

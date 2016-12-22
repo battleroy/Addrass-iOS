@@ -18,6 +18,8 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     private let textFieldHeight: CGFloat       = 40.0
     private let textFieldCornerRadius: CGFloat = 15.0
     
+    var existingContact: User?
+    
     var nameTextField: ADPaddedTextField!
     var groupSegmentedControl: UISegmentedControl!
     var colorSegmentedColor: UISegmentedControl!
@@ -27,6 +29,9 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     var companyTextField: ADPaddedTextField!
     var addressTextField: ADPaddedTextField!
     var notesTextField: ADPaddedTextField!
+    
+    var cancelBarButtonItem: UIBarButtonItem!
+    var saveBarButtonItem: UIBarButtonItem!
     
     
     // MARK: VCL
@@ -38,6 +43,20 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         title = String.ad.edit
 
         setupSubviews()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if let editingContact = existingContact {
+            nameTextField.text = editingContact.name
+            phoneTextField.text = editingContact.phone
+            emailTextField.text = editingContact.email
+            companyTextField.text = editingContact.company
+            addressTextField.text = editingContact.address
+            notesTextField.text = editingContact.notes
+        }
     }
     
     
@@ -79,6 +98,11 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         )
         contentScrollView.addSubview(imageView)
         
+        cancelBarButtonItem = UIBarButtonItem(title: String.ad.cancel, style: .plain, target: self, action: #selector(barButtonItemPressed(_:)))
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+        
+        saveBarButtonItem = UIBarButtonItem(title: String.ad.save, style: .done, target: self, action: #selector(barButtonItemPressed(_:)))
+        navigationItem.rightBarButtonItem = saveBarButtonItem
         
         setConstraints()
     }
@@ -251,5 +275,49 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
             
             present(ac, animated: true, completion: nil)
         }
+    }
+    
+    
+    func barButtonItemPressed(_ sender: UIBarButtonItem) {
+        if sender == saveBarButtonItem {
+            
+            if existingContact == nil {
+                
+                let contact = User(withId: nil, name: nameTextField.text, group: "", image: nil, color: nil, phone: phoneTextField.text, email: emailTextField.text, company: companyTextField.text, address: addressTextField.text, notes: notesTextField.text)
+                
+                APIManager.addContact(forUser: SessionManager.currentUser!, contact: contact) { (errorText) in
+                    if errorText == nil {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    } else {
+                        UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
+                    }
+                }
+                
+            } else {
+                
+                var contact = existingContact!
+                
+                contact.name = nameTextField.text
+                contact.phone = phoneTextField.text
+                contact.email = emailTextField.text
+                contact.company = companyTextField.text
+                contact.address = addressTextField.text
+                contact.notes = notesTextField.text
+                
+                APIManager.updateContact(forUser: SessionManager.currentUser!, contact: contact) { (errorText) in
+                    if errorText == nil {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    } else {
+                        UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
+                    }
+                }
+            }
+            
+        } else if sender == cancelBarButtonItem {
+            
+            _ = self.navigationController?.popViewController(animated: true)
+            
+        }
+        
     }
 }

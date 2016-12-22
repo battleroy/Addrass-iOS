@@ -8,8 +8,9 @@
 
 import UIKit
 
-class User: NSObject {
+struct User {
 
+    var id:       Int?
     var login:    String?
     var password: String?
     var name:     String?
@@ -21,17 +22,19 @@ class User: NSObject {
     var company:  String?
     var address:  String?
     var notes:    String?
-    var friends:  [User]?
-    var blacklist: [User]?
     
-    convenience override init() {
-        self.init(withName: nil, group: nil, image: nil, color: nil, phone: nil, email: nil, company: nil, address: nil, notes: nil)
+    // Contact
+    
+    var fkUserFriend: Int64?
+    
+    init() {
+        self.init(withId: nil, name: nil, group: nil, image: nil, color: nil, phone: nil, email: nil, company: nil, address: nil, notes: nil)
     }
     
     
-    init(withName name: String?, group: String?, image: String?, color: String?, phone: String?, email: String?, company: String?, address: String?, notes: String?) {
-        super.init()
+    init(withId id: Int?, name: String?, group: String?, image: String?, color: String?, phone: String?, email: String?, company: String?, address: String?, notes: String?) {
         
+        self.id = id
         self.name = name
         self.group = group
         self.image = image
@@ -48,6 +51,7 @@ class User: NSObject {
         
         var result = Dictionary<String, Any>()
         
+        result["pkId"] = id ?? NSNull()
         result["userLogin"] = login ?? NSNull()
         result["userPassword"] = password ?? NSNull()
         result["userName"] = name ?? NSNull()
@@ -65,9 +69,11 @@ class User: NSObject {
     
     
     static func user(withDictionary dict: [String : Any]) -> User {
-        let user = User()
+        var user = User()
         
-        user.name = dict["userLogin"] as? String
+        user.id = dict["pkId"] as? Int
+        user.login = dict["userLogin"] as? String
+        user.name = dict["userName"] as? String
         user.password = dict["userPassword"] as? String
         user.group = dict["groupName"] as? String
         user.image = dict["fkUserPhoto"] as? String

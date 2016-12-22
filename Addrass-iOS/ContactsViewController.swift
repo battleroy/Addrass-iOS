@@ -17,6 +17,9 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     var searchBarContainerView: UIView!
     var searchBar: UISearchBar?
     
+    var signOutButton: UIBarButtonItem!
+    var addContactButton: UIBarButtonItem!
+    
     var searchBarConstraints: [Constraint]?
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -74,11 +77,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         contactsTableView.delegate = self
         contactsTableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.cellIdentifier)
         contactsTableView.tableFooterView = UIView()
+        contactsTableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, tabBarController?.tabBar.bounds.height ?? 0.0, 0.0)
         
         view.addSubview(contactsTableView)
         
-        let signOutBarButtonItem = UIBarButtonItem(title: String.ad.signOut, style: .plain, target: self, action: #selector(signOutBarButtonItemPressed(_:)))
-        navigationItem.leftBarButtonItem = signOutBarButtonItem
+        signOutButton = UIBarButtonItem(title: String.ad.signOut, style: .plain, target: self, action: #selector(barButtonItemPressed(_:)))
+        navigationItem.leftBarButtonItem = signOutButton
+        
+        addContactButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(barButtonItemPressed(_:)))
+        navigationItem.rightBarButtonItem = addContactButton
         
         setConstraints()
     }
@@ -185,9 +192,15 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: Actions
     
-    func signOutBarButtonItemPressed(_ sender: UIBarButtonItem) {
-        APIManager.signOut {
-            self.dismiss(animated: true, completion: nil)
+    func barButtonItemPressed(_ sender: UIBarButtonItem) {
+        if sender == signOutButton {
+            APIManager.signOut {
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else if sender == addContactButton {
+            let cevc = ContactEditViewController()
+            cevc.existingContact = nil
+            navigationController?.pushViewController(cevc, animated: true)
         }
     }
 }

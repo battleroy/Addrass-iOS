@@ -130,6 +130,37 @@ class APIManager: NSObject {
     }
     
     
+    static func addContact(forUser user: User, contact: User, completion: @escaping ((String?) -> Void)) {
+        sendContact(forUser: user, contact: contact, method: .post, completion: completion)
+    }
+    
+    
+    static func updateContact(forUser user: User, contact: User, completion: @escaping ((String?) -> Void)) {
+        sendContact(forUser: user, contact: contact, method: .put, completion: completion)
+    }
+    
+    
+    private static func sendContact(forUser user: User, contact: User, method: HTTPMethod, completion: @escaping ((String?) -> Void)) {
+        
+        let endpoint = "/contact"
+        
+        var contactDict = [String: Any]()
+        contactDict["fkUserFriend"] = contact.dictionaryRepresentation()
+        
+        Alamofire.request(apiRoot + endpoint, method: method, parameters: contactDict, encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseData { response in
+                switch (response.result) {
+                case .success:
+                    completion(nil)
+                case .failure(let error):
+                    completion(error.localizedDescription)
+                }
+        }
+        
+    }
+    
+    
     static func update(_ userLogin: String, newUserData: User) -> Bool {
         fatalError()
     }

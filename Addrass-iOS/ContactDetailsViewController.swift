@@ -325,7 +325,9 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         if sender == leftBarButtonItem {
             _ = navigationController?.popViewController(animated: true)
         } else if sender == rightBarButtonItem {
-            navigationController?.pushViewController(ContactEditViewController(), animated: true)
+            let cevc = ContactEditViewController()
+            cevc.existingContact = user
+            navigationController?.pushViewController(cevc, animated: true)
         }
     }
     
