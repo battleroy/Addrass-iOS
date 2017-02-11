@@ -24,17 +24,17 @@ extension String {
         let fillTheFields     = "Fill the Fields..."
         let done              = "Done"
         let repeatPassword    = "Repeat Password"
-        let yourName          = "Your Name"
+        let firstName         = "First Name"
+        let lastName          = "Last Name"
         let yourPhone         = "Your Phone"
         let yourEmail         = "Your E-Mail"
         let yourCompany       = "Your Company"
         let yourAddress       = "Your Address"
         
-        let contacts          = "Contacts"
+        let friends          = "Friends"
         
         let name              = "Name"
         let family            = "Family"
-        let friends           = "Friends"
         let work              = "Work"
         let others            = "Others"
         

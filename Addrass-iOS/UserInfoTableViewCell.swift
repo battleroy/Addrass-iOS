@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ContactInfoTableViewCell: ADTableViewCell {
+class UserInfoTableViewCell: ADTableViewCell {
     
     // MARK: Constants
     
-    static let cellIdentifier = "ContactCell"
+    static let cellIdentifier = "UserCell"
     
     private static let iconSize:             CGFloat = 15.0
     private static let gradientBorderHeight: CGFloat = 3.0
@@ -75,7 +75,7 @@ class ContactInfoTableViewCell: ADTableViewCell {
         
         gradientBackgroundLayer.frame = bounds
         
-        let gradientBorderRatioToHeight = ContactInfoTableViewCell.gradientBorderHeight / bounds.height
+        let gradientBorderRatioToHeight = UserInfoTableViewCell.gradientBorderHeight / bounds.height
         gradientBackgroundLayer.locations = [0.0, gradientBorderRatioToHeight, 0.5, 1.0 - gradientBorderRatioToHeight, 1.0].map {
             NSNumber(value: Float($0))
         }
@@ -83,7 +83,7 @@ class ContactInfoTableViewCell: ADTableViewCell {
         infoIconImageView.snp.remakeConstraints({ (make) in
             make.left.equalTo(stripeView.snp.right).offset(8.0)
             make.centerY.equalTo(self)
-            make.width.height.equalTo(ContactInfoTableViewCell.iconSize)
+            make.width.height.equalTo(UserInfoTableViewCell.iconSize)
         })
         
         infoTypeLabel.snp.remakeConstraints({ (make) in

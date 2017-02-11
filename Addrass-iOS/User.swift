@@ -10,40 +10,39 @@ import UIKit
 
 struct User {
 
-    var id:       Int?
-    var login:    String?
-    var password: String?
-    var name:     String?
-    var group:    String?
-    var image:    String?
-    var color:    String?
-    var phone:    String?
-    var email:    String?
-    var company:  String?
-    var address:  String?
-    var notes:    String?
+    var id:         Int?
+    var login:      String?
+    var password:   String?
+    var firstName:  String?
+    var lastName:   String?
+    var image:      String?
+    var phone:      String?
+    var email:      String?
+    var address:    String?
     
-    // Contact
-    
-    var fkUserFriend: Int64?
+    var fullName: String {
+        get {
+            var result = lastName ?? ""
+            if let firstName = firstName {
+                result = firstName + " " + result
+            }
+            return result
+        }
+    }
     
     init() {
-        self.init(withId: nil, name: nil, group: nil, image: nil, color: nil, phone: nil, email: nil, company: nil, address: nil, notes: nil)
+        self.init(withId: nil, firstName: nil, lastName: nil, image: nil, phone: nil, email: nil, address: nil)
     }
     
     
-    init(withId id: Int?, name: String?, group: String?, image: String?, color: String?, phone: String?, email: String?, company: String?, address: String?, notes: String?) {
-        
+    init(withId id: Int?, firstName: String?, lastName: String?, image: String?, phone: String?, email: String?, address: String?) {
         self.id = id
-        self.name = name
-        self.group = group
+        self.firstName = firstName
+        self.lastName = lastName
         self.image = image
-        self.color = color
         self.phone = phone
         self.email = email
-        self.company = company
         self.address = address
-        self.notes = notes
     }
     
     
@@ -51,18 +50,15 @@ struct User {
         
         var result = Dictionary<String, Any>()
         
-        result["pkId"] = id ?? NSNull()
+        result["id"] = id ?? NSNull()
         result["userLogin"] = login ?? NSNull()
         result["userPassword"] = password ?? NSNull()
-        result["userName"] = name ?? NSNull()
-        result["groupName"] = group ?? NSNull()
-        result["fkUserPhoto"] = image ?? NSNull()
-        result["userColor"] = color ?? NSNull()
-        result["userPhoneField"] = phone ?? NSNull()
-        result["userEmailField"] = email ?? NSNull()
-        result["userOrganizationField"] = company ?? NSNull()
-        result["userAddressField"] = address ?? NSNull()
-        result["userNotesField"] = notes ?? NSNull()
+        result["userFirstName"] = firstName ?? NSNull()
+        result["userLastName"] = lastName ?? NSNull()
+        result["userPhone"] = phone ?? NSNull()
+        result["userEmail"] = email ?? NSNull()
+        result["userAddress"] = address ?? NSNull()
+        result["userIcon"] = image ?? NSNull()
         
         return result
     }
@@ -73,16 +69,13 @@ struct User {
         
         user.id = dict["pkId"] as? Int
         user.login = dict["userLogin"] as? String
-        user.name = dict["userName"] as? String
         user.password = dict["userPassword"] as? String
-        user.group = dict["groupName"] as? String
-        user.image = dict["fkUserPhoto"] as? String
-        user.color = dict["userColor"] as? String
-        user.phone = dict["userPhoneField"] as? String
-        user.email = dict["userEmailField"] as? String
-        user.company = dict["userOrganizationField"] as? String
-        user.address = dict["userAddressField"] as? String
-        user.notes = dict["userNotesField"] as? String
+        user.firstName = dict["userFirstName"] as? String
+        user.lastName = dict["userLastName"] as? String
+        user.phone = dict["userPhone"] as? String
+        user.email = dict["userEmail"] as? String
+        user.address = dict["userAddress"] as? String
+        user.image = dict["userIcon"] as? String
     
         return user
     }

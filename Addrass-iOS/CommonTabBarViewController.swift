@@ -17,10 +17,10 @@ class CommonTabBarViewController: UITabBarController {
         tabBar.barTintColor = UIColor.ad.darkGray
         tabBar.tintColor = UIColor.ad.yellow
         
-        let contactsVC = RootNavigationViewController(rootViewController: ContactsViewController(), tabBarImage: #imageLiteral(resourceName: "contacts-inactive-tb"), title: String.ad.contacts)
+        let friendsVC = RootNavigationViewController(rootViewController: FriendsViewController(), tabBarImage: #imageLiteral(resourceName: "contacts-inactive-tb"), title: String.ad.friends)
         let calendarVC = RootNavigationViewController(rootViewController: CalendarViewController(), tabBarImage: #imageLiteral(resourceName: "calendar-inactive-tb"), title: String.ad.calendar)
 
-        viewControllers = [contactsVC, calendarVC]
+        viewControllers = [friendsVC, calendarVC]
     }
 
 }

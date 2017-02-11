@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */; };
+		9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */; };
+		9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */; };
+		9387B6F21E4F5160001FC066 /* UserEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6F11E4F5160001FC066 /* UserEditViewController.swift */; };
 		B619CBEE5453F21EFAE87D57 /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */; };
 		F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5020BA01E0497A000AB36F7 /* SessionManager.swift */; };
 		F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53B40121DDE447A00B500F9 /* CalendarViewController.swift */; };
 		F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54045671DF2067B003C600F /* ScrollableContentViewController.swift */; };
 		F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */; };
 		F54083621DE383B900A282DC /* CalendarWeekDaysCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54083611DE383B900A282DC /* CalendarWeekDaysCollectionViewLayout.swift */; };
-		F55DC5BD1DDB7C970051276C /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */; };
-		F57395891DDCDF7B008D79D5 /* ContactInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57395881DDCDF7B008D79D5 /* ContactInfoTableViewCell.swift */; };
-		F5AFC9221DD39BE5005963BD /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */; };
-		F5AFC9241DD39E41005963BD /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */; };
+		F55DC5BD1DDB7C970051276C /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DC5BC1DDB7C970051276C /* UserDetailsViewController.swift */; };
+		F57395891DDCDF7B008D79D5 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57395881DDCDF7B008D79D5 /* UserInfoTableViewCell.swift */; };
+		F5AFC9221DD39BE5005963BD /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9211DD39BE5005963BD /* FriendsViewController.swift */; };
+		F5AFC9241DD39E41005963BD /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9231DD39E41005963BD /* FriendTableViewCell.swift */; };
 		F5AFC9271DD39EC3005963BD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AFC9261DD39EC3005963BD /* User.swift */; };
 		F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */; };
 		F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */; };
@@ -28,7 +32,6 @@
 		F5CC58361DE0451100133B01 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC58351DE0451100133B01 /* Event.swift */; };
 		F5CC58391DE0463E00133B01 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC58381DE0463E00133B01 /* APIManager.swift */; };
 		F5CC583C1DE0484200133B01 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC583B1DE0484200133B01 /* EventDetailsViewController.swift */; };
-		F5CC58401DE0487700133B01 /* ContactEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC583F1DE0487700133B01 /* ContactEditViewController.swift */; };
 		F5CC58421DE0488100133B01 /* EventEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC58411DE0488100133B01 /* EventEditViewController.swift */; };
 		F5CC58441DE049EB00133B01 /* CommonTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CC58431DE049EB00133B01 /* CommonTabBarViewController.swift */; };
 		F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */; };
@@ -44,6 +47,10 @@
 
 /* Begin PBXFileReference section */
 		13B86A992DA0B6D58BD27562 /* Pods-Addrass-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Users.swift"; sourceTree = "<group>"; };
+		9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Friends.swift"; sourceTree = "<group>"; };
+		9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Events.swift"; sourceTree = "<group>"; };
+		9387B6F11E4F5160001FC066 /* UserEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditViewController.swift; sourceTree = "<group>"; };
 		BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		F5020BA01E0497A000AB36F7 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -51,10 +58,10 @@
 		F54045671DF2067B003C600F /* ScrollableContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableContentViewController.swift; sourceTree = "<group>"; };
 		F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarWeekDayCell.swift; sourceTree = "<group>"; };
 		F54083611DE383B900A282DC /* CalendarWeekDaysCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarWeekDaysCollectionViewLayout.swift; sourceTree = "<group>"; };
-		F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
-		F57395881DDCDF7B008D79D5 /* ContactInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactInfoTableViewCell.swift; sourceTree = "<group>"; };
-		F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		F55DC5BC1DDB7C970051276C /* UserDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
+		F57395881DDCDF7B008D79D5 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		F5AFC9211DD39BE5005963BD /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		F5AFC9231DD39E41005963BD /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		F5AFC9261DD39EC3005963BD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F5B3928F1DCF4926006621B5 /* UIFont+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Addrass.swift"; sourceTree = "<group>"; };
 		F5B392911DCF49F2006621B5 /* UIColor+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Addrass.swift"; sourceTree = "<group>"; };
@@ -66,7 +73,6 @@
 		F5CC58351DE0451100133B01 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F5CC58381DE0463E00133B01 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		F5CC583B1DE0484200133B01 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
-		F5CC583F1DE0487700133B01 /* ContactEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactEditViewController.swift; sourceTree = "<group>"; };
 		F5CC58411DE0488100133B01 /* EventEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditViewController.swift; sourceTree = "<group>"; };
 		F5CC58431DE049EB00133B01 /* CommonTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTabBarViewController.swift; sourceTree = "<group>"; };
 		F5CE1EA51DD06E6B001A81C0 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -133,8 +139,8 @@
 		F55DC5BA1DDB7C580051276C /* List */ = {
 			isa = PBXGroup;
 			children = (
-				F5AFC9211DD39BE5005963BD /* ContactsViewController.swift */,
-				F5AFC9231DD39E41005963BD /* ContactTableViewCell.swift */,
+				F5AFC9211DD39BE5005963BD /* FriendsViewController.swift */,
+				F5AFC9231DD39E41005963BD /* FriendTableViewCell.swift */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -142,9 +148,9 @@
 		F55DC5BB1DDB7C630051276C /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				F55DC5BC1DDB7C970051276C /* ContactDetailsViewController.swift */,
-				F57395881DDCDF7B008D79D5 /* ContactInfoTableViewCell.swift */,
-				F5CC583F1DE0487700133B01 /* ContactEditViewController.swift */,
+				9387B6F11E4F5160001FC066 /* UserEditViewController.swift */,
+				F55DC5BC1DDB7C970051276C /* UserDetailsViewController.swift */,
+				F57395881DDCDF7B008D79D5 /* UserInfoTableViewCell.swift */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -157,13 +163,13 @@
 			name = "Sign Up";
 			sourceTree = "<group>";
 		};
-		F5AFC9201DD39BC7005963BD /* Contacts */ = {
+		F5AFC9201DD39BC7005963BD /* Users */ = {
 			isa = PBXGroup;
 			children = (
 				F55DC5BB1DDB7C630051276C /* Details */,
 				F55DC5BA1DDB7C580051276C /* List */,
 			);
-			name = Contacts;
+			name = Users;
 			sourceTree = "<group>";
 		};
 		F5AFC9251DD39EB7005963BD /* Model */ = {
@@ -192,7 +198,7 @@
 			children = (
 				F5B3929C1DCFB3F9006621B5 /* RootNavigationViewController.swift */,
 				F5EC09571DCE81C2003C8DD9 /* Welcome */,
-				F5AFC9201DD39BC7005963BD /* Contacts */,
+				F5AFC9201DD39BC7005963BD /* Users */,
 				F53B40111DDE445D00B500F9 /* Calendar */,
 				F5CC583A1DE0480D00133B01 /* Events */,
 				F5CC58431DE049EB00133B01 /* CommonTabBarViewController.swift */,
@@ -222,6 +228,9 @@
 			isa = PBXGroup;
 			children = (
 				F5CC58381DE0463E00133B01 /* APIManager.swift */,
+				9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */,
+				9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */,
+				9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -332,7 +341,7 @@
 				TargetAttributes = {
 					F5FF3D4F1DCE7EC200BAD7B9 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 8UCVL6EQ78;
+						DevelopmentTeam = XFNSPDJ95E;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -428,29 +437,32 @@
 				F5AFC9271DD39EC3005963BD /* User.swift in Sources */,
 				F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */,
 				F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */,
-				F5AFC9241DD39E41005963BD /* ContactTableViewCell.swift in Sources */,
+				F5AFC9241DD39E41005963BD /* FriendTableViewCell.swift in Sources */,
 				F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */,
-				F5AFC9221DD39BE5005963BD /* ContactsViewController.swift in Sources */,
+				9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */,
+				F5AFC9221DD39BE5005963BD /* FriendsViewController.swift in Sources */,
 				F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */,
 				F5CC58441DE049EB00133B01 /* CommonTabBarViewController.swift in Sources */,
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
 				F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */,
 				F54083621DE383B900A282DC /* CalendarWeekDaysCollectionViewLayout.swift in Sources */,
+				9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */,
 				F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */,
 				F5CC58361DE0451100133B01 /* Event.swift in Sources */,
-				F57395891DDCDF7B008D79D5 /* ContactInfoTableViewCell.swift in Sources */,
+				F57395891DDCDF7B008D79D5 /* UserInfoTableViewCell.swift in Sources */,
+				9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */,
 				F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */,
-				F55DC5BD1DDB7C970051276C /* ContactDetailsViewController.swift in Sources */,
+				F55DC5BD1DDB7C970051276C /* UserDetailsViewController.swift in Sources */,
 				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
 				F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */,
 				F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */,
 				F5CC583C1DE0484200133B01 /* EventDetailsViewController.swift in Sources */,
-				F5CC58401DE0487700133B01 /* ContactEditViewController.swift in Sources */,
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
 				F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */,
 				F5CC58421DE0488100133B01 /* EventEditViewController.swift in Sources */,
 				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,
 				F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */,
+				9387B6F21E4F5160001FC066 /* UserEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,11 +578,11 @@
 			baseConfigurationReference = 13B86A992DA0B6D58BD27562 /* Pods-Addrass-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8UCVL6EQ78;
+				DEVELOPMENT_TEAM = XFNSPDJ95E;
 				INFOPLIST_FILE = "Addrass-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "by.bsu.Addrass-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = by.bsu.addrass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -581,11 +593,11 @@
 			baseConfigurationReference = BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8UCVL6EQ78;
+				DEVELOPMENT_TEAM = XFNSPDJ95E;
 				INFOPLIST_FILE = "Addrass-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "by.bsu.Addrass-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = by.bsu.addrass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

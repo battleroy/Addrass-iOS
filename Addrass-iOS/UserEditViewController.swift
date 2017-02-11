@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContactEditViewController: ScrollableContentViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserEditViewController: ScrollableContentViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: Variables
     
@@ -18,17 +18,12 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     private let textFieldHeight: CGFloat       = 40.0
     private let textFieldCornerRadius: CGFloat = 15.0
     
-    var existingContact: User?
-    
-    var nameTextField: ADPaddedTextField!
-    var groupSegmentedControl: UISegmentedControl!
-    var colorSegmentedColor: UISegmentedControl!
+    var firstNameTextField: ADPaddedTextField!
+    var lastNameTextField: ADPaddedTextField!
     var imageView: UIImageView!
     var phoneTextField: ADPaddedTextField!
     var emailTextField: ADPaddedTextField!
-    var companyTextField: ADPaddedTextField!
     var addressTextField: ADPaddedTextField!
-    var notesTextField: ADPaddedTextField!
     
     var cancelBarButtonItem: UIBarButtonItem!
     var saveBarButtonItem: UIBarButtonItem!
@@ -49,14 +44,13 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if let editingContact = existingContact {
-            nameTextField.text = editingContact.name
-            phoneTextField.text = editingContact.phone
-            emailTextField.text = editingContact.email
-            companyTextField.text = editingContact.company
-            addressTextField.text = editingContact.address
-            notesTextField.text = editingContact.notes
-        }
+        let editingContact = SessionManager.currentUser!
+
+        firstNameTextField.text = editingContact.firstName
+        lastNameTextField.text = editingContact.lastName
+        phoneTextField.text = editingContact.phone
+        emailTextField.text = editingContact.email
+        addressTextField.text = editingContact.address
     }
     
     
@@ -64,23 +58,11 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     
     func setupSubviews() {
         
-        nameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.name, withSafeInput: false)
+        firstNameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.firstName, withSafeInput: false)
+        lastNameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.lastName, withSafeInput: false)
         phoneTextField = createTextField(withReturnType: .next, keyboardType: .phonePad, placeholder: String.ad.phone, withSafeInput: false)
         emailTextField = createTextField(withReturnType: .next, keyboardType: .emailAddress, placeholder: String.ad.email, withSafeInput: false)
-        companyTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.company, withSafeInput: false)
         addressTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.address, withSafeInput: false)
-        notesTextField = createTextField(withReturnType: .done, keyboardType: .default, placeholder: String.ad.notes, withSafeInput: false)
-        
-        
-        groupSegmentedControl = UISegmentedControl(items: [String.ad.family, String.ad.friends, String.ad.work, String.ad.others])
-        groupSegmentedControl.tintColor = UIColor.ad.yellow
-        contentScrollView.addSubview(groupSegmentedControl)
-        
-        
-        colorSegmentedColor = UISegmentedControl(items: ["A", "B", "C"])
-        colorSegmentedColor.tintColor = UIColor.ad.yellow
-        contentScrollView.addSubview(colorSegmentedColor)
-        
         
         imageView = UIImageView()
         imageView.isUserInteractionEnabled = true
@@ -116,7 +98,7 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         }
         
         
-        nameTextField.snp.makeConstraints { (make) in
+        firstNameTextField.snp.makeConstraints { (make) in
             make.top.equalTo(imageViewSize).offset(10.0)
             make.left.equalTo(imageView.snp.right).offset(10.0)
             make.right.equalTo(contentScrollView).offset(-10.0)
@@ -125,15 +107,15 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         }
         
         
-        groupSegmentedControl.snp.makeConstraints { (make) in
-            make.left.right.equalTo(nameTextField)
-            make.top.equalTo(nameTextField.snp.bottom).offset(10.0)
+        lastNameTextField.snp.makeConstraints { (make) in
+            make.left.right.height.equalTo(firstNameTextField)
+            make.top.equalTo(firstNameTextField.snp.bottom).offset(10.0)
         }
         
         
         phoneTextField.snp.makeConstraints { (make) in
             make.left.equalTo(imageView)
-            make.right.equalTo(nameTextField)
+            make.right.equalTo(firstNameTextField)
             make.top.equalTo(imageView.snp.bottom).offset(10.0)
             make.height.equalTo(textFieldHeight)
         }
@@ -146,31 +128,10 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
         }
         
         
-        companyTextField.snp.makeConstraints { (make) in
+        addressTextField.snp.makeConstraints { (make) in
             make.left.right.equalTo(phoneTextField)
             make.top.equalTo(emailTextField.snp.bottom).offset(10.0)
             make.height.equalTo(textFieldHeight)
-        }
-        
-        
-        addressTextField.snp.makeConstraints { (make) in
-            make.left.right.equalTo(phoneTextField)
-            make.top.equalTo(companyTextField.snp.bottom).offset(10.0)
-            make.height.equalTo(textFieldHeight)
-        }
-        
-        
-        notesTextField.snp.makeConstraints { (make) in
-            make.left.right.equalTo(phoneTextField)
-            make.top.equalTo(addressTextField.snp.bottom).offset(10.0)
-            make.height.equalTo(textFieldHeight)
-            make.bottom.equalTo(contentScrollView).offset(10.0)
-        }
-        
-        
-        colorSegmentedColor.snp.makeConstraints { (make) in
-            make.left.right.equalTo(phoneTextField)
-            make.top.equalTo(notesTextField.snp.bottom).offset(10.0)
         }
         
     }
@@ -206,18 +167,14 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if textField == nameTextField {
+        if textField == firstNameTextField {
+            lastNameTextField.becomeFirstResponder()
+        } else if textField == lastNameTextField {
             phoneTextField.becomeFirstResponder()
-        } else if textField == phoneTextField {
+        }else if textField == phoneTextField {
             emailTextField.becomeFirstResponder()
         } else if textField == emailTextField {
-            companyTextField.becomeFirstResponder()
-        } else if textField == companyTextField {
             addressTextField.becomeFirstResponder()
-        } else if textField == addressTextField {
-            notesTextField.becomeFirstResponder()
-        } else if textField == notesTextField {
-            notesTextField.resignFirstResponder()
         }
         
         return true
@@ -280,44 +237,25 @@ class ContactEditViewController: ScrollableContentViewController, UITextFieldDel
     
     func barButtonItemPressed(_ sender: UIBarButtonItem) {
         if sender == saveBarButtonItem {
+            // TODO: Refetch current user after update
+            var user = SessionManager.currentUser!
+                
+            user.firstName = firstNameTextField.text
+            user.lastName = lastNameTextField.text
+            user.phone = phoneTextField.text
+            user.email = emailTextField.text
+            user.address = addressTextField.text
             
-            if existingContact == nil {
-                
-                let contact = User(withId: nil, name: nameTextField.text, group: "", image: nil, color: nil, phone: phoneTextField.text, email: emailTextField.text, company: companyTextField.text, address: addressTextField.text, notes: notesTextField.text)
-                
-                APIManager.addContact(forUser: SessionManager.currentUser!, contact: contact) { (errorText) in
-                    if errorText == nil {
-                        _ = self.navigationController?.popViewController(animated: true)
-                    } else {
-                        UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
-                    }
-                }
-                
-            } else {
-                
-                var contact = existingContact!
-                
-                contact.name = nameTextField.text
-                contact.phone = phoneTextField.text
-                contact.email = emailTextField.text
-                contact.company = companyTextField.text
-                contact.address = addressTextField.text
-                contact.notes = notesTextField.text
-                
-                APIManager.updateContact(forUser: SessionManager.currentUser!, contact: contact) { (errorText) in
-                    if errorText == nil {
-                        _ = self.navigationController?.popViewController(animated: true)
-                    } else {
-                        UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
-                    }
+            APIManager.updateUser(user) { (errorText) in
+                if errorText == nil {
+                    _ = self.navigationController?.popViewController(animated: true)
+                } else {
+                    UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
                 }
             }
             
         } else if sender == cancelBarButtonItem {
-            
             _ = self.navigationController?.popViewController(animated: true)
-            
         }
-        
     }
 }

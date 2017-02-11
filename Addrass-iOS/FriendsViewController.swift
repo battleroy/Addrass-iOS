@@ -9,22 +9,22 @@
 import UIKit
 import SnapKit
 
-class ContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
+class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
     
     // MARK: Variables
     
-    var contactsTableView: UITableView!
+    var friendsTableView: UITableView!
     var searchBarContainerView: UIView!
     var searchBar: UISearchBar?
     
     var signOutButton: UIBarButtonItem!
-    var addContactButton: UIBarButtonItem!
+    var addFriendButton: UIBarButtonItem!
     
     var searchBarConstraints: [Constraint]?
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    var contacts: [User]?
+    var friends: [User]?
     
     
     // MARK: VCL
@@ -32,7 +32,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = true
-        title = String.ad.contacts
+        title = String.ad.friends
         view.backgroundColor = UIColor.ad.gray
         
         searchController.searchResultsUpdater = self
@@ -46,14 +46,14 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        APIManager.contacts(forUser: SessionManager.currentUser!) { (contacts, errorText) in
-            guard let userContacts = contacts else {
+        APIManager.friends(forUser: SessionManager.currentUser!) { (friends, errorText) in
+            guard let userFriends = friends else {
                 UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
                 return
             }
             
-            self.contacts = userContacts
-            self.contactsTableView.reloadData()
+            self.friends = userFriends
+            self.friendsTableView.reloadData()
         }
         
     }
@@ -71,21 +71,21 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         searchBar?.backgroundImage = UIImage()
         searchBarContainerView.addSubview(searchBar!)
         
-        contactsTableView = UITableView()
-        contactsTableView.backgroundColor = UIColor.ad.gray
-        contactsTableView.dataSource = self
-        contactsTableView.delegate = self
-        contactsTableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.cellIdentifier)
-        contactsTableView.tableFooterView = UIView()
-        contactsTableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, tabBarController?.tabBar.bounds.height ?? 0.0, 0.0)
+        friendsTableView = UITableView()
+        friendsTableView.backgroundColor = UIColor.ad.gray
+        friendsTableView.dataSource = self
+        friendsTableView.delegate = self
+        friendsTableView.register(FriendTableViewCell.self, forCellReuseIdentifier: FriendTableViewCell.cellIdentifier)
+        friendsTableView.tableFooterView = UIView()
+        friendsTableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, tabBarController?.tabBar.bounds.height ?? 0.0, 0.0)
         
-        view.addSubview(contactsTableView)
+        view.addSubview(friendsTableView)
         
         signOutButton = UIBarButtonItem(title: String.ad.signOut, style: .plain, target: self, action: #selector(barButtonItemPressed(_:)))
         navigationItem.leftBarButtonItem = signOutButton
         
-        addContactButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(barButtonItemPressed(_:)))
-        navigationItem.rightBarButtonItem = addContactButton
+        addFriendButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(barButtonItemPressed(_:)))
+        navigationItem.rightBarButtonItem = addFriendButton
         
         setConstraints()
     }
@@ -99,7 +99,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             make.height.equalTo(44.0)
         })
         
-        contactsTableView.snp.makeConstraints({ (make) in
+        friendsTableView.snp.makeConstraints({ (make) in
             make.top.equalTo(searchBarContainerView.snp.bottom)
             make.left.right.bottom.equalTo(view)
         })
@@ -115,8 +115,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
         var cellUser: User? = nil
         if row == 0 {
             cellUser = SessionManager.currentUser!
-        } else if let userContacts = contacts {
-            cellUser = userContacts[row - 1]
+        } else if let userFriends = friends {
+            cellUser = userFriends[row - 1]
         }
         
         return cellUser!
@@ -131,12 +131,12 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 + (contacts != nil ? contacts!.count : 0)
+        return 1 + (friends != nil ? friends!.count : 0)
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.cellIdentifier, for: indexPath) as! ContactTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FriendTableViewCell.cellIdentifier, for: indexPath) as! FriendTableViewCell
 
         
         cell.updateCell(withContact: user(forRow: indexPath.row))
@@ -147,7 +147,7 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return ContactTableViewCell.cellHeight(forContact: user(forRow: indexPath.row))
+        return FriendTableViewCell.cellHeight(forContact: user(forRow: indexPath.row))
     }
 
     
@@ -156,10 +156,10 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let cdvc = ContactDetailsViewController()
-        cdvc.user = user(forRow: indexPath.row)
+        let udvc = UserDetailsViewController()
+        udvc.user = user(forRow: indexPath.row)
         
-        navigationController?.pushViewController(cdvc, animated: true)
+        navigationController?.pushViewController(udvc, animated: true)
     }
     
     
@@ -197,10 +197,8 @@ class ContactsViewController: UIViewController, UITableViewDelegate, UITableView
             APIManager.signOut {
                 self.dismiss(animated: true, completion: nil)
             }
-        } else if sender == addContactButton {
-            let cevc = ContactEditViewController()
-            cevc.existingContact = nil
-            navigationController?.pushViewController(cevc, animated: true)
+        } else if sender == addFriendButton {
+            // TODO: New friend search
         }
     }
 }

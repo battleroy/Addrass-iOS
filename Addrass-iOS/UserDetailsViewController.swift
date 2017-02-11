@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class ContactDetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class UserDetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Variables
     
@@ -19,14 +19,11 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     var user: User?
     
     var leftBarButtonItem: UIBarButtonItem!
-    var rightBarButtonItem: UIBarButtonItem!
+    var rightBarButtonItem: UIBarButtonItem?
     
     var headerContainerView: UIView!
-    var contactNameLabel: UILabel!
-    var contactGroupLabel: UILabel!
-    var contactImageView: UIImageView!
-    var colorButton: UIButton!
-    var colorIconView: UIView!
+    var userNameLabel: UILabel!
+    var userImageView: UIImageView!
     var eventsButton: UIButton!
     var eventsImageView: UIImageView!
     
@@ -64,11 +61,15 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     func setupNavigationBar() {
         
         leftBarButtonItem = UIBarButtonItem(title: String.ad.close, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
-        rightBarButtonItem = UIBarButtonItem(title: String.ad.edit, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
+        
+        if let currentUser = user {
+            if currentUser.id == SessionManager.currentUser?.id {
+                rightBarButtonItem = UIBarButtonItem(title: String.ad.edit, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
+            }
+        }
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
-        
     }
     
     func setupSubviews() {
@@ -76,7 +77,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         infoTableView = UITableView()
         infoTableView.dataSource = self
         infoTableView.delegate = self
-        infoTableView.register(ContactInfoTableViewCell.self, forCellReuseIdentifier: ContactInfoTableViewCell.cellIdentifier)
+        infoTableView.register(UserInfoTableViewCell.self, forCellReuseIdentifier: UserInfoTableViewCell.cellIdentifier)
         infoTableView.backgroundColor = UIColor.ad.gray
         infoTableView.separatorStyle = .none;
         view.addSubview(infoTableView)
@@ -85,29 +86,18 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         headerContainerView.backgroundColor = UIColor.ad.darkGray
         view.addSubview(headerContainerView)
         
-        contactNameLabel = UILabel()
-        contactNameLabel.font = UIFont.ad.largeBoldFont
-        contactNameLabel.textColor = UIColor.ad.white
-        headerContainerView.addSubview(contactNameLabel)
+        userNameLabel = UILabel()
+        userNameLabel.font = UIFont.ad.largeBoldFont
+        userNameLabel.textColor = UIColor.ad.white
+        headerContainerView.addSubview(userNameLabel)
         
-        contactGroupLabel = UILabel()
-        contactGroupLabel.font = UIFont.ad.bodyFont
-        contactGroupLabel.textColor = UIColor.ad.white
-        headerContainerView.addSubview(contactGroupLabel)
-        
-        contactImageView = UIImageView()
-        contactImageView.contentMode = .scaleAspectFill
-        contactImageView.layer.cornerRadius = ContactDetailsViewController.imageViewSize / 2
-        contactImageView.layer.masksToBounds = true
-        contactImageView.layer.borderColor = UIColor.ad.yellow.cgColor
-        contactImageView.layer.borderWidth = 1.0
-        headerContainerView.addSubview(contactImageView)
-        
-        colorIconView = UIView()
-        colorIconView.layer.cornerRadius = ContactDetailsViewController.buttonIconSize / 2
-        colorIconView.layer.masksToBounds = true
-        colorButton = createIconButton(colorIconView, title: String.ad.color)
-        headerContainerView.addSubview(colorButton)
+        userImageView = UIImageView()
+        userImageView.contentMode = .scaleAspectFill
+        userImageView.layer.cornerRadius = UserDetailsViewController.imageViewSize / 2
+        userImageView.layer.masksToBounds = true
+        userImageView.layer.borderColor = UIColor.ad.yellow.cgColor
+        userImageView.layer.borderWidth = 1.0
+        headerContainerView.addSubview(userImageView)
         
         eventsImageView = UIImageView(image: UIImage(named: "calendar-light"))
         eventsImageView.contentMode = .scaleAspectFit
@@ -142,25 +132,15 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
             make.left.right.top.equalTo(infoTableView)
         })
         
-        contactImageView.snp.makeConstraints({ (make) in
+        userImageView.snp.makeConstraints({ (make) in
             make.centerX.equalTo(headerContainerView)
             make.bottom.equalTo(headerContainerView).offset(15.0)
-            make.height.width.equalTo(ContactDetailsViewController.imageViewSize)
+            make.height.width.equalTo(UserDetailsViewController.imageViewSize)
         })
         
-        contactGroupLabel.snp.makeConstraints({ (make) in
+        userNameLabel.snp.makeConstraints({ (make) in
             make.centerX.equalTo(headerContainerView)
-            make.bottom.equalTo(contactImageView.snp.top).offset(-8.0)
-        })
-        
-        contactNameLabel.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(headerContainerView)
-            make.bottom.equalTo(contactGroupLabel.snp.top).offset(-8.0)
-        })
-        
-        colorButton.snp.makeConstraints({ (make) in
-            make.left.equalTo(headerContainerView).offset(5.0)
-            make.bottom.equalTo(headerContainerView).offset(-5.0)
+            make.bottom.equalTo(userImageView.snp.top).offset(-16.0)
         })
         
         eventsButton.snp.makeConstraints({ (make) in
@@ -191,7 +171,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         
         let button = UIButton()
         
-        button.contentEdgeInsets = UIEdgeInsetsMake(5.0, 10.0 + ContactDetailsViewController.buttonIconSize, 5.0, 5.0)
+        button.contentEdgeInsets = UIEdgeInsetsMake(5.0, 10.0 + UserDetailsViewController.buttonIconSize, 5.0, 5.0)
         
         button.setAttributedTitle(NSAttributedString(
             string: title, attributes: [
@@ -202,8 +182,8 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
         button.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         
         button.addSubview(iconView)
-        iconView.layer.position = CGPoint(x: 5.0 + ContactDetailsViewController.buttonIconSize / 2, y: 5.0 + ContactDetailsViewController.buttonIconSize / 2)
-        iconView.bounds = CGRect(x: 0.0, y: 0.0, width: ContactDetailsViewController.buttonIconSize, height: ContactDetailsViewController.buttonIconSize)
+        iconView.layer.position = CGPoint(x: 5.0 + UserDetailsViewController.buttonIconSize / 2, y: 5.0 + UserDetailsViewController.buttonIconSize / 2)
+        iconView.bounds = CGRect(x: 0.0, y: 0.0, width: UserDetailsViewController.buttonIconSize, height: UserDetailsViewController.buttonIconSize)
         
         return button
     }
@@ -211,19 +191,17 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     func updateView() {
         
-        contactNameLabel.text = user?.name
-        contactGroupLabel.text = user?.group
-        colorIconView.backgroundColor = nil
+        userNameLabel.text = user?.fullName
         
         let scrollPoint = CGPoint(x: 0.0, y: -infoTableView!.contentInset.top)
         infoTableView?.setContentOffset(scrollPoint, animated: false)
         
         guard let imageLink = user?.image, let imageURL = URL(string: imageLink) else {
-            contactImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
+            userImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
             return
         }
         
-        contactImageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "user-icon-placeholder"))
+        userImageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "user-icon-placeholder"))
     }
     
     
@@ -235,7 +213,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 3
     }
     
     
@@ -257,25 +235,15 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cellContent = user?.email
             break
         case 2:
-            cellIcon = #imageLiteral(resourceName: "factory-light")
-            cellType = String.ad.company
-            cellContent = user?.company
-            break
-        case 3:
             cellIcon = #imageLiteral(resourceName: "pin-light")
             cellType = String.ad.address
             cellContent = user?.address
-            break
-        case 4:
-            cellIcon = #imageLiteral(resourceName: "notes-light")
-            cellType = String.ad.notes
-            cellContent = user?.notes
             break
         default:
             break
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ContactInfoTableViewCell.cellIdentifier, for: indexPath) as! ContactInfoTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserInfoTableViewCell.cellIdentifier, for: indexPath) as! UserInfoTableViewCell
         cell.infoTypeIcon = cellIcon
         cell.infoTypeLabel.text = cellType
         cell.infoContentLabel.text = cellContent
@@ -296,19 +264,13 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cellContent = user?.email
             break
         case 2:
-            cellContent = user?.company
-            break
-        case 3:
             cellContent = user?.address
-            break
-        case 4:
-            cellContent = user?.notes
             break
         default:
             break
         }
         
-        return ContactInfoTableViewCell.cellHeight(forInfoContent: cellContent)
+        return UserInfoTableViewCell.cellHeight(forInfoContent: cellContent)
     }
     
     
@@ -324,10 +286,15 @@ class ContactDetailsViewController: UIViewController, UITableViewDataSource, UIT
     func barButtonItemWasPressed(_ sender: UIBarButtonItem?) {
         if sender == leftBarButtonItem {
             _ = navigationController?.popViewController(animated: true)
-        } else if sender == rightBarButtonItem {
-            let cevc = ContactEditViewController()
-            cevc.existingContact = user
-            navigationController?.pushViewController(cevc, animated: true)
+        } else {
+            guard let currentUser = user else {
+                return
+            }
+            
+            if currentUser.id == SessionManager.currentUser?.id {
+                let uevc = UserEditViewController()
+                navigationController?.pushViewController(uevc, animated: true)
+            }
         }
     }
     

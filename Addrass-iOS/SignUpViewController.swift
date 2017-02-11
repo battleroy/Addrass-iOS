@@ -17,13 +17,14 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
     private let textFieldCornerRadius: CGFloat = 15.0
     
     var headerLabel: UILabel!
+    
     var loginTextField: ADPaddedTextField!
     var passwordTextField: ADPaddedTextField!
     var repeatPasswordTextField: ADPaddedTextField!
-    var nameTextField: ADPaddedTextField!
+    var firstNameTextField: ADPaddedTextField!
+    var lastNameTextField: ADPaddedTextField!
     var phoneTextField: ADPaddedTextField!
     var emailTextField: ADPaddedTextField!
-    var organizationTextField: ADPaddedTextField!
     var addressTextField: ADPaddedTextField!
     
     var nonEmptyTextFields: [UITextField]!
@@ -56,17 +57,18 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
         loginTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.login, withSafeInput: false)
         passwordTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.password, withSafeInput: true)
         repeatPasswordTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.repeatPassword, withSafeInput: true)
-        nameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.yourName, withSafeInput: false)
+        firstNameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.firstName, withSafeInput: false)
+        lastNameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.lastName, withSafeInput: false)
         phoneTextField = createTextField(withReturnType: .next, keyboardType: .phonePad, placeholder: String.ad.yourPhone, withSafeInput: false)
         emailTextField = createTextField(withReturnType: .next, keyboardType: .emailAddress, placeholder: String.ad.yourEmail, withSafeInput: false)
-        organizationTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.yourCompany, withSafeInput: false)
         addressTextField = createTextField(withReturnType: .done, keyboardType: .default, placeholder: String.ad.yourAddress, withSafeInput: false)
 
-        nonEmptyTextFields = Array<UITextField>()
+        nonEmptyTextFields = [UITextField!]()
         nonEmptyTextFields.append(loginTextField)
         nonEmptyTextFields.append(passwordTextField)
         nonEmptyTextFields.append(repeatPasswordTextField)
-        nonEmptyTextFields.append(nameTextField)
+        nonEmptyTextFields.append(firstNameTextField)
+        nonEmptyTextFields.append(lastNameTextField)
         nonEmptyTextFields.append(phoneTextField)
         
         doneButton = UIButton(type: .roundedRect)
@@ -140,15 +142,21 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
             make.height.equalTo(loginTextField)
         })
         
-        nameTextField.snp.makeConstraints({ (make) in
+        firstNameTextField.snp.makeConstraints({ (make) in
             make.left.right.equalTo(loginTextField)
             make.top.equalTo(repeatPasswordTextField.snp.bottom).offset(10.0)
             make.height.equalTo(loginTextField)
         })
         
+        lastNameTextField.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(loginTextField)
+            make.top.equalTo(firstNameTextField.snp.bottom).offset(10.0)
+            make.height.equalTo(loginTextField)
+        })
+        
         phoneTextField.snp.makeConstraints({ (make) in
             make.left.right.equalTo(loginTextField)
-            make.top.equalTo(nameTextField.snp.bottom).offset(10.0)
+            make.top.equalTo(lastNameTextField.snp.bottom).offset(10.0)
             make.height.equalTo(loginTextField)
         })
 
@@ -157,16 +165,10 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
             make.top.equalTo(phoneTextField.snp.bottom).offset(10.0)
             make.height.equalTo(loginTextField)
         })
-
-        organizationTextField.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(loginTextField)
-            make.top.equalTo(emailTextField.snp.bottom).offset(10.0)
-            make.height.equalTo(loginTextField)
-        })
         
         addressTextField.snp.makeConstraints({ (make) in
             make.left.right.equalTo(loginTextField)
-            make.top.equalTo(organizationTextField.snp.bottom).offset(10.0)
+            make.top.equalTo(emailTextField.snp.bottom).offset(10.0)
             make.height.equalTo(loginTextField)
         })
         
@@ -205,14 +207,14 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
             
             newUser.login = loginTextField.text
             newUser.password = passwordTextField.text
-            newUser.name = nameTextField.text
+            newUser.firstName = firstNameTextField.text
+            newUser.lastName = lastNameTextField.text
             newUser.phone = phoneTextField.text
             newUser.email = emailTextField.text
-            newUser.company = organizationTextField.text
             newUser.address = addressTextField.text
         
             
-            APIManager.register(newUser) { errorText in
+            APIManager.createUser(newUser) { errorText in
                 guard (errorText == nil) else {
                     UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
                     return
@@ -234,14 +236,14 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
         } else if textField == passwordTextField {
             repeatPasswordTextField.becomeFirstResponder()
         } else if textField == repeatPasswordTextField {
-            nameTextField.becomeFirstResponder()
-        } else if textField == nameTextField {
+            firstNameTextField.becomeFirstResponder()
+        } else if textField == firstNameTextField {
+            lastNameTextField.becomeFirstResponder()
+        } else if textField == lastNameTextField {
             phoneTextField.becomeFirstResponder()
         } else if textField == phoneTextField {
             emailTextField.becomeFirstResponder()
         } else if textField == emailTextField {
-            organizationTextField.becomeFirstResponder()
-        } else if textField == organizationTextField {
             addressTextField.becomeFirstResponder()
         } else {
             addressTextField.resignFirstResponder()
