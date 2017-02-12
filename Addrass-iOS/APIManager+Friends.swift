@@ -16,7 +16,7 @@ extension APIManager {
     
     static func friends(forUser user: User, completion: @escaping ([User]?, String?) -> Void) {
         
-        let endpoint = "/contact/all"
+        let endpoint = "/friend/all"
         
         Alamofire.request(apiRoot + endpoint).responseJSON { (response) in
             guard let JSONList = response.result.value as? [[String: Any]] else {

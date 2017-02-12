@@ -15,6 +15,6 @@ class APIManager: NSObject {
     
     // MARK: Constants
     
-    static let apiRoot = "http://localhost:8080" // "https://addrass.herokuapp.com";
+    static let apiRoot: String = "http://localhost:8080" // "https://addrass.herokuapp.com";
     
 }

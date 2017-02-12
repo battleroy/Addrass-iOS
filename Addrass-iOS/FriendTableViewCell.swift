@@ -45,11 +45,11 @@ class FriendTableViewCell: UITableViewCell {
 
     // MARK: Public methods
     
-    func updateCell(withContact contact: User) {
+    func updateCell(withUser user: User) {
         
-        nameLabel.text = contact.fullName
+        nameLabel.text = user.fullName
         
-        guard let imageLink = contact.image, let imageURL = URL(string: imageLink) else {
+        guard let imageLink = user.imageLink, let imageURL = URL(string: imageLink) else {
             friendImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
             return
         }
@@ -103,7 +103,6 @@ class FriendTableViewCell: UITableViewCell {
         friendImageView.snp.makeConstraints({ (make) in
             make.width.height.equalTo(FriendTableViewCell.imageViewSize)
             make.left.top.equalTo(self).offset(10.0)
-            make.bottom.lessThanOrEqualTo(self).offset(-8.0)
         })
         
         chevronView.snp.makeConstraints({ (make) in

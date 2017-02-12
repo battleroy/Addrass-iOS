@@ -16,7 +16,12 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     private static let imageViewSize: CGFloat = 100.0
     private static let buttonIconSize: CGFloat = 15.0
     
-    var user: User?
+    var userLogin: String?
+    var fetchedUser: User? {
+        didSet {
+            updateView()
+        }
+    }
     
     var leftBarButtonItem: UIBarButtonItem!
     var rightBarButtonItem: UIBarButtonItem?
@@ -52,7 +57,13 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        updateView()
+        APIManager.user(byLogin: userLogin) { (fetchedUser, fetchErrorText) in
+            if fetchErrorText == nil {
+                self.fetchedUser = fetchedUser
+            } else {
+                UIAlertController.presentErrorAlert(withText: fetchErrorText!, parentController: self)
+            }
+        }
     }
     
     
@@ -61,12 +72,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     func setupNavigationBar() {
         
         leftBarButtonItem = UIBarButtonItem(title: String.ad.close, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
-        
-        if let currentUser = user {
-            if currentUser.id == SessionManager.currentUser?.id {
-                rightBarButtonItem = UIBarButtonItem(title: String.ad.edit, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
-            }
-        }
+        rightBarButtonItem = UIBarButtonItem(title: String.ad.edit, style: .plain, target: self, action: #selector(barButtonItemWasPressed(_:)))
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -79,7 +85,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         infoTableView.delegate = self
         infoTableView.register(UserInfoTableViewCell.self, forCellReuseIdentifier: UserInfoTableViewCell.cellIdentifier)
         infoTableView.backgroundColor = UIColor.ad.gray
-        infoTableView.separatorStyle = .none;
+        infoTableView.separatorStyle = .singleLine;
         view.addSubview(infoTableView)
         
         headerContainerView = UIView()
@@ -99,7 +105,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         userImageView.layer.borderWidth = 1.0
         headerContainerView.addSubview(userImageView)
         
-        eventsImageView = UIImageView(image: UIImage(named: "calendar-light"))
+        eventsImageView = UIImageView(image: #imageLiteral(resourceName: "calendar-light"))
         eventsImageView.contentMode = .scaleAspectFit
         eventsButton = createIconButton(eventsImageView, title: String.ad.events)
         headerContainerView.addSubview(eventsButton)
@@ -108,12 +114,12 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         footerContainerView.backgroundColor = UIColor.ad.gray
         view.addSubview(footerContainerView)
         
-        deleteImageView = UIImageView(image: UIImage(named: "delete-light"))
+        deleteImageView = UIImageView(image: #imageLiteral(resourceName: "delete-light"))
         deleteImageView.contentMode = .scaleAspectFit
         deleteButton = createIconButton(deleteImageView, title: String.ad.delete)
         footerContainerView.addSubview(deleteButton)
         
-        blacklistImageView = UIImageView(image: UIImage(named: "blacklist-light"))
+        blacklistImageView = UIImageView(image: #imageLiteral(resourceName: "blacklist-light"))
         blacklistImageView.contentMode = .scaleAspectFit
         blacklistButton = createIconButton(blacklistImageView, title: String.ad.toBlacklist)
         footerContainerView.addSubview(blacklistButton)
@@ -191,12 +197,25 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     
     func updateView() {
         
-        userNameLabel.text = user?.fullName
+        userNameLabel.text = fetchedUser?.fullName
         
-        let scrollPoint = CGPoint(x: 0.0, y: -infoTableView!.contentInset.top)
-        infoTableView?.setContentOffset(scrollPoint, animated: false)
+        let scrollPoint = CGPoint(x: 0.0, y: -infoTableView.contentInset.top)
+        infoTableView.setContentOffset(scrollPoint, animated: false)
         
-        guard let imageLink = user?.image, let imageURL = URL(string: imageLink) else {
+        if let currentUserLogin = userLogin {
+            let editButton = navigationItem.rightBarButtonItem
+            if currentUserLogin != SessionManager.currentUser?.login {
+                editButton?.isEnabled = false
+                editButton?.tintColor = UIColor.clear
+            } else {
+                editButton?.isEnabled = true
+                editButton?.tintColor = nil
+            }
+        }
+        
+        infoTableView.reloadData()
+        
+        guard let imageLink = fetchedUser?.imageLink, let imageURL = URL(string: imageLink) else {
             userImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
             return
         }
@@ -218,7 +237,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         var cellIcon: UIImage?
         var cellType: String?
         var cellContent: String?
@@ -227,17 +246,17 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         case 0:
             cellIcon = #imageLiteral(resourceName: "phone-light")
             cellType = String.ad.phone
-            cellContent = user?.phone
+            cellContent = fetchedUser?.phone
             break
         case 1:
             cellIcon = #imageLiteral(resourceName: "mail-light")
             cellType = String.ad.email
-            cellContent = user?.email
+            cellContent = fetchedUser?.email
             break
         case 2:
             cellIcon = #imageLiteral(resourceName: "pin-light")
             cellType = String.ad.address
-            cellContent = user?.address
+            cellContent = fetchedUser?.address
             break
         default:
             break
@@ -258,13 +277,13 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         
         switch indexPath.row {
         case 0:
-            cellContent = user?.phone
+            cellContent = fetchedUser?.phone
             break
         case 1:
-            cellContent = user?.email
+            cellContent = fetchedUser?.email
             break
         case 2:
-            cellContent = user?.address
+            cellContent = fetchedUser?.address
             break
         default:
             break
@@ -284,10 +303,10 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: Actions
     
     func barButtonItemWasPressed(_ sender: UIBarButtonItem?) {
-        if sender == leftBarButtonItem {
+        if sender === leftBarButtonItem {
             _ = navigationController?.popViewController(animated: true)
         } else {
-            guard let currentUser = user else {
+            guard let currentUser = fetchedUser else {
                 return
             }
             

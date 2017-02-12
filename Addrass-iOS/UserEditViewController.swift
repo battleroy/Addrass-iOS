@@ -28,6 +28,8 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     var cancelBarButtonItem: UIBarButtonItem!
     var saveBarButtonItem: UIBarButtonItem!
     
+    var isUserIconChanged = false
+    
     
     // MARK: VCL
 
@@ -38,19 +40,9 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
         title = String.ad.edit
 
         setupSubviews()
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        updateView()
         
-        let editingContact = SessionManager.currentUser!
-
-        firstNameTextField.text = editingContact.firstName
-        lastNameTextField.text = editingContact.lastName
-        phoneTextField.text = editingContact.phone
-        emailTextField.text = editingContact.email
-        addressTextField.text = editingContact.address
+        isUserIconChanged = false
     }
     
     
@@ -137,6 +129,21 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     }
     
     
+    func updateView() {
+        let editingContact = SessionManager.currentUser!
+        
+        firstNameTextField.text = editingContact.firstName
+        lastNameTextField.text = editingContact.lastName
+        phoneTextField.text = editingContact.phone
+        emailTextField.text = editingContact.email
+        addressTextField.text = editingContact.address
+        
+        if let imageLink = editingContact.imageLink, let imageURL = URL(string: imageLink) {
+            imageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "noavatar"))
+        }
+    }
+    
+    
     func createTextField(withReturnType returnType: UIReturnKeyType, keyboardType: UIKeyboardType, placeholder: String, withSafeInput: Bool) -> ADPaddedTextField {
         
         let textField = ADPaddedTextField(forPadding: textFieldPadding)
@@ -163,6 +170,49 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     }
     
     
+    func saveChangesAndLeaveIfSuccess() {
+        // TODO: Refetch current user after update
+        let user = SessionManager.currentUser!
+        
+        user.firstName = firstNameTextField.text
+        user.lastName = lastNameTextField.text
+        user.phone = phoneTextField.text
+        user.email = emailTextField.text
+        user.address = addressTextField.text
+        
+        APIManager.updateUser(user) { updateError in
+            if updateError != nil {
+                UIAlertController.presentErrorAlert(withText: updateError!, parentController: self)
+                return
+            }
+            
+            if self.isUserIconChanged {
+                APIManager.setUserIcon(self.imageView.image, completion: { (setImageError) in
+                    if setImageError != nil {
+                        UIAlertController.presentErrorAlert(withText: setImageError!, parentController: self)
+                        return
+                    }
+                    
+                    self.updateSessionAndLeaveIfSuccess()
+                })
+            } else {
+                self.updateSessionAndLeaveIfSuccess()
+            }
+        }
+    }
+    
+    
+    func updateSessionAndLeaveIfSuccess() {
+        SessionManager.refreshSessionUser { refreshErrorText in
+            if let refreshError = refreshErrorText {
+                UIAlertController.presentErrorAlert(withText: refreshError, parentController: self)
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    
     // MARK: UITextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -185,8 +235,9 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let pickedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        isUserIconChanged = true
         imageView.image = pickedImage
-        
+    
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -236,25 +287,9 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     
     func barButtonItemPressed(_ sender: UIBarButtonItem) {
-        if sender == saveBarButtonItem {
-            // TODO: Refetch current user after update
-            var user = SessionManager.currentUser!
-                
-            user.firstName = firstNameTextField.text
-            user.lastName = lastNameTextField.text
-            user.phone = phoneTextField.text
-            user.email = emailTextField.text
-            user.address = addressTextField.text
-            
-            APIManager.updateUser(user) { (errorText) in
-                if errorText == nil {
-                    _ = self.navigationController?.popViewController(animated: true)
-                } else {
-                    UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
-                }
-            }
-            
-        } else if sender == cancelBarButtonItem {
+        if sender === saveBarButtonItem {
+            saveChangesAndLeaveIfSuccess()
+        } else if sender === cancelBarButtonItem {
             _ = self.navigationController?.popViewController(animated: true)
         }
     }

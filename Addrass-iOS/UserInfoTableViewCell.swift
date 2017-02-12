@@ -20,8 +20,6 @@ class UserInfoTableViewCell: ADTableViewCell {
     
     // MARK: Variables
     
-    private var gradientBackgroundLayer: CAGradientLayer!
-    
     private var infoIconImageView: UIImageView!
     var infoTypeLabel: UILabel!
     var infoContentLabel: UILabel!
@@ -44,13 +42,9 @@ class UserInfoTableViewCell: ADTableViewCell {
     override func setupUI() {
         super.setupUI()
         
-        backgroundColor = UIColor.gray
+        backgroundColor = UIColor.ad.gray
         selectionStyle = .none
-        
-        gradientBackgroundLayer = CAGradientLayer()
-        gradientBackgroundLayer.colors = [UIColor.ad.darkGray.cgColor, UIColor.ad.gray.cgColor, UIColor.ad.gray.cgColor, UIColor.ad.gray.cgColor, UIColor.ad.darkGray.cgColor]
-        layer.insertSublayer(gradientBackgroundLayer, at: 0)
-        
+
         infoIconImageView = UIImageView()
         infoIconImageView.contentMode = .scaleAspectFit
         addSubview(infoIconImageView)
@@ -72,13 +66,6 @@ class UserInfoTableViewCell: ADTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        gradientBackgroundLayer.frame = bounds
-        
-        let gradientBorderRatioToHeight = UserInfoTableViewCell.gradientBorderHeight / bounds.height
-        gradientBackgroundLayer.locations = [0.0, gradientBorderRatioToHeight, 0.5, 1.0 - gradientBorderRatioToHeight, 1.0].map {
-            NSNumber(value: Float($0))
-        }
         
         infoIconImageView.snp.remakeConstraints({ (make) in
             make.left.equalTo(stripeView.snp.right).offset(8.0)

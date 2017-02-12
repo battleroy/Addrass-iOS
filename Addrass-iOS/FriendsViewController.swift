@@ -47,12 +47,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillAppear(animated)
         
         APIManager.friends(forUser: SessionManager.currentUser!) { (friends, errorText) in
-            guard let userFriends = friends else {
+            
+            self.friends = friends
+            
+            if friends == nil {
                 UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
-                return
             }
             
-            self.friends = userFriends
             self.friendsTableView.reloadData()
         }
         
@@ -118,7 +119,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else if let userFriends = friends {
             cellUser = userFriends[row - 1]
         }
-        
+                
         return cellUser!
     }
     
@@ -138,8 +139,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendTableViewCell.cellIdentifier, for: indexPath) as! FriendTableViewCell
 
-        
-        cell.updateCell(withContact: user(forRow: indexPath.row))
+        cell.updateCell(withUser: user(forRow: indexPath.row))
         
         return cell
     }
@@ -157,7 +157,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         
         let udvc = UserDetailsViewController()
-        udvc.user = user(forRow: indexPath.row)
+        udvc.userLogin = user(forRow: indexPath.row).login
         
         navigationController?.pushViewController(udvc, animated: true)
     }

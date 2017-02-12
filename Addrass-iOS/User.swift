@@ -8,14 +8,14 @@
 
 import UIKit
 
-struct User {
+class User {
 
     var id:         Int?
     var login:      String?
     var password:   String?
     var firstName:  String?
     var lastName:   String?
-    var image:      String?
+    var imageName:  String?
     var phone:      String?
     var email:      String?
     var address:    String?
@@ -30,16 +30,26 @@ struct User {
         }
     }
     
-    init() {
-        self.init(withId: nil, firstName: nil, lastName: nil, image: nil, phone: nil, email: nil, address: nil)
+    var imageLink: String? {
+        get {
+            guard let existingImageName = imageName else {
+                return nil
+            }
+            
+            return APIManager.apiRoot + "/image/" + existingImageName
+        }
+    }
+    
+    convenience init() {
+        self.init(withId: nil, firstName: nil, lastName: nil, imageName: nil, phone: nil, email: nil, address: nil)
     }
     
     
-    init(withId id: Int?, firstName: String?, lastName: String?, image: String?, phone: String?, email: String?, address: String?) {
+    init(withId id: Int?, firstName: String?, lastName: String?, imageName: String?, phone: String?, email: String?, address: String?) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
-        self.image = image
+        self.imageName = imageName
         self.phone = phone
         self.email = email
         self.address = address
@@ -58,14 +68,18 @@ struct User {
         result["userPhone"] = phone ?? NSNull()
         result["userEmail"] = email ?? NSNull()
         result["userAddress"] = address ?? NSNull()
-        result["userIcon"] = image ?? NSNull()
+        
+        var iconDict = [String : Any]()
+        iconDict["imageName"] = imageName ?? NSNull()
+        
+        result["userIcon"] = iconDict
         
         return result
     }
     
     
     static func user(withDictionary dict: [String : Any]) -> User {
-        var user = User()
+        let user = User()
         
         user.id = dict["pkId"] as? Int
         user.login = dict["userLogin"] as? String
@@ -75,8 +89,11 @@ struct User {
         user.phone = dict["userPhone"] as? String
         user.email = dict["userEmail"] as? String
         user.address = dict["userAddress"] as? String
-        user.image = dict["userIcon"] as? String
-    
+        
+        if let imageDict = dict["userIcon"] as? Dictionary<String, Any>, let imageFileName = imageDict["imageName"] as? String {
+            user.imageName = imageFileName
+        }
+        
         return user
     }
     
@@ -85,10 +102,8 @@ struct User {
         
         var result = [User]()
         
-        for contactDict in dictList {
-            if let userDict = contactDict["fkUserFriend"] {
-                result.append(User.user(withDictionary: userDict as! [String: Any]))
-            }
+        for userDict in dictList {
+            result.append(User.user(withDictionary: userDict))
         }
         
         return result

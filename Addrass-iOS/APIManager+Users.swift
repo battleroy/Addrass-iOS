@@ -13,7 +13,7 @@ import Alamofire
 
 extension APIManager {
     
-    // MARK: Users
+    // MARK: Session
     
     static func signIn(withLogin login: String, password: String, completion: @escaping ((User?, String?) -> Void)) {
         
@@ -51,6 +51,13 @@ extension APIManager {
     }
     
     
+    static func sessionUser(_ completion: @escaping ((User?, String?) -> Void)) {
+        user(byLogin: "", completion: completion)
+    }
+    
+    
+    // MARK: CRUD
+    
     static func user(byLogin login: String?, completion: @escaping ((User?, String?) -> Void)) {
         
         let endpoint = "/user/\(login ?? "")"
@@ -75,11 +82,13 @@ extension APIManager {
     static func updateUser(_ newUserData: User, completion: @escaping ((String?) -> Void)) {
         sendUser(newUserData, method: .put, completion: completion)
     }
-
+    
+    
+    // MARK: Icons
     
     static func userIcon(_ user: User, completion: @escaping ((UIImage?, String?) -> Void)) {
         
-        guard let imageLink = user.image else {
+        guard let imageLink = user.imageLink else {
             completion(#imageLiteral(resourceName: "user-icon-placeholder"), nil)
             return
         }
@@ -96,6 +105,45 @@ extension APIManager {
             completion(image, nil)
         }
         
+    }
+    
+    
+    static func setUserIcon(_ icon: UIImage?, completion: @escaping (String?) -> Void) {
+        
+        if let newIcon = icon {
+            let endpoint = "/icon/edit"
+            
+            Alamofire.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(UIImagePNGRepresentation(newIcon)!, withName: "image", fileName: "icon.png", mimeType: "image/png")
+            },
+             to: apiRoot.appending(endpoint),
+             encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseString { uploadResponse in
+                        switch uploadResponse.result {
+                        case .success:
+                            completion(nil)
+                        case .failure(let uploadError):
+                            completion(uploadError.localizedDescription)
+                        }
+                    }
+                case .failure(let encodingError):
+                    completion(encodingError.localizedDescription)
+                }
+            })
+        } else {
+            let endpoint = "/icon"
+            
+            Alamofire.request(apiRoot + endpoint, method: .delete).responseString { reponseString in
+                switch reponseString.result {
+                case .success:
+                    completion(nil)
+                case .failure(let iconDeletionError):
+                    completion(iconDeletionError.localizedDescription)
+                }
+            }
+        }
     }
     
     
