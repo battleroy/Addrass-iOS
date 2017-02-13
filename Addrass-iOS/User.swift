@@ -81,7 +81,7 @@ class User {
     static func user(withDictionary dict: [String : Any]) -> User {
         let user = User()
         
-        user.id = dict["pkId"] as? Int
+        user.id = dict["id"] as? Int
         user.login = dict["userLogin"] as? String
         user.password = dict["userPassword"] as? String
         user.firstName = dict["userFirstName"] as? String

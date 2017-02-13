@@ -28,13 +28,41 @@ extension APIManager {
         }
     }
     
-    static func update(_ userLogin: String, newUserData: User) -> Bool {
-        fatalError()
+    
+    static func addFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
+        friendRequest(userLogin, method: .post, completion: completion)
     }
     
     
-    static func delete(_ userLogin: String, user: User) -> Bool {
-        fatalError()
+    static func deleteFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
+        friendRequest(userLogin, method: .delete, completion: completion)
+    }
+    
+    
+    private static func friendRequest(_ userLogin: String, method: HTTPMethod, completion: @escaping (String?) -> Void) {
+        
+        let endpoint = "/friend/\(userLogin)"
+        
+        Alamofire.request(apiRoot + endpoint, method: method)
+            .validate(statusCode: 200..<300)
+            .responseString { responseString in
+            switch responseString.result {
+            case .success:
+                completion(nil)
+            case .failure(let deleteError):
+                if let responseStatusCode = responseString.response?.statusCode {
+                    switch responseStatusCode {
+                    case 404:
+                        completion(String.ad.userDoesntExist)
+                        return
+                    default:
+                        break
+                    }
+                }
+                
+                completion(deleteError.localizedDescription)
+            }
+        }
     }
 
     

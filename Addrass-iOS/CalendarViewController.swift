@@ -82,8 +82,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        updateNavigationBarTitle()
-        updateLeftBarButtonItemTitle()
+        updateView()
     }
 
     
@@ -249,6 +248,17 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     
+    func updateView() {
+        updateNavigationBarTitle()
+        updateLeftBarButtonItemTitle()
+        
+        APIManager.events(fromDate: calendarView.minimumDate, to: calendarView.maximumDate) {
+            (fetchedEvents, errorText) in
+            // TODO: Update view
+        }
+    }
+    
+    
     // MARK: FSCalendarDataSource
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
@@ -334,14 +344,12 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         
         return 0.0
-        
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
         return 0.0
-        
     }
     
     

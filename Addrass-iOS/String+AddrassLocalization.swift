@@ -31,7 +31,7 @@ extension String {
         let yourCompany       = "Your Company"
         let yourAddress       = "Your Address"
         
-        let friends          = "Friends"
+        let friends           = "Friends"
         
         let name              = "Name"
         let family            = "Family"
@@ -73,6 +73,10 @@ extension String {
         let registered        = "Registered successfully"
         
         let signOut           = "Sign out"
+        
+        let addFriend         = "Add a Friend..."
+        let enterUserLogin    = "Enter user login."
+        let userDoesntExist   = "Such user doesn't exist"
     }
     
     static let ad = ADLocalization()

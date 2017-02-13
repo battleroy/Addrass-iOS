@@ -171,7 +171,6 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     
     func saveChangesAndLeaveIfSuccess() {
-        // TODO: Refetch current user after update
         let user = SessionManager.currentUser!
         
         user.firstName = firstNameTextField.text

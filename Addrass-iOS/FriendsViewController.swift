@@ -46,17 +46,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        APIManager.friends(forUser: SessionManager.currentUser!) { (friends, errorText) in
-            
-            self.friends = friends
-            
-            if friends == nil {
-                UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
-            }
-            
-            self.friendsTableView.reloadData()
-        }
-        
+        updateView()
     }
     
     
@@ -108,6 +98,19 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         searchBar?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         searchBar?.translatesAutoresizingMaskIntoConstraints = true
         searchBar?.frame = CGRect.zero
+    }
+    
+    
+    func updateView() {
+        APIManager.friends(forUser: SessionManager.currentUser!) { (friends, errorText) in
+            self.friends = friends
+            
+            if friends == nil {
+                UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
+            }
+            
+            self.friendsTableView.reloadData()
+        }
     }
     
     
@@ -198,7 +201,20 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.dismiss(animated: true, completion: nil)
             }
         } else if sender == addFriendButton {
-            // TODO: New friend search
+            UIAlertController.presentInputAlert(withTitle: String.ad.addFriend, text: String.ad.enterUserLogin, placeholder: String.ad.login, parentController: self, completion: { enteredLogin in
+                guard let newFriendLogin = enteredLogin else {
+                    return
+                }
+                
+                APIManager.addFriend(newFriendLogin, completion: { errorText in
+                    if let addErrorText = errorText {
+                        UIAlertController.presentErrorAlert(withText: addErrorText, parentController: self)
+                        return
+                    }
+                    
+                    self.updateView()
+                })
+            })
         }
     }
 }

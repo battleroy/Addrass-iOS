@@ -24,7 +24,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     var leftBarButtonItem: UIBarButtonItem!
-    var rightBarButtonItem: UIBarButtonItem?
+    var rightBarButtonItem: UIBarButtonItem!
     
     var headerContainerView: UIView!
     var userNameLabel: UILabel!
@@ -36,9 +36,6 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     
     var footerContainerView: UIView!
     var deleteButton: UIButton!
-    var deleteImageView: UIImageView!
-    var blacklistButton: UIButton!
-    var blacklistImageView: UIView!
     
     
     // MARK: VCL
@@ -114,15 +111,10 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         footerContainerView.backgroundColor = UIColor.ad.gray
         view.addSubview(footerContainerView)
         
-        deleteImageView = UIImageView(image: #imageLiteral(resourceName: "delete-light"))
+        let deleteImageView = UIImageView(image: #imageLiteral(resourceName: "delete-light"))
         deleteImageView.contentMode = .scaleAspectFit
         deleteButton = createIconButton(deleteImageView, title: String.ad.delete)
         footerContainerView.addSubview(deleteButton)
-        
-        blacklistImageView = UIImageView(image: #imageLiteral(resourceName: "blacklist-light"))
-        blacklistImageView.contentMode = .scaleAspectFit
-        blacklistButton = createIconButton(blacklistImageView, title: String.ad.toBlacklist)
-        footerContainerView.addSubview(blacklistButton)
         
         setConstraints()
     }
@@ -164,11 +156,6 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
             make.bottom.equalTo(footerContainerView).offset(-5.0)
         })
         
-        blacklistButton.snp.makeConstraints({ (make) in
-            make.right.equalTo(footerContainerView).offset(-5.0)
-            make.bottom.equalTo(footerContainerView).offset(-5.0)
-        })
-        
         infoTableView.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
     }
     
@@ -207,9 +194,13 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
             if currentUserLogin != SessionManager.currentUser?.login {
                 editButton?.isEnabled = false
                 editButton?.tintColor = UIColor.clear
+                
+                deleteButton.isHidden = false
             } else {
                 editButton?.isEnabled = true
                 editButton?.tintColor = nil
+                
+                deleteButton.isHidden = true
             }
         }
         
@@ -319,7 +310,18 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     
     
     func buttonWasPressed(_ sender: UIButton?) {
-        
+        if sender === deleteButton {
+            if let currentUserLogin = fetchedUser?.login {
+                APIManager.deleteFriend(currentUserLogin, completion: { errorText in
+                    if let deleteErrorText = errorText {
+                        UIAlertController.presentErrorAlert(withText: deleteErrorText, parentController: self)
+                        return
+                    }
+                    
+                    _ = self.navigationController?.popViewController(animated: true)
+                })
+            }
+        }
     }
     
 }
