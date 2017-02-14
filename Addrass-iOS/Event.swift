@@ -91,5 +91,25 @@ class Event {
         
         return result
     }
+    
+    
+    static func eventsGroupedByDate(_ eventsList: [Event]) -> [Date : [Event]] {
+        
+        var resultDict = [Date : [Event]]()
+        
+        for event in eventsList {
+            if let eventTimestamp = event.timestamp {
+                let eventDate = Calendar.current.startOfDay(for: Date(timeIntervalSince1970: Double(eventTimestamp) / 1000.0))
+                
+                if resultDict[eventDate] == nil {
+                    resultDict[eventDate] = [Event]()
+                }
+                
+                resultDict[eventDate]?.append(event)
+            }
+        }
+        
+        return resultDict
+    }
 
 }

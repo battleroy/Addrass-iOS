@@ -31,6 +31,10 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     var currentWeekDaysCache: [Date]!
     
+    var eventsByDay: [Date : [Event]]?
+    
+    // MARK: Properties
+    
     lazy var flowLayout: CalendarWeekDaysCollectionViewLayout! = {
         let layout = CalendarWeekDaysCollectionViewLayout()
         
@@ -252,9 +256,21 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         updateNavigationBarTitle()
         updateLeftBarButtonItemTitle()
         
-        APIManager.events(fromDate: calendarView.minimumDate, to: calendarView.maximumDate) {
+        var deltaMonthDateComponents = DateComponents()
+        deltaMonthDateComponents.month = 1
+        deltaMonthDateComponents.day = -1
+        
+        let lastDayOfPage = Calendar.current.date(byAdding: deltaMonthDateComponents, to: calendarView.currentPage)!
+        
+        eventsByDay = nil
+        APIManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
             (fetchedEvents, errorText) in
-            // TODO: Update view
+            guard let events = fetchedEvents else {
+                return
+            }
+            
+            self.eventsByDay = Event.eventsGroupedByDate(events)
+            self.calendarView.reloadData()
         }
     }
     
@@ -263,7 +279,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarMonthDayCell.cellIdentifier, for: date, at: position) as! CalendarMonthDayCell
-        
+        cell.eventIndicator.color = UIColor.red
         return cell
     }
     
@@ -275,6 +291,15 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
         return weekdayDateFormatter.string(from: date).uppercased()
+    }
+    
+    
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        guard let events = self.eventsByDay, let dayEvents = events[date] else {
+            return 0
+        }
+        
+        return dayEvents.count
     }
     
     

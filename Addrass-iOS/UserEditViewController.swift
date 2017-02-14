@@ -220,7 +220,7 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
             lastNameTextField.becomeFirstResponder()
         } else if textField == lastNameTextField {
             phoneTextField.becomeFirstResponder()
-        }else if textField == phoneTextField {
+        } else if textField == phoneTextField {
             emailTextField.becomeFirstResponder()
         } else if textField == emailTextField {
             addressTextField.becomeFirstResponder()
