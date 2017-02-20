@@ -12,25 +12,21 @@ import Alamofire
 
 extension APIManager {
     
-    static let eventDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        return dateFormatter
-    }()
-    
     // MARK: Events
     
-    static func create(_ event: Event, forOwner: User) -> Bool {
+    static func createEvent(_ event: Event) -> Bool {
         fatalError()
     }
     
     
-    static func events(fromDate from: Date, to: Date, completion: @escaping (([Event]?, String?) -> Void)) {
+    @discardableResult
+    static func events(fromDate from: Date, to: Date, completion: @escaping (([Event]?, String?) -> Void)) -> DataRequest {
+        
+        let eventDateFormatter = DateFormatter.eventDateFormatter
         
         let endpoint = "/event/\(eventDateFormatter.string(from: from))/\(eventDateFormatter.string(from: to))"
         
-        Alamofire.request(apiRoot + endpoint).responseJSON { response in
+        return Alamofire.request(apiRoot + endpoint).responseJSON { response in
             guard let JSONList = response.result.value as? [[String: Any]] else {
                 completion(nil, "Can't fetch events.")
                 return
@@ -41,12 +37,12 @@ extension APIManager {
     }
     
     
-    static func update(_ userLogin: String, newEventData: Event) -> Bool {
+    static func updateEvent(_ newEventData: Event) -> Bool {
         fatalError()
     }
     
     
-    static func delete(_ userLogin: String, event: Event) -> Bool {
+    static func deleteEvent(_ event: Event) -> Bool {
         fatalError()
     }
     

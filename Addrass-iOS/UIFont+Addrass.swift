@@ -14,13 +14,14 @@ extension UIFont {
     
     struct ADFonts {
         
-        let smallFont     = UIFont(name: "HelveticaNeue", size: 10.0)!
-        let smallBoldFont = UIFont(name: "HelveticaNeue-Bold", size: 10.0)!
-        let bodyFont      = UIFont(name: "HelveticaNeue", size: 14.0)!
-        let boldFont      = UIFont(name: "HelveticaNeue-Bold", size: 14.0)!
-        let largeFont     = UIFont(name: "HelveticaNeue", size: 17.0)!
-        let largeBoldFont = UIFont(name: "HelveticaNeue-Bold", size: 17.0)!
-        let heading1Font  = UIFont(name: "HelveticaNeue-Bold", size: 24.0)!
+        let smallFont       = UIFont(name: "HelveticaNeue", size: 10.0)!
+        let smallBoldFont   = UIFont(name: "HelveticaNeue-Bold", size: 10.0)!
+        let bodyFont        = UIFont(name: "HelveticaNeue", size: 14.0)!
+        let bodyItalicFont  = UIFont(name: "HelveticaNeue-Italic", size: 12.0)!
+        let boldFont        = UIFont(name: "HelveticaNeue-Bold", size: 14.0)!
+        let largeFont       = UIFont(name: "HelveticaNeue", size: 17.0)!
+        let largeBoldFont   = UIFont(name: "HelveticaNeue-Bold", size: 17.0)!
+        let heading1Font    = UIFont(name: "HelveticaNeue-Bold", size: 24.0)!
         
         let calendarNumbersFont = UIFont(name: "HelveticaNeue", size: 24.0)!
         let weekCollectionFont  = UIFont(name: "HelveticaNeue-Bold", size: 40.0)!

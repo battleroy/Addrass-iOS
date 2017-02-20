@@ -102,7 +102,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     func updateView() {
-        APIManager.friends(forUser: SessionManager.currentUser!) { (friends, errorText) in
+        APIManager.friends { (friends, errorText) in
             self.friends = friends
             
             if friends == nil {

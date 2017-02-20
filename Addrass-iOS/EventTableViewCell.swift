@@ -24,6 +24,14 @@ class EventTableViewCell: ADTableViewCell {
     var eventTimeLabel: UILabel!
     var eventTitleImageView: UIImageView!
     var eventTimeImageView: UIImageView!
+    var eventTypeLabel: UILabel!
+    
+    
+    // MARK: Properties
+    
+    static let cellHeight: CGFloat = {
+        return 50.0
+    }()
     
     
     // MARK: Overrides
@@ -50,6 +58,11 @@ class EventTableViewCell: ADTableViewCell {
         eventTimeImageView.contentMode = .scaleAspectFit
         eventTimeImageView.image = #imageLiteral(resourceName: "calendar-inactive")
         addSubview(eventTimeImageView)
+        
+        eventTypeLabel = UILabel()
+        eventTypeLabel.font = UIFont.ad.bodyItalicFont
+        eventTypeLabel.textColor = UIColor.ad.lightGray
+        addSubview(eventTypeLabel)
     }
     
     
@@ -77,13 +90,24 @@ class EventTableViewCell: ADTableViewCell {
             make.left.equalTo(eventTimeImageView.snp.right).offset(EventTableViewCell.labelsOffset)
             make.centerY.equalTo(eventTimeImageView)
         }
+        
+        eventTypeLabel.snp.remakeConstraints { (make) in
+            make.right.equalTo(self).offset(-EventTableViewCell.labelsOffset)
+            make.centerY.equalTo(eventTimeLabel)
+        }
     }
     
     
     // MARK: Public methods
     
-    public static func cellHeight() -> CGFloat {
-        return 60.0
+    public func updateCell(withEvent event: Event) {
+        eventTitleLabel.text = event.name
+        
+        if let eventDate = event.date {
+            eventTimeLabel.text = DateFormatter.timeDateFormatter.string(from: eventDate)
+        }
+        
+        eventTypeLabel.text = event.type?.stringValue
     }
     
 }

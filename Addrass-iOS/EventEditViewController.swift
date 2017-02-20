@@ -13,14 +13,17 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     
     // MARK: Constants
     
-    let users = ["Yana", "Dasha", "Vasya", "Petya", "Katya"]
-    
     static let textFieldInset: CGFloat = 8.0
-    static let eventTypes = [String.ad.company, String.ad.family, String.ad.others]
     static let textFieldHeight: CGFloat = 40.0
+    static let eventTypes = Event.EventType.allValues.map { $0.stringValue }
     
     
     // MARK: Variables
+    
+    var eventData: Event!
+    
+    var friendsArray: [User]?
+    var friendsAreMemberArray: [Bool]?
     
     var nameTextField: ADPaddedTextField!
     var ownerLabel: UILabel!
@@ -29,7 +32,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     var datePicker: UIDatePicker!
     var eventTypeSegmentedControl: UISegmentedControl!
     
-    var usersPicker: CZPickerView!
+    var friendsPicker: CZPickerView!
     
     
     // MARK: VCL
@@ -45,6 +48,8 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         
         createSubviews()
         setConstraints()
+        
+        updateView()
     }
     
     
@@ -56,7 +61,6 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         ownerLabel.font = UIFont.ad.bodyFont
         ownerLabel.textColor = UIColor.ad.white
         ownerLabel.textAlignment = .center
-        ownerLabel.text = String.ad.owner + ": " + "Ivan Ivanovich"
         contentScrollView.addSubview(ownerLabel)
         
         let inset = EventEditViewController.textFieldInset
@@ -80,7 +84,6 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         membersLabel.font = UIFont.ad.bodyFont
         membersLabel.textColor = UIColor.ad.lightGray
         membersLabel.numberOfLines = 0
-        membersLabel.text = String.ad.members + ": " + users.joined(separator: ", ")
         contentScrollView.addSubview(membersLabel)
         
         editMembersButton = UIButton()
@@ -109,21 +112,21 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         eventTypeSegmentedControl.tintColor = UIColor.ad.yellow
         contentScrollView.addSubview(eventTypeSegmentedControl)
         
-        usersPicker = CZPickerView(headerTitle: String.ad.members, cancelButtonTitle: String.ad.cancel, confirmButtonTitle: String.ad.save)
-        usersPicker.dataSource = self
-        usersPicker.delegate = self
-        usersPicker.tapBackgroundToDismiss = false
-        usersPicker.allowMultipleSelection = true
-        usersPicker.checkmarkColor = UIColor.ad.yellow
-        usersPicker.headerBackgroundColor = UIColor.ad.darkGray
-        usersPicker.headerTitleFont = UIFont.ad.boldFont
-        usersPicker.headerTitleColor = UIColor.ad.white
-        usersPicker.cancelButtonBackgroundColor = UIColor.ad.darkGray
-        usersPicker.cancelButtonNormalColor = UIColor.ad.white
-        usersPicker.cancelButtonHighlightedColor = UIColor.ad.white
-        usersPicker.confirmButtonBackgroundColor = UIColor.ad.darkGray
-        usersPicker.confirmButtonNormalColor = UIColor.ad.white
-        usersPicker.confirmButtonHighlightedColor = UIColor.ad.white
+        friendsPicker = CZPickerView(headerTitle: String.ad.members, cancelButtonTitle: String.ad.cancel, confirmButtonTitle: String.ad.save)
+        friendsPicker.dataSource = self
+        friendsPicker.delegate = self
+        friendsPicker.tapBackgroundToDismiss = false
+        friendsPicker.allowMultipleSelection = true
+        friendsPicker.checkmarkColor = UIColor.ad.yellow
+        friendsPicker.headerBackgroundColor = UIColor.ad.darkGray
+        friendsPicker.headerTitleFont = UIFont.ad.boldFont
+        friendsPicker.headerTitleColor = UIColor.ad.white
+        friendsPicker.cancelButtonBackgroundColor = UIColor.ad.darkGray
+        friendsPicker.cancelButtonNormalColor = UIColor.ad.white
+        friendsPicker.cancelButtonHighlightedColor = UIColor.ad.white
+        friendsPicker.confirmButtonBackgroundColor = UIColor.ad.darkGray
+        friendsPicker.confirmButtonNormalColor = UIColor.ad.white
+        friendsPicker.confirmButtonHighlightedColor = UIColor.ad.white
     }
     
     
@@ -166,16 +169,94 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     }
     
     
+    func reloadData() {
+        ownerLabel.text = String.ad.owner + ": " + SessionManager.currentUser!.fullName
+        
+        guard let friends = friendsArray, let memberIndicesArray = friendsAreMemberArray, let event = eventData else {
+            return
+        }
+        
+        
+        var members = [User]()
+        for i in 0..<friends.count {
+            if memberIndicesArray[i] {
+                members.append(friends[i])
+            }
+        }
+        
+        membersLabel.text = String.ad.members + ": " + members.map {
+            $0.fullName
+        }.joined(separator: ", ")
+        
+        
+        datePicker.date = event.date!
+    }
+    
+    
+    func updateView() {
+        friendsArray = nil
+        friendsAreMemberArray = nil
+        
+        var friendsAreMembersDict = [User : Bool]()
+        
+        guard let eventID = eventData?.id else {
+            return
+        }
+        
+        APIManager.membersFromEvent(forEventID: eventID) { (fetchedMembers, fetchMembersError) in
+            if let members = fetchedMembers {
+                
+                for member in members {
+                    friendsAreMembersDict[member] = true
+                }
+            
+                APIManager.friendsNotInEvent(forEventID: eventID) { (fetchedFriends, fetchErrorText) in
+                    if let notMembers = fetchedFriends {
+                        
+                        for notMember in notMembers {
+                            friendsAreMembersDict[notMember] = false
+                        }
+                        
+                        self.friendsArray = [User]()
+                        self.friendsAreMemberArray = [Bool]()
+                        
+                        for friend in Array(friendsAreMembersDict.keys).sorted(by: { $0.fullName < $1.fullName }) {
+                            self.friendsArray!.append(friend)
+                            self.friendsAreMemberArray!.append(friendsAreMembersDict[friend]!)
+                        }
+                        
+                    } else {
+                        UIAlertController.presentErrorAlert(withText: fetchErrorText!, parentController: self)
+                    }
+                    
+                    self.friendsPicker.reloadData()
+                }
+            } else {
+                self.membersLabel.text = String.ad.thereAreNoMembers
+                UIAlertController.presentErrorAlert(withText: fetchMembersError!, parentController: self)
+            }
+        }
+    }
+    
+    
     // MARK: CZPickerViewDataSource
     
     func numberOfRows(in pickerView: CZPickerView!) -> Int {
-        return users.count
+        guard let friends = friendsArray else {
+            return 0
+        }
+        
+        return friends.count
     }
     
     
     func czpickerView(_ pickerView: CZPickerView!, attributedTitleForRow row: Int) -> NSAttributedString! {
+        guard let friends = friendsArray else {
+            return NSAttributedString(string: "")
+        }
+        
         return NSAttributedString(
-            string: users[row],
+            string: friends[row].fullName,
             attributes: [
                 NSFontAttributeName: UIFont.ad.bodyFont,
                 NSForegroundColorAttributeName: UIColor.ad.white
@@ -186,15 +267,40 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     
     // MARK: CZPickerViewDelegate
     
-    func czpickerViewWillDismiss(_ pickerView: CZPickerView!) {
+    func czpickerViewWillDisplay(_ pickerView: CZPickerView!) {
+        guard let members = friendsAreMemberArray else {
+            return
+        }
         
+        var selectedIndices = [Int]()
+        
+        for i in 0..<members.count {
+            if members[i] {
+                selectedIndices.append(i)
+            }
+        }
+        
+        pickerView.setSelectedRows(selectedIndices)
+    }
+    
+    
+    func czpickerViewWillDismiss(_ pickerView: CZPickerView!) {
+        guard let friends = friendsArray else {
+            return
+        }
+        
+        friendsAreMemberArray = [Bool](repeating: false, count: friends.count)
+        
+        for selectedMemberIndex in pickerView.selectedRows() {
+            friendsAreMemberArray![selectedMemberIndex as! Int] = true
+        }
     }
     
     
     // MARK: Actions
     
     func editContactsButtonPressed(_ sender: UIButton) {
-        usersPicker.show()
+        friendsPicker.show()
     }
     
     

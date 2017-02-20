@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		932C7C261E5B703E003668D5 /* DateFormatter+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */; };
+		932C7C281E5B7A30003668D5 /* Event+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C271E5B7A30003668D5 /* Event+Factoring.swift */; };
+		932C7C2A1E5B7A63003668D5 /* User+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C291E5B7A63003668D5 /* User+Factoring.swift */; };
+		932C7C2C1E5B8E17003668D5 /* APIManager+Members.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */; };
+		932C7C2E1E5B93E2003668D5 /* User+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */; };
 		9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */; };
 		9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */; };
 		9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */; };
@@ -47,6 +52,11 @@
 
 /* Begin PBXFileReference section */
 		13B86A992DA0B6D58BD27562 /* Pods-Addrass-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Addrass.swift"; sourceTree = "<group>"; };
+		932C7C271E5B7A30003668D5 /* Event+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Event+Factoring.swift"; sourceTree = "<group>"; };
+		932C7C291E5B7A63003668D5 /* User+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Factoring.swift"; sourceTree = "<group>"; };
+		932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Members.swift"; sourceTree = "<group>"; };
+		932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Hashable.swift"; sourceTree = "<group>"; };
 		9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Users.swift"; sourceTree = "<group>"; };
 		9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Friends.swift"; sourceTree = "<group>"; };
 		9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Events.swift"; sourceTree = "<group>"; };
@@ -177,6 +187,9 @@
 			children = (
 				F5AFC9261DD39EC3005963BD /* User.swift */,
 				F5CC58351DE0451100133B01 /* Event.swift */,
+				932C7C271E5B7A30003668D5 /* Event+Factoring.swift */,
+				932C7C291E5B7A63003668D5 /* User+Factoring.swift */,
+				932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -189,6 +202,7 @@
 				F5B392931DCF4F3A006621B5 /* String+AddrassLocalization.swift */,
 				F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */,
 				F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */,
+				932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -231,6 +245,7 @@
 				9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */,
 				9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */,
 				9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */,
+				932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -432,7 +447,9 @@
 			files = (
 				F5C4AF701DDF7DFA00C775DF /* CalendarMonthDayCell.swift in Sources */,
 				F5FEAD4E1DE98BF900901069 /* ADTableViewCell.swift in Sources */,
+				932C7C2E1E5B93E2003668D5 /* User+Hashable.swift in Sources */,
 				F5CC58391DE0463E00133B01 /* APIManager.swift in Sources */,
+				932C7C261E5B703E003668D5 /* DateFormatter+Addrass.swift in Sources */,
 				F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */,
 				F5AFC9271DD39EC3005963BD /* User.swift in Sources */,
 				F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */,
@@ -446,6 +463,7 @@
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
 				F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */,
 				F54083621DE383B900A282DC /* CalendarWeekDaysCollectionViewLayout.swift in Sources */,
+				932C7C2C1E5B8E17003668D5 /* APIManager+Members.swift in Sources */,
 				9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */,
 				F5B392981DCF5B25006621B5 /* SignInViewController.swift in Sources */,
 				F5CC58361DE0451100133B01 /* Event.swift in Sources */,
@@ -460,8 +478,10 @@
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
 				F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */,
 				F5CC58421DE0488100133B01 /* EventEditViewController.swift in Sources */,
+				932C7C281E5B7A30003668D5 /* Event+Factoring.swift in Sources */,
 				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,
 				F5B3929A1DCF6210006621B5 /* ADPaddedTextField.swift in Sources */,
+				932C7C2A1E5B7A63003668D5 /* User+Factoring.swift in Sources */,
 				9387B6F21E4F5160001FC066 /* UserEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

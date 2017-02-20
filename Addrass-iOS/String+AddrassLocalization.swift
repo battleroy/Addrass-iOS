@@ -37,6 +37,11 @@ extension String {
         let family            = "Family"
         let work              = "Work"
         let others            = "Others"
+        let birthday          = "Birthday"
+        let meeting           = "Meeting"
+        let home              = "Home"
+        let sport             = "Sport"
+        let kids              = "Kids"
         
         let pickImageFrom     = "Pick image from"
         let gallery           = "Gallery"
@@ -76,7 +81,8 @@ extension String {
         
         let addFriend         = "Add a Friend..."
         let enterUserLogin    = "Enter user login."
-        let userDoesntExist   = "Such user doesn't exist"
+        let userDoesntExist   = "Such user doesn't exist."
+        let thereAreNoMembers = "There are no members."
     }
     
     static let ad = ADLocalization()

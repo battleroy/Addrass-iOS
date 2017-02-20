@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import SnapKit
 import FSCalendar
+import Alamofire
+
 
 class CalendarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, FSCalendarDataSource, FSCalendarDelegate {
     
@@ -33,6 +35,8 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     var eventsByDay: [Date : [Event]]?
     
+    var currentUpdateRequest: DataRequest?
+    
     // MARK: Properties
     
     lazy var flowLayout: CalendarWeekDaysCollectionViewLayout! = {
@@ -41,34 +45,6 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         layout.scrollDirection = .horizontal
         
         return layout
-    }()
-    
-    lazy var dayNumberDateFormatter: DateFormatter! = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd";
-        formatter.locale = Locale.current
-        return formatter
-    }()
-    
-    lazy var weekdayDateFormatter: DateFormatter! = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE";
-        formatter.locale = Locale.current
-        return formatter
-    }()
-    
-    lazy var titleDateFormatter: DateFormatter! = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy";
-        formatter.locale = Locale.current
-        return formatter
-    }()
-    
-    lazy var dayShortNameDateFormatter: DateFormatter! = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM";
-        formatter.locale = Locale.current
-        return formatter
     }()
     
     
@@ -120,6 +96,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         appearance.subtitleSelectionColor = UIColor.ad.darkGray
         appearance.borderRadius = 0.5
         appearance.todayColor = UIColor.ad.lightGray
+        appearance.eventDefaultColor = UIColor.ad.yellow
         
         view.addSubview(calendarView)
         
@@ -186,7 +163,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         if calendarView.isHidden {
             title = String.ad.events
         } else {
-            title = titleDateFormatter.string(from: calendarView.currentPage)
+            title = DateFormatter.titleDateFormatter.string(from: calendarView.currentPage)
         }
         
         navigationItem.title = title
@@ -233,6 +210,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
                     self.updateDatesArray(self.calendarView.selectedDate)
                     self.updateLeftBarButtonItemTitle()
                     self.updateNavigationBarTitle()
+                    self.eventsTableView.reloadData()
                     
                     let appearanceTime = DispatchTime.now() + 0.1
                     DispatchQueue.main.asyncAfter(deadline: appearanceTime, execute: {
@@ -253,6 +231,11 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     
     func updateView() {
+        if let runningUpdateRequest = currentUpdateRequest {
+            runningUpdateRequest.cancel()
+            currentUpdateRequest = nil
+        }
+        
         updateNavigationBarTitle()
         updateLeftBarButtonItemTitle()
         
@@ -263,7 +246,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         let lastDayOfPage = Calendar.current.date(byAdding: deltaMonthDateComponents, to: calendarView.currentPage)!
         
         eventsByDay = nil
-        APIManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
+        currentUpdateRequest = APIManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
             (fetchedEvents, errorText) in
             guard let events = fetchedEvents else {
                 return
@@ -271,6 +254,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
             
             self.eventsByDay = Event.eventsGroupedByDate(events)
             self.calendarView.reloadData()
+            self.eventsTableView.reloadData()
         }
     }
     
@@ -279,18 +263,17 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarMonthDayCell.cellIdentifier, for: date, at: position) as! CalendarMonthDayCell
-        cell.eventIndicator.color = UIColor.red
         return cell
     }
     
     
     func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
-        return dayNumberDateFormatter.string(from: date)
+        return DateFormatter.dayNumberDateFormatter.string(from: date)
     }
     
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
-        return weekdayDateFormatter.string(from: date).uppercased()
+        return DateFormatter.weekdayDateFormatter.string(from: date).uppercased()
     }
     
     
@@ -312,6 +295,8 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         updateNavigationBarTitle()
+        
+        updateView()
     }
     
     
@@ -339,9 +324,9 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
             cell.isSelected = false
         }
         
-        cell.dayName.text = weekdayDateFormatter.string(from: cellDate)
-        cell.dayNumber.text = dayNumberDateFormatter.string(from: cellDate)
-        cell.dayMonth.text = dayShortNameDateFormatter.string(from: cellDate).uppercased()
+        cell.dayName.text = DateFormatter.weekdayDateFormatter.string(from: cellDate)
+        cell.dayNumber.text = DateFormatter.dayNumberDateFormatter.string(from: cellDate)
+        cell.dayMonth.text = DateFormatter.dayShortNameDateFormatter.string(from: cellDate).uppercased()
         
         return cell
     }
@@ -395,6 +380,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
                 weekCollectionView.reloadData()
                 weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
             }
+
             
         }
         
@@ -404,6 +390,8 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         calendarView.select(currentWeekDaysCache[indexPath.item])
         flowLayout.invalidateLayout()
+        
+        updateView()
     }
     
     
@@ -415,29 +403,39 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        guard let dayEvents = eventsByDay?[calendarView.selectedDate] else {
+            return 0
+        }
+        
+        return dayEvents.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EventTableViewCell.cellIdentifier, for: indexPath) as! EventTableViewCell
         
-        cell.eventTitleLabel.text = "Title"
-        cell.eventTimeLabel.text = "12:00"
+        if let event = eventsByDay?[calendarView.selectedDate]?[indexPath.row] {
+            cell.updateCell(withEvent: event)
+        }
         
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return EventTableViewCell.cellHeight()
+        return EventTableViewCell.cellHeight
     }
     
     
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if let event = eventsByDay?[calendarView.selectedDate]?[indexPath.row] {
+            let eventEditVC = EventEditViewController()
+            eventEditVC.eventData = event
+            
+            _ = navigationController?.pushViewController(eventEditVC, animated: true)
+        }
     }
     
     

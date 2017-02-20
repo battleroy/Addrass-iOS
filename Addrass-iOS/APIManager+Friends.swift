@@ -14,7 +14,7 @@ extension APIManager {
     
     // MARK: Friends
     
-    static func friends(forUser user: User, completion: @escaping ([User]?, String?) -> Void) {
+    static func friends(_ completion: @escaping ([User]?, String?) -> Void) {
         
         let endpoint = "/friend/all"
         

@@ -9,13 +9,93 @@
 import UIKit
 
 class Event {
+    
+    enum EventType: String, Hashable {
+        case other = "other"
+        case birthday = "birthday"
+        case meeting = "meeting"
+        case home = "home"
+        case work = "work"
+        case sport = "sport"
+        case kids = "kids"
+        
+        
+        // MARK: Properties
+        
+        var stringValue: String {
+            switch self {
+            case .other:
+                return String.ad.others
+            case .birthday:
+                return String.ad.birthday
+            case .meeting:
+                return String.ad.meeting
+            case .home:
+                return String.ad.home
+            case .work:
+                return String.ad.work
+            case .sport:
+                return String.ad.sport
+            case .kids:
+                return String.ad.kids
+            }
+        }
+        
+        
+        // MARK: Hashable
+        
+        var hashValue: Int {
+            return rawValue.hashValue
+        }
+        
+        static func == (lhs: EventType, rhs: EventType) -> Bool {
+            return lhs.rawValue == rhs.rawValue
+        }
+        
+        
+        // MARK: Public methods
+        
+        static var allValues: [EventType] {
+            return [.other, .birthday, .meeting, .home, .work, .sport, .kids]
+        }
+        
+    }
 
+    
+    // MARK: Fields
+    
     var id: Int?
     var timestamp: Int64?
     var name: String?
     var eventTypeName: String?
     var owner: User?
     
+    
+    // MARK: Properties
+    
+    var date: Date? {
+        get {
+            guard let eventTimestamp = timestamp else {
+                return nil
+            }
+            
+            return Date(timeIntervalSince1970: Double(eventTimestamp) / 1000.0)
+        }
+    }
+    
+    
+    var type: EventType? {
+        get {
+            guard let typeName = eventTypeName else {
+                return nil
+            }
+            
+            return EventType(rawValue: typeName)
+        }
+    }
+    
+    
+    // MARK: Initialization
     
     convenience init() {
         self.init(withId: nil, timestamp: nil, name: nil, eventTypeName: nil, owner: nil)
@@ -30,6 +110,8 @@ class Event {
         self.owner = owner
     }
     
+    
+    // MARK: Public methods
     
     func dictionaryRepresentation() -> [String : Any] {
         
@@ -53,63 +135,4 @@ class Event {
         return result
     }
     
-    
-    static func event(withDictionary dict: [String : Any]) -> Event {
-        let event = Event()
-        
-        event.id = dict["id"] as? Int
-        
-        if let eventTimestamp = dict["eventTimestamp"] {
-            if let eventTimestamp32 = eventTimestamp as? Int {
-                event.timestamp = Int64(exactly: eventTimestamp32)
-            } else if let eventTimestamp64 = eventTimestamp as? Int64 {
-                event.timestamp = eventTimestamp64
-            }
-        }
-        
-        event.name = dict["eventName"] as? String
-        
-        if let eventTypeDict = dict["eventType"] as? [String : Any] {
-            event.eventTypeName = eventTypeDict["typeName"] as? String
-        }
-
-        if let eventOwnerDict = dict["userOwner"] as? [String : Any] {
-            event.owner = User.user(withDictionary: eventOwnerDict)
-        }
-        
-        return event
-    }
-    
-    
-    static func eventList(withDictionaryList dictList: [[String: Any]]) -> [Event]? {
-        
-        var result = [Event]()
-        
-        for eventDict in dictList {
-            result.append(Event.event(withDictionary: eventDict))
-        }
-        
-        return result
-    }
-    
-    
-    static func eventsGroupedByDate(_ eventsList: [Event]) -> [Date : [Event]] {
-        
-        var resultDict = [Date : [Event]]()
-        
-        for event in eventsList {
-            if let eventTimestamp = event.timestamp {
-                let eventDate = Calendar.current.startOfDay(for: Date(timeIntervalSince1970: Double(eventTimestamp) / 1000.0))
-                
-                if resultDict[eventDate] == nil {
-                    resultDict[eventDate] = [Event]()
-                }
-                
-                resultDict[eventDate]?.append(event)
-            }
-        }
-        
-        return resultDict
-    }
-
 }
