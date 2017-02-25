@@ -25,6 +25,7 @@ class EventTableViewCell: ADTableViewCell {
     var eventTitleImageView: UIImageView!
     var eventTimeImageView: UIImageView!
     var eventTypeLabel: UILabel!
+    var eventOwnedLabel: UILabel!
     
     
     // MARK: Properties
@@ -63,6 +64,11 @@ class EventTableViewCell: ADTableViewCell {
         eventTypeLabel.font = UIFont.ad.bodyItalicFont
         eventTypeLabel.textColor = UIColor.ad.lightGray
         addSubview(eventTypeLabel)
+        
+        eventOwnedLabel = UILabel()
+        eventOwnedLabel.font = UIFont.ad.boldFont
+        eventOwnedLabel.textColor = UIColor.ad.lightGray
+        addSubview(eventOwnedLabel)
     }
     
     
@@ -95,6 +101,11 @@ class EventTableViewCell: ADTableViewCell {
             make.right.equalTo(self).offset(-EventTableViewCell.labelsOffset)
             make.centerY.equalTo(eventTimeLabel)
         }
+        
+        eventOwnedLabel.snp.remakeConstraints { (make) in
+            make.right.equalTo(eventTypeLabel)
+            make.centerY.equalTo(eventTitleLabel)
+        }
     }
     
     
@@ -108,6 +119,7 @@ class EventTableViewCell: ADTableViewCell {
         }
         
         eventTypeLabel.text = event.type?.stringValue
+        eventOwnedLabel.text = event.isOwnedByCurrentUser ? String.ad.owner : ""
     }
     
 }

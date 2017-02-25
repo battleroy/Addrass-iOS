@@ -51,5 +51,12 @@ extension DateFormatter {
         formatter.locale = Locale.current
         return formatter
     }()
-
+    
+    static let fullDateFormatter: DateFormatter! = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy HH:mm";
+        formatter.locale = Locale.current
+        return formatter
+    }()
+    
 }

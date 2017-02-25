@@ -42,6 +42,33 @@ class Event {
         }
         
         
+        // MARK: Init
+        
+        init(stringValue value: String?) {
+            guard let valueToConvert = value else {
+                self = .other
+                return
+            }
+            
+            switch valueToConvert {
+            case String.ad.birthday:
+                self = .birthday
+            case String.ad.meeting:
+                self = .meeting
+            case String.ad.home:
+                self = .home
+            case String.ad.work:
+                self = .work
+            case String.ad.sport:
+                self = .sport
+            case String.ad.kids:
+                self = .kids
+            default:
+                self = .other
+            }
+        }
+        
+        
         // MARK: Hashable
         
         var hashValue: Int {
@@ -81,6 +108,15 @@ class Event {
             
             return Date(timeIntervalSince1970: Double(eventTimestamp) / 1000.0)
         }
+        
+        set(newDate) {
+            guard let dateToConvert = newDate else {
+                timestamp = nil
+                return
+            }
+            
+            timestamp = Int64(dateToConvert.timeIntervalSince1970 * 1000.0)
+        }
     }
     
     
@@ -91,6 +127,22 @@ class Event {
             }
             
             return EventType(rawValue: typeName)
+        }
+        
+        set(newType) {
+            guard let typeToSet = newType else {
+                eventTypeName = EventType.other.stringValue
+                return
+            }
+            
+            eventTypeName = typeToSet.stringValue
+        }
+    }
+    
+    
+    var isOwnedByCurrentUser: Bool {
+        get {
+            return owner?.id == SessionManager.currentUser?.id
         }
     }
     

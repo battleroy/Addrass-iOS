@@ -14,18 +14,24 @@ extension APIManager {
     
     // MARK: Events
     
-    static func createEvent(_ event: Event) -> Bool {
-        fatalError()
+    @discardableResult
+    static func events(fromDate from: Date, to: Date, completion: @escaping (([Event]?, String?) -> Void)) -> DataRequest {
+        let eventDateFormatter = DateFormatter.eventDateFormatter
+        let endpoint = "/event/\(eventDateFormatter.string(from: from))/\(eventDateFormatter.string(from: to))"
+        
+        return events(forEndpoint: endpoint, completion: completion)
     }
     
     
     @discardableResult
-    static func events(fromDate from: Date, to: Date, completion: @escaping (([Event]?, String?) -> Void)) -> DataRequest {
+    static func eventsForOwn(completion: @escaping (([Event]?, String?) -> Void)) -> DataRequest {
+        let endpoint = "/event"
         
-        let eventDateFormatter = DateFormatter.eventDateFormatter
-        
-        let endpoint = "/event/\(eventDateFormatter.string(from: from))/\(eventDateFormatter.string(from: to))"
-        
+        return events(forEndpoint: endpoint, completion: completion)
+    }
+    
+    
+    private static func events(forEndpoint endpoint: String, completion: @escaping (([Event]?, String?) -> Void)) -> DataRequest {
         return Alamofire.request(apiRoot + endpoint).responseJSON { response in
             guard let JSONList = response.result.value as? [[String: Any]] else {
                 completion(nil, "Can't fetch events.")
@@ -37,8 +43,25 @@ extension APIManager {
     }
     
     
-    static func updateEvent(_ newEventData: Event) -> Bool {
+    static func createEvent(_ event: Event) -> Bool {
         fatalError()
+    }
+    
+    
+    static func updateEvent(_ newEventData: Event, completion: @escaping ((String?) -> Void)) {
+        let endpoint = "/event"
+        let eventDict = newEventData.dictionaryRepresentation()
+     
+        Alamofire.request(apiRoot + endpoint, method: .put, parameters: eventDict, encoding: JSONEncoding.default)
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            switch response.result {
+            case .success:
+                completion(nil)
+            case .failure(let updateError):
+                completion(updateError.localizedDescription)
+            }
+        }
     }
     
     

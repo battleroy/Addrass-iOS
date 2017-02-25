@@ -83,6 +83,8 @@ extension String {
         let enterUserLogin    = "Enter user login."
         let userDoesntExist   = "Such user doesn't exist."
         let thereAreNoMembers = "There are no members."
+        
+        let eventDate         = "Event date"
     }
     
     static let ad = ADLocalization()

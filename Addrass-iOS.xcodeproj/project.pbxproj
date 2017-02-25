@@ -16,6 +16,8 @@
 		9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */; };
 		9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */; };
 		9387B6F21E4F5160001FC066 /* UserEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6F11E4F5160001FC066 /* UserEditViewController.swift */; };
+		939507931E6188A40046CEFD /* ADIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939507921E6188A40046CEFD /* ADIconButton.swift */; };
+		939507951E6192CE0046CEFD /* ADIconButton+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939507941E6192CE0046CEFD /* ADIconButton+Factoring.swift */; };
 		B619CBEE5453F21EFAE87D57 /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */; };
 		F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5020BA01E0497A000AB36F7 /* SessionManager.swift */; };
 		F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53B40121DDE447A00B500F9 /* CalendarViewController.swift */; };
@@ -61,6 +63,8 @@
 		9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Friends.swift"; sourceTree = "<group>"; };
 		9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Events.swift"; sourceTree = "<group>"; };
 		9387B6F11E4F5160001FC066 /* UserEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditViewController.swift; sourceTree = "<group>"; };
+		939507921E6188A40046CEFD /* ADIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADIconButton.swift; sourceTree = "<group>"; };
+		939507941E6192CE0046CEFD /* ADIconButton+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ADIconButton+Factoring.swift"; sourceTree = "<group>"; };
 		BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		F5020BA01E0497A000AB36F7 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 				F5CE1EA71DD08A0A001A81C0 /* UIView+Addrass.swift */,
 				F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */,
 				932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */,
+				939507941E6192CE0046CEFD /* ADIconButton+Factoring.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 		F5B3929B1DCF6484006621B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				939507921E6188A40046CEFD /* ADIconButton.swift */,
 				F5B392991DCF6210006621B5 /* ADPaddedTextField.swift */,
 				F5FEAD4D1DE98BF900901069 /* ADTableViewCell.swift */,
 			);
@@ -470,6 +476,7 @@
 				F57395891DDCDF7B008D79D5 /* UserInfoTableViewCell.swift in Sources */,
 				9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */,
 				F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */,
+				939507931E6188A40046CEFD /* ADIconButton.swift in Sources */,
 				F55DC5BD1DDB7C970051276C /* UserDetailsViewController.swift in Sources */,
 				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
 				F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */,
@@ -477,6 +484,7 @@
 				F5CC583C1DE0484200133B01 /* EventDetailsViewController.swift in Sources */,
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
 				F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */,
+				939507951E6192CE0046CEFD /* ADIconButton+Factoring.swift in Sources */,
 				F5CC58421DE0488100133B01 /* EventEditViewController.swift in Sources */,
 				932C7C281E5B7A30003668D5 /* Event+Factoring.swift in Sources */,
 				F5B392901DCF4926006621B5 /* UIFont+Addrass.swift in Sources */,

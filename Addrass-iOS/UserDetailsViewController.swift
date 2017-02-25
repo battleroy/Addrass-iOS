@@ -14,7 +14,6 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     // MARK: Variables
     
     private static let imageViewSize: CGFloat = 100.0
-    private static let buttonIconSize: CGFloat = 15.0
     
     var userLogin: String?
     var fetchedUser: User? {
@@ -30,7 +29,6 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     var userNameLabel: UILabel!
     var userImageView: UIImageView!
     var eventsButton: UIButton!
-    var eventsImageView: UIImageView!
     
     var infoTableView: UITableView!
     
@@ -102,18 +100,16 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         userImageView.layer.borderWidth = 1.0
         headerContainerView.addSubview(userImageView)
         
-        eventsImageView = UIImageView(image: #imageLiteral(resourceName: "calendar-light"))
-        eventsImageView.contentMode = .scaleAspectFit
-        eventsButton = createIconButton(eventsImageView, title: String.ad.events)
+        eventsButton = ADIconButton.createButton(withButtonType: .events)
+        eventsButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         headerContainerView.addSubview(eventsButton)
         
         footerContainerView = UIView()
         footerContainerView.backgroundColor = UIColor.ad.gray
         view.addSubview(footerContainerView)
         
-        let deleteImageView = UIImageView(image: #imageLiteral(resourceName: "delete-light"))
-        deleteImageView.contentMode = .scaleAspectFit
-        deleteButton = createIconButton(deleteImageView, title: String.ad.delete)
+        deleteButton = ADIconButton.createButton(withButtonType: .delete)
+        deleteButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         footerContainerView.addSubview(deleteButton)
         
         setConstraints()
@@ -157,28 +153,6 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         })
         
         infoTableView.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
-    }
-    
-    
-    func createIconButton(_ iconView: UIView, title: String) -> UIButton {
-        
-        let button = UIButton()
-        
-        button.contentEdgeInsets = UIEdgeInsetsMake(5.0, 10.0 + UserDetailsViewController.buttonIconSize, 5.0, 5.0)
-        
-        button.setAttributedTitle(NSAttributedString(
-            string: title, attributes: [
-                NSFontAttributeName: UIFont.ad.boldFont,
-                NSForegroundColorAttributeName: UIColor.ad.white
-            ]
-        ), for: .normal)
-        button.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
-        
-        button.addSubview(iconView)
-        iconView.layer.position = CGPoint(x: 5.0 + UserDetailsViewController.buttonIconSize / 2, y: 5.0 + UserDetailsViewController.buttonIconSize / 2)
-        iconView.bounds = CGRect(x: 0.0, y: 0.0, width: UserDetailsViewController.buttonIconSize, height: UserDetailsViewController.buttonIconSize)
-        
-        return button
     }
     
     

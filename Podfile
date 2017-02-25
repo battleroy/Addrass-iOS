@@ -11,6 +11,7 @@ target 'Addrass-iOS' do
 	pod 'FSCalendar', '~> 2.5.1'
 	pod 'CZPicker', '~> 0.4.3'	
 	pod 'AlamofireImage', '~> 3.1'	
+	pod 'DatePickerDialog', '~> 1.1'
 
 end
 

@@ -34,6 +34,7 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
     var currentWeekDaysCache: [Date]!
     
     var eventsByDay: [Date : [Event]]?
+    var ownEvents: [Event]?
     
     var currentUpdateRequest: DataRequest?
     
@@ -246,15 +247,23 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         let lastDayOfPage = Calendar.current.date(byAdding: deltaMonthDateComponents, to: calendarView.currentPage)!
         
         eventsByDay = nil
+        ownEvents = nil
         currentUpdateRequest = APIManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
             (fetchedEvents, errorText) in
             guard let events = fetchedEvents else {
                 return
             }
             
-            self.eventsByDay = Event.eventsGroupedByDate(events)
-            self.calendarView.reloadData()
-            self.eventsTableView.reloadData()
+            APIManager.eventsForOwn { (fetchedOwnEvents, ownEventsErrorText) in
+                guard let ownEvents = fetchedOwnEvents else {
+                    return
+                }
+                
+                self.eventsByDay = Event.eventsGroupedByDate(events)
+                self.ownEvents = ownEvents
+                self.calendarView.reloadData()
+                self.eventsTableView.reloadData()
+            }
         }
     }
     
@@ -380,8 +389,6 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
                 weekCollectionView.reloadData()
                 weekCollectionView.scrollToItem(at: IndexPath(item: currentWeekDaysCache.count / 2, section: 0), at: .centeredHorizontally, animated: false)
             }
-
-            
         }
         
     }
