@@ -12,6 +12,7 @@
 		932C7C2A1E5B7A63003668D5 /* User+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C291E5B7A63003668D5 /* User+Factoring.swift */; };
 		932C7C2C1E5B8E17003668D5 /* APIManager+Members.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */; };
 		932C7C2E1E5B93E2003668D5 /* User+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */; };
+		9346B17B1E62CBBC00FE1893 /* CZPickerView+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9346B17A1E62CBBC00FE1893 /* CZPickerView+Factoring.swift */; };
 		9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */; };
 		9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */; };
 		9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */; };
@@ -59,6 +60,7 @@
 		932C7C291E5B7A63003668D5 /* User+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Factoring.swift"; sourceTree = "<group>"; };
 		932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Members.swift"; sourceTree = "<group>"; };
 		932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Hashable.swift"; sourceTree = "<group>"; };
+		9346B17A1E62CBBC00FE1893 /* CZPickerView+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CZPickerView+Factoring.swift"; sourceTree = "<group>"; };
 		9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Users.swift"; sourceTree = "<group>"; };
 		9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Friends.swift"; sourceTree = "<group>"; };
 		9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Events.swift"; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				F5DAD16C1E054B6500752EDE /* AlertExtensions.swift */,
 				932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */,
 				939507941E6192CE0046CEFD /* ADIconButton+Factoring.swift */,
+				9346B17A1E62CBBC00FE1893 /* CZPickerView+Factoring.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */,
 				F5AFC9221DD39BE5005963BD /* FriendsViewController.swift in Sources */,
 				F5EC09591DCE81EA003C8DD9 /* WelcomeViewController.swift in Sources */,
+				9346B17B1E62CBBC00FE1893 /* CZPickerView+Factoring.swift in Sources */,
 				F5CC58441DE049EB00133B01 /* CommonTabBarViewController.swift in Sources */,
 				F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */,
 				F5CE1EA81DD08A0A001A81C0 /* UIView+Addrass.swift in Sources */,

@@ -120,22 +120,17 @@ class Event {
     }
     
     
-    var type: EventType? {
+    var type: EventType {
         get {
             guard let typeName = eventTypeName else {
-                return nil
+                return .other
             }
             
-            return EventType(rawValue: typeName)
+            return EventType(rawValue: typeName)!
         }
         
         set(newType) {
-            guard let typeToSet = newType else {
-                eventTypeName = EventType.other.stringValue
-                return
-            }
-            
-            eventTypeName = typeToSet.stringValue
+            eventTypeName = newType.rawValue
         }
     }
     
@@ -150,7 +145,9 @@ class Event {
     // MARK: Initialization
     
     convenience init() {
-        self.init(withId: nil, timestamp: nil, name: nil, eventTypeName: nil, owner: nil)
+        self.init(withId: nil, timestamp: nil, name: String.ad.newEvent, eventTypeName: nil, owner: SessionManager.currentUser)
+        self.date = Date()
+        self.type = .other
     }
     
     

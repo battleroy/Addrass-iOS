@@ -43,8 +43,21 @@ extension APIManager {
     }
     
     
-    static func createEvent(_ event: Event) -> Bool {
-        fatalError()
+    static func createEvent(_ event: Event, completion: @escaping ((Event?, String?) -> Void)) {
+        
+        let endpoint = "/event"
+        let eventDict = event.dictionaryRepresentation()
+        
+        Alamofire.request(apiRoot + endpoint, method: .post, parameters: eventDict, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                switch response.result {
+                case .success:
+                    completion(Event.event(withDictionary: response.result.value as! [String : Any]), nil)
+                case .failure(let createError):
+                    completion(nil, createError.localizedDescription)
+                }
+        }
+        
     }
     
     

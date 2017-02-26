@@ -118,7 +118,7 @@ class EventTableViewCell: ADTableViewCell {
             eventTimeLabel.text = DateFormatter.timeDateFormatter.string(from: eventDate)
         }
         
-        eventTypeLabel.text = event.type?.stringValue
+        eventTypeLabel.text = event.type.stringValue
         eventOwnedLabel.text = event.isOwnedByCurrentUser ? String.ad.owner : ""
     }
     

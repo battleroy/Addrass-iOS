@@ -51,7 +51,9 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     var dateEditButton: UIButton!
     
     
+    var eventTypeLabel: UILabel!
     var eventTypePicker: CZPickerView!
+    var eventTypeButton: UIButton!
     
     
     // MARK: VCL
@@ -76,7 +78,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     // MARK: Private methods
     
     func createSubviews() {
-        
+        // --- Owner --- //
         ownerLabel = UILabel()
         ownerLabel.font = UIFont.ad.boldFont
         ownerLabel.textColor = UIColor.ad.white
@@ -84,8 +86,9 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         contentScrollView.addSubview(ownerLabel)
         
         
+        // --- Name Show --- //
         nameShowContainer = UIView()
-        nameShowContainer.isHidden = true
+        nameShowContainer.isHidden = false
         contentScrollView.addSubview(nameShowContainer)
         
         nameLabel = UILabel()
@@ -98,8 +101,9 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         nameEditButton = ADIconButton.createButton(withButtonType: .edit)
         nameEditButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         nameShowContainer.addSubview(nameEditButton)
+
         
-        
+        // --- Name Edit --- //
         nameEditContainer = UIView()
         nameEditContainer.isHidden = true
         contentScrollView.addSubview(nameEditContainer)
@@ -130,28 +134,24 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         nameEditContainer.addSubview(nameTextField)
         
         
+        // --- Members --- //
         membersLabel = UILabel()
         membersLabel.font = UIFont.ad.bodyFont
         membersLabel.textColor = UIColor.ad.lightGray
         membersLabel.numberOfLines = 0
         contentScrollView.addSubview(membersLabel)
         
-        editMembersButton = UIButton()
-        editMembersButton.setAttributedTitle(
-            NSAttributedString(
-                string: String.ad.edit,
-                attributes: [
-                    NSFontAttributeName: UIFont.ad.boldFont,
-                    NSForegroundColorAttributeName: UIColor.ad.yellow
-                ]
-            ),
-            for: .normal
-        )
-        editMembersButton.setTitleColor(UIColor.ad.yellow, for: .normal)
+        membersPicker = CZPickerView.createPickerView(withTitle: String.ad.members)
+        membersPicker.dataSource = self
+        membersPicker.delegate = self
+        membersPicker.allowMultipleSelection = true
+        
+        editMembersButton = ADIconButton.createButton(withButtonType: .edit)
         editMembersButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         contentScrollView.addSubview(editMembersButton)
         
         
+        // --- Date --- //
         dateLabel = UILabel()
         dateLabel.font = UIFont.ad.bodyFont
         dateLabel.textColor = UIColor.ad.white
@@ -162,21 +162,20 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         contentScrollView.addSubview(dateEditButton)
         
         
-        membersPicker = CZPickerView(headerTitle: String.ad.members, cancelButtonTitle: String.ad.cancel, confirmButtonTitle: String.ad.save)
-        membersPicker.dataSource = self
-        membersPicker.delegate = self
-        membersPicker.tapBackgroundToDismiss = false
-        membersPicker.allowMultipleSelection = true
-        membersPicker.checkmarkColor = UIColor.ad.yellow
-        membersPicker.headerBackgroundColor = UIColor.ad.darkGray
-        membersPicker.headerTitleFont = UIFont.ad.boldFont
-        membersPicker.headerTitleColor = UIColor.ad.white
-        membersPicker.cancelButtonBackgroundColor = UIColor.ad.darkGray
-        membersPicker.cancelButtonNormalColor = UIColor.ad.white
-        membersPicker.cancelButtonHighlightedColor = UIColor.ad.white
-        membersPicker.confirmButtonBackgroundColor = UIColor.ad.darkGray
-        membersPicker.confirmButtonNormalColor = UIColor.ad.white
-        membersPicker.confirmButtonHighlightedColor = UIColor.ad.white
+        // --- Event Type --- //
+        eventTypeLabel = UILabel()
+        eventTypeLabel.font = UIFont.ad.bodyFont
+        eventTypeLabel.textColor = UIColor.ad.white
+        contentScrollView.addSubview(eventTypeLabel)
+        
+        eventTypePicker = CZPickerView.createPickerView(withTitle: String.ad.eventType)
+        eventTypePicker.allowMultipleSelection = false
+        eventTypePicker.dataSource = self
+        eventTypePicker.delegate = self
+        
+        eventTypeButton = ADIconButton.createButton(withButtonType: .edit)
+        eventTypeButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
+        contentScrollView.addSubview(eventTypeButton)
     }
     
     
@@ -234,7 +233,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         
         ownerLabel.snp.remakeConstraints { (make) in
             make.centerX.equalTo(nameEditContainer)
-            make.top.equalTo(nameEditContainer.snp.bottom).offset(8.0)
+            make.top.equalTo(nameEditContainer.snp.bottom).offset(12.0)
         }
         
         
@@ -252,13 +251,25 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         
         dateLabel.snp.remakeConstraints { (make) in
             make.left.equalTo(nameEditContainer)
-            make.top.equalTo(membersLabel.snp.bottom).offset(8.0)
+            make.top.equalTo(membersLabel.snp.bottom).offset(12.0)
         }
         
         dateEditButton.snp.remakeConstraints { (make) in
             make.right.equalTo(nameEditContainer)
             make.centerY.equalTo(dateLabel)
             make.left.greaterThanOrEqualTo(dateLabel.snp.right).offset(8.0)
+        }
+        
+        
+        eventTypeLabel.snp.remakeConstraints { (make) in
+            make.left.equalTo(nameEditContainer)
+            make.top.equalTo(dateLabel.snp.bottom).offset(12.0)
+        }
+        
+        eventTypeButton.snp.remakeConstraints { (make) in
+            make.right.equalTo(nameEditContainer)
+            make.centerY.equalTo(eventTypeLabel)
+            make.left.greaterThanOrEqualTo(eventTypeLabel.snp.right).offset(8.0)
         }
     }
     
@@ -272,8 +283,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         nameLabel.text = event.name
         nameTextField.text = event.name
         dateLabel.text = DateFormatter.fullDateFormatter.string(from: event.date!)
-        
-        nameEditContainer.isHidden = false
+        eventTypeLabel.text = event.type.stringValue
         
         var members = [User]()
         for i in 0..<friends.count {
@@ -299,15 +309,45 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         friendsArray = nil
         friendsAreMemberArray = nil
         
+        if eventData == nil {
+            eventData = Event()
+        }
+        
+        if eventData?.id != nil {
+            reloadDataForExistingEvent(eventData!)
+        } else {
+            reloadDataForNewEvent()
+        }
+    }
+    
+    
+    func reloadDataForNewEvent() {
+        
+        APIManager.friends { (fetchedFriends, fetchedFriendsErrorText) in
+            guard let friends = fetchedFriends else {
+                UIAlertController.presentErrorAlert(withText: fetchedFriendsErrorText!, parentController: self)
+                return
+            }
+            
+            self.friendsArray = friends
+            self.friendsAreMemberArray = [Bool](repeating: false, count: friends.count)
+            
+            self.updateView()
+        }
+        
+    }
+    
+    
+    func reloadDataForExistingEvent(_ existingEventData: Event) {
         var friendsAreMembersDict = [User : Bool]()
         
-        guard let eventID = eventData?.id else {
+        guard let eventID = existingEventData.id else {
             return
         }
         
         if let editBarButton = navigationItem.rightBarButtonItem {
-            editBarButton.isEnabled = eventData.isOwnedByCurrentUser
-            editBarButton.tintColor = (eventData.isOwnedByCurrentUser ? nil : UIColor.clear)
+            editBarButton.isEnabled = existingEventData.isOwnedByCurrentUser
+            editBarButton.tintColor = (existingEventData.isOwnedByCurrentUser ? nil : UIColor.clear)
         }
         
         APIManager.membersFromEvent(forEventID: eventID) { (fetchedMembers, fetchMembersError) in
@@ -316,7 +356,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
                 for member in members {
                     friendsAreMembersDict[member] = true
                 }
-            
+                
                 APIManager.friendsNotInEvent(forEventID: eventID) { (fetchedFriends, fetchErrorText) in
                     if let notMembers = fetchedFriends {
                         
@@ -353,9 +393,35 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             return
         }
         
+        if eventData?.id == nil {
+            createEvent()
+        } else {
+            updateEvent()
+        }
+    }
+    
+    
+    func createEvent() {
+        APIManager.createEvent(eventData!) { (fetchedCreatedEvent, fetchedCreateErrorText) in
+            guard let createdEventID = fetchedCreatedEvent?.id else {
+                UIAlertController.presentErrorAlert(withText: fetchedCreateErrorText!, parentController: self)
+                return
+            }
+            
+            APIManager.membersUpdate(forEventID: createdEventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
+                if let membersUpdateErrorText = fetchedMembersUpdateErrorText {
+                    UIAlertController.presentErrorAlert(withText: membersUpdateErrorText, parentController: self)
+                    return
+                }
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            })
+        }
+    }
+    
+    
+    func updateEvent() {
         let newEventData = eventData!
-        newEventData.name = nameTextField.text
-        // newEventData.type =
         
         APIManager.updateEvent(newEventData) { updateErrorText in
             if let updateError = updateErrorText {
@@ -363,7 +429,73 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
                 return
             }
             
-            _ = self.navigationController?.popViewController(animated: true)
+            guard let eventID = newEventData.id else {
+                UIAlertController.presentErrorAlert(withText: String.ad.cantUpdateEventMembers, parentController: self)
+                return
+            }
+            
+            APIManager.membersUpdate(forEventID: eventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
+                if let membersUpdateErrorText = fetchedMembersUpdateErrorText {
+                    UIAlertController.presentErrorAlert(withText: membersUpdateErrorText, parentController: self)
+                    return
+                }
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            })
+        }
+    }
+    
+    
+    func newMembersArray() -> [User] {
+        var newMembers = [User]()
+        
+        if let friendsArray = self.friendsArray, let friendsAreMemberArray = self.friendsAreMemberArray {
+            for i in 0..<friendsArray.count {
+                if friendsAreMemberArray[i] {
+                    newMembers.append(friendsArray[i])
+                }
+            }
+        }
+        
+        return newMembers
+    }
+    
+    
+    func switchNameEdit(_ isOn: Bool, completion: (() -> Void)?) {
+        self.nameShowContainer.isHidden = !isOn
+        self.nameShowContainer.alpha = (isOn ? 1.0 : 0.0)
+        self.nameEditContainer.isHidden = isOn
+        self.nameEditContainer.alpha = (isOn ? 0.0 : 1.0)
+        
+        UIView.animate(withDuration: 0.3, animations: { 
+            if isOn {
+                self.nameShowContainer.alpha = 0.0
+            } else {
+                self.nameEditContainer.alpha = 0.0
+            }
+        }) { isCompletedHiding in
+            if !isCompletedHiding {
+                return
+            }
+            
+            self.nameShowContainer.isHidden = isOn
+            self.nameEditContainer.isHidden = !isOn
+            
+            UIView.animate(withDuration: 0.3, animations: { 
+                if isOn {
+                    self.nameEditContainer.alpha = 1.0
+                } else {
+                    self.nameShowContainer.alpha = 1.0
+                }
+            }) { isCompletedAppearance in
+                if !isCompletedAppearance {
+                    return
+                }
+                
+                if let presentedCompletion = completion {
+                    presentedCompletion()
+                }
+            }
         }
     }
     
@@ -371,72 +503,117 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     // MARK: CZPickerViewDataSource
     
     func numberOfRows(in pickerView: CZPickerView!) -> Int {
-        guard let friends = friendsArray else {
-            return 0
+        if pickerView === membersPicker {
+            
+            guard let friends = friendsArray else {
+                return 0
+            }
+            
+            return friends.count
+            
+        } else if pickerView === eventTypePicker {
+            return EventEditViewController.eventTypes.count
         }
         
-        return friends.count
+        return 0
     }
     
     
     func czpickerView(_ pickerView: CZPickerView!, attributedTitleForRow row: Int) -> NSAttributedString! {
-        guard let friends = friendsArray else {
-            return NSAttributedString(string: "")
+        var rowTitle: String?
+        
+        if pickerView === membersPicker {
+        
+            guard let friends = friendsArray else {
+                return NSAttributedString(string: "")
+            }
+            
+            rowTitle = friends[row].fullName
+            
+        } else if pickerView === eventTypePicker {
+            rowTitle = EventEditViewController.eventTypes[row]
         }
         
-        return NSAttributedString(
-            string: friends[row].fullName,
-            attributes: [
-                NSFontAttributeName: UIFont.ad.bodyFont,
-                NSForegroundColorAttributeName: UIColor.ad.white
-            ]
-        )
+        if let finalRowTitle = rowTitle {
+            return NSAttributedString(
+                string: finalRowTitle,
+                attributes: [
+                    NSFontAttributeName: UIFont.ad.bodyFont,
+                    NSForegroundColorAttributeName: UIColor.ad.white
+                ]
+            )
+        }
+        
+        return NSAttributedString()
     }
     
     
     // MARK: CZPickerViewDelegate
     
     func czpickerViewWillDisplay(_ pickerView: CZPickerView!) {
-        guard let members = friendsAreMemberArray else {
-            return
-        }
+        if pickerView === membersPicker {
         
-        var selectedIndices = [Int]()
-        
-        for i in 0..<members.count {
-            if members[i] {
-                selectedIndices.append(i)
+            guard let members = friendsAreMemberArray else {
+                return
             }
+            
+            var selectedIndices = [Int]()
+            
+            for i in 0..<members.count {
+                if members[i] {
+                    selectedIndices.append(i)
+                }
+            }
+            
+            pickerView.setSelectedRows(selectedIndices)
+            
+        } else if pickerView === eventTypePicker {
+            
+            let activeTypeIndex = Event.EventType.allValues.index(of: eventData!.type)!
+            pickerView.setSelectedRows([activeTypeIndex])
+            
         }
-        
-        pickerView.setSelectedRows(selectedIndices)
     }
     
     
     func czpickerViewWillDismiss(_ pickerView: CZPickerView!) {
-        guard let friends = friendsArray else {
-            return
-        }
-        
-        friendsAreMemberArray = [Bool](repeating: false, count: friends.count)
-        
-        for selectedMemberIndex in pickerView.selectedRows() {
-            friendsAreMemberArray![selectedMemberIndex as! Int] = true
+        if pickerView === membersPicker {
+            
+            guard let friends = friendsArray else {
+                return
+            }
+            
+            friendsAreMemberArray = [Bool](repeating: false, count: friends.count)
+            
+            for selectedMemberIndex in pickerView.selectedRows() {
+                friendsAreMemberArray![selectedMemberIndex as! Int] = true
+            }
+            
+        } else if pickerView === eventTypePicker {
+            
+            let pickedEventType = EventEditViewController.eventTypes[pickerView.selectedRows().first as! Int]
+            eventData.type = Event.EventType(stringValue: pickedEventType)
+            
         }
         
         updateView()
     }
     
     
+    
+    
+    
     // MARK: Actions
     
     func buttonWasPressed(_ sender: UIButton) {
-        if sender === nameEditButton {
-            
+        if sender === nameEditButton && eventData!.isOwnedByCurrentUser {
+            switchNameEdit(true, completion: nil)
         } else if sender === nameSaveButton {
-            
+            eventData.name = nameTextField.text
+            updateView()
+            switchNameEdit(false, completion: nil)
         } else if sender === nameCancelButton {
-            
+            switchNameEdit(false, completion: nil)
         } else if sender === editMembersButton {
             membersPicker.show()
         } else if sender === dateEditButton {
@@ -447,8 +624,11 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             DatePickerDialog().show(title: String.ad.eventDate, doneButtonTitle: String.ad.done, cancelButtonTitle: String.ad.cancel, defaultDate: currentEventDate, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime, callback: { selectedDate in
                 if let newDate = selectedDate {
                     self.eventData.date = newDate
+                    self.updateView()
                 }
             })
+        } else if sender === eventTypeButton {
+            eventTypePicker.show()
         }
     }
     
