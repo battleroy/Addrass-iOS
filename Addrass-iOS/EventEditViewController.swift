@@ -56,12 +56,19 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     var eventTypeButton: UIButton!
     
     
+    var deleteEventButton: UIButton!
+    
+    
+    var viewsForOwnerOnly: [UIView]!
+    
+    
     // MARK: VCL
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         
-        title = String.ad.edit
+        title = (eventData?.owner == SessionManager.currentUser ? String.ad.edit : String.ad.event)
         contentScrollView.backgroundColor = UIColor.ad.gray
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: String.ad.cancel, style: .plain, target: self, action: #selector(barButtonPressed(_:)))
@@ -176,6 +183,14 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         eventTypeButton = ADIconButton.createButton(withButtonType: .edit)
         eventTypeButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         contentScrollView.addSubview(eventTypeButton)
+        
+        
+        deleteEventButton = ADIconButton.createButton(withButtonType: .delete)
+        deleteEventButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
+        contentScrollView.addSubview(deleteEventButton)
+        
+        
+        viewsForOwnerOnly = [nameEditButton, nameTextField, nameSaveButton, nameCancelButton, editMembersButton, dateEditButton, eventTypeButton, deleteEventButton]
     }
     
     
@@ -187,7 +202,6 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             make.left.equalTo(contentScrollView).offset(8.0)
             make.right.equalTo(contentScrollView).offset(8.0)
             make.top.equalTo(contentScrollView).offset(8.0)
-            make.bottom.equalTo(contentScrollView).offset(-8.0)
         }
         
         nameLabel.snp.remakeConstraints { (make) in
@@ -209,7 +223,6 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             make.left.equalTo(contentScrollView).offset(8.0)
             make.right.equalTo(contentScrollView).offset(8.0)
             make.top.equalTo(contentScrollView).offset(8.0)
-            make.bottom.equalTo(contentScrollView).offset(-8.0)
         }
         
         nameTextField.setContentHuggingPriority(100, for: .horizontal)
@@ -271,6 +284,13 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             make.centerY.equalTo(eventTypeLabel)
             make.left.greaterThanOrEqualTo(eventTypeLabel.snp.right).offset(8.0)
         }
+        
+        
+        deleteEventButton.snp.remakeConstraints { (make) in
+            make.left.equalTo(nameEditContainer)
+            make.bottom.equalTo(contentScrollView).offset(-8.0)
+            make.bottom.equalTo(bottomLayoutGuide.snp.bottom).offset(-8.0)
+        }
     }
     
     
@@ -313,6 +333,13 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             eventData = Event()
         }
         
+        for ownerView in viewsForOwnerOnly {
+            ownerView.isHidden = !eventData!.isOwnedByCurrentUser
+            if ownerView === deleteEventButton && eventData!.id == nil {
+                ownerView.isHidden = true
+            }
+        }
+        
         if eventData?.id != nil {
             reloadDataForExistingEvent(eventData!)
         } else {
@@ -345,9 +372,9 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             return
         }
         
-        if let editBarButton = navigationItem.rightBarButtonItem {
-            editBarButton.isEnabled = existingEventData.isOwnedByCurrentUser
-            editBarButton.tintColor = (existingEventData.isOwnedByCurrentUser ? nil : UIColor.clear)
+        if let saveBarButton = navigationItem.rightBarButtonItem {
+            saveBarButton.isEnabled = existingEventData.isOwnedByCurrentUser
+            saveBarButton.title = (existingEventData.isOwnedByCurrentUser ? String.ad.save : "")
         }
         
         APIManager.membersFromEvent(forEventID: eventID) { (fetchedMembers, fetchMembersError) in
@@ -600,9 +627,6 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     }
     
     
-    
-    
-    
     // MARK: Actions
     
     func buttonWasPressed(_ sender: UIButton) {
@@ -629,6 +653,15 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             })
         } else if sender === eventTypeButton {
             eventTypePicker.show()
+        } else if sender === deleteEventButton {
+            APIManager.deleteEvent(forEventID: eventData.id!, completion: { fetchedDeleteErrorText in
+                if let deleteErrorText = fetchedDeleteErrorText {
+                    UIAlertController.presentErrorAlert(withText: deleteErrorText, parentController: self)
+                    return
+                }
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            })
         }
     }
     

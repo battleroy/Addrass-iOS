@@ -78,8 +78,18 @@ extension APIManager {
     }
     
     
-    static func deleteEvent(_ event: Event) -> Bool {
-        fatalError()
+    static func deleteEvent(forEventID eventID: Int, completion: @escaping ((String?) -> Void)) {
+        let endpoint = "/event/\(eventID)"
+        
+        Alamofire.request(apiRoot + endpoint, method: .delete)
+        .responseData { response in
+            switch response.result {
+            case .success:
+                completion(nil)
+            case .failure(let deleteError):
+                completion(deleteError.localizedDescription)
+            }
+        }
     }
     
 }

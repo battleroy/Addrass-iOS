@@ -138,8 +138,8 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         })
         
         eventsButton.snp.makeConstraints({ (make) in
-            make.right.equalTo(headerContainerView).offset(-5.0)
-            make.bottom.equalTo(headerContainerView).offset(-5.0)
+            make.right.equalTo(headerContainerView).offset(-8.0)
+            make.bottom.equalTo(headerContainerView).offset(-8.0)
         })
         
         footerContainerView.snp.makeConstraints({ (make) in
@@ -148,8 +148,8 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         })
         
         deleteButton.snp.makeConstraints({ (make) in
-            make.left.equalTo(footerContainerView).offset(5.0)
-            make.bottom.equalTo(footerContainerView).offset(-5.0)
+            make.left.equalTo(footerContainerView).offset(8.0)
+            make.bottom.equalTo(footerContainerView).offset(-8.0)
         })
         
         infoTableView.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
@@ -163,19 +163,12 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         let scrollPoint = CGPoint(x: 0.0, y: -infoTableView.contentInset.top)
         infoTableView.setContentOffset(scrollPoint, animated: false)
         
-        if let currentUserLogin = userLogin {
-            let editButton = navigationItem.rightBarButtonItem
-            if currentUserLogin != SessionManager.currentUser?.login {
-                editButton?.isEnabled = false
-                editButton?.tintColor = UIColor.clear
-                
-                deleteButton.isHidden = false
-            } else {
-                editButton?.isEnabled = true
-                editButton?.tintColor = nil
-                
-                deleteButton.isHidden = true
-            }
+        if let currentUserLogin = userLogin, let editButton = navigationItem.rightBarButtonItem {
+            let isEditingSelf = (currentUserLogin == SessionManager.currentUser?.login)
+            
+            editButton.isEnabled = isEditingSelf
+            editButton.title = (isEditingSelf ? String.ad.edit : "")
+            deleteButton.isHidden = isEditingSelf
         }
         
         infoTableView.reloadData()

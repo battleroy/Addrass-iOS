@@ -54,7 +54,7 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
         lastNameTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.lastName, withSafeInput: false)
         phoneTextField = createTextField(withReturnType: .next, keyboardType: .phonePad, placeholder: String.ad.phone, withSafeInput: false)
         emailTextField = createTextField(withReturnType: .next, keyboardType: .emailAddress, placeholder: String.ad.email, withSafeInput: false)
-        addressTextField = createTextField(withReturnType: .next, keyboardType: .default, placeholder: String.ad.address, withSafeInput: false)
+        addressTextField = createTextField(withReturnType: .done, keyboardType: .default, placeholder: String.ad.address, withSafeInput: false)
         
         imageView = UIImageView()
         imageView.isUserInteractionEnabled = true
@@ -216,14 +216,16 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if textField == firstNameTextField {
+        if textField === firstNameTextField {
             lastNameTextField.becomeFirstResponder()
-        } else if textField == lastNameTextField {
+        } else if textField === lastNameTextField {
             phoneTextField.becomeFirstResponder()
-        } else if textField == phoneTextField {
+        } else if textField === phoneTextField {
             emailTextField.becomeFirstResponder()
-        } else if textField == emailTextField {
+        } else if textField === emailTextField {
             addressTextField.becomeFirstResponder()
+        } else if textField === addressTextField {
+            addressTextField.resignFirstResponder()
         }
         
         return true

@@ -84,6 +84,7 @@ extension String {
         let userDoesntExist   = "Such user doesn't exist."
         let thereAreNoMembers = "There are no members."
         
+        let event             = "Event"
         let newEvent          = "New event"
         let eventDate         = "Event date"
         let eventType         = "Event type"
