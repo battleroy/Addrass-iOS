@@ -79,30 +79,10 @@ class ScrollableContentViewController: UIViewController, UIScrollViewDelegate {
     
     
     func keyboardWillHide(_ note: Notification) {
-        guard let kbSizeInfo = note.userInfo?[UIKeyboardFrameEndUserInfoKey] else {
-            return
-        }
-        
-        let kbSize = (kbSizeInfo as! NSValue).cgRectValue
         currentKeyboardHeight = 0.0
         
         updateInsets()
     }
-    
-    
-//    func keyboardBoundsWillBeChanged(_ note: Notification) {
-//        if let beginRect = (note.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue,
-//            let endRect   = (note.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            
-//            let deltaY = beginRect.origin.y + beginRect.size.height - (endRect.origin.y + endRect.size.height);
-//            bottomSpaceAccumulator += deltaY;
-//            
-//            let newInsets = UIEdgeInsetsMake(0.0, 0.0, bottomSpaceAccumulator, 0.0)
-//            contentScrollView?.contentInset = newInsets
-//            contentScrollView?.scrollIndicatorInsets = newInsets
-//            
-//        }
-//    }
     
     
     // MARK: UIScrollViewDelegate

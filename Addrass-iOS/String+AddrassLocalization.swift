@@ -89,6 +89,10 @@ extension String {
         let eventDate         = "Event date"
         let eventType         = "Event type"
         let cantUpdateEventMembers = "Can't update event members"
+        
+        let chat              = "Chat"
+        let enterMessage      = "Enter message..."
+        let send              = "Send"
     }
     
     static let ad = ADLocalization()
