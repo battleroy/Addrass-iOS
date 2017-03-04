@@ -12,6 +12,7 @@ target 'Addrass-iOS' do
 	pod 'CZPicker', '~> 0.4.3'	
 	pod 'AlamofireImage', '~> 3.1'	
 	pod 'DatePickerDialog', '~> 1.1'
+	pod 'Starscream', '~> 2.0.3'		
 
 end
 

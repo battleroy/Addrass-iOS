@@ -11,11 +11,12 @@ import UIKit
 import SnapKit
 
 
-class ChatViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ChatViewController : UIViewController, StompClientDelegate, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Fields
     
     var messages: [Message]!
+    var stompClient: StompClient?
     
     var messagesTableView: UITableView!
     var newMessageTextField: UITextField!
@@ -39,6 +40,8 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        connectToChat()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -46,6 +49,8 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        stompClient?.disconnect()
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -100,6 +105,38 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
+    func connectToChat() {
+        stompClient = StompClient(url: URL(string: "ws://localhost:8080/ws/websocket")!)
+        stompClient?.delegate = self
+        stompClient?.connect()
+    }
+    
+    
+    // MARK: StompClientDelegate
+    
+    func stompClientDidConnect(_ client: StompClient) {
+        print("conn")
+        client.subscribe("/user/exchange/amq.direct/chat.message")
+    }
+    
+    
+    func stompClientDidDisconnect(_ client: StompClient) {
+        print("disconn")
+    }
+    
+    
+    func stompClientError(_ client: StompClient, error: Error) {
+        print("err: ", error.localizedDescription)
+    }
+    
+    
+    func stompClientDidReceiveText(_ client: StompClient, text: String?) {
+        if let receivedText = text {
+            UIAlertController.presentInfoAlert(withText: "Privet. " + receivedText, parentController: self)
+        }
+    }
+    
+    
     // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,6 +182,8 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
             stub.text = newMessageTextField.text
             stub.time = Date()
             
+            stompClient?.sendText(stub.text!, destination: "/app/chat.private.b")
+            
             messagesTableView.beginUpdates()
             
             messages.append(stub)
@@ -174,6 +213,7 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
                 }
                 
                 make.bottom.equalTo(self.view).offset(-4.0 - kbSize.height + (self.tabBarController?.tabBar.bounds.height ?? 0.0))
+                self.view.layoutIfNeeded()
             }
         }
     }
@@ -192,6 +232,7 @@ class ChatViewController : UIViewController, UITableViewDataSource, UITableViewD
                 }
                 
                 make.bottom.equalTo(self.view).offset(-4.0)
+                self.view.layoutIfNeeded()
             }
         }
     }

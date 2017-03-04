@@ -12,6 +12,9 @@
 		932C7C2A1E5B7A63003668D5 /* User+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C291E5B7A63003668D5 /* User+Factoring.swift */; };
 		932C7C2C1E5B8E17003668D5 /* APIManager+Members.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */; };
 		932C7C2E1E5B93E2003668D5 /* User+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */; };
+		9335F68B1E6AB20400229234 /* StompClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335F68A1E6AB20400229234 /* StompClient.swift */; };
+		9335F68E1E6AB4D800229234 /* StompFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335F68D1E6AB4D800229234 /* StompFrame.swift */; };
+		9335F6901E6ADC5600229234 /* StompError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335F68F1E6ADC5600229234 /* StompError.swift */; };
 		9346B17B1E62CBBC00FE1893 /* CZPickerView+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9346B17A1E62CBBC00FE1893 /* CZPickerView+Factoring.swift */; };
 		9387B6EC1E4EFE99001FC066 /* APIManager+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */; };
 		9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */; };
@@ -63,6 +66,9 @@
 		932C7C291E5B7A63003668D5 /* User+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Factoring.swift"; sourceTree = "<group>"; };
 		932C7C2B1E5B8E17003668D5 /* APIManager+Members.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Members.swift"; sourceTree = "<group>"; };
 		932C7C2D1E5B93E2003668D5 /* User+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Hashable.swift"; sourceTree = "<group>"; };
+		9335F68A1E6AB20400229234 /* StompClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StompClient.swift; sourceTree = "<group>"; };
+		9335F68D1E6AB4D800229234 /* StompFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StompFrame.swift; sourceTree = "<group>"; };
+		9335F68F1E6ADC5600229234 /* StompError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StompError.swift; sourceTree = "<group>"; };
 		9346B17A1E62CBBC00FE1893 /* CZPickerView+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CZPickerView+Factoring.swift"; sourceTree = "<group>"; };
 		9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Users.swift"; sourceTree = "<group>"; };
 		9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Friends.swift"; sourceTree = "<group>"; };
@@ -128,6 +134,16 @@
 				BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9335F68C1E6AB4C600229234 /* STOMP */ = {
+			isa = PBXGroup;
+			children = (
+				9335F68A1E6AB20400229234 /* StompClient.swift */,
+				9335F68D1E6AB4D800229234 /* StompFrame.swift */,
+				9335F68F1E6ADC5600229234 /* StompError.swift */,
+			);
+			name = STOMP;
 			sourceTree = "<group>";
 		};
 		93F7353D1E64A8C300F89D4B /* Chat */ = {
@@ -267,6 +283,7 @@
 		F5CC58371DE0463000133B01 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				9335F68C1E6AB4C600229234 /* STOMP */,
 				F5CC58381DE0463E00133B01 /* APIManager.swift */,
 				9387B6EB1E4EFE99001FC066 /* APIManager+Users.swift */,
 				9387B6ED1E4EFED5001FC066 /* APIManager+Friends.swift */,
@@ -482,6 +499,7 @@
 				F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */,
 				F5AFC9241DD39E41005963BD /* FriendTableViewCell.swift in Sources */,
 				93F7353F1E64A8DA00F89D4B /* ChatViewController.swift in Sources */,
+				9335F68E1E6AB4D800229234 /* StompFrame.swift in Sources */,
 				F5B3929D1DCFB3F9006621B5 /* RootNavigationViewController.swift in Sources */,
 				9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */,
 				F5AFC9221DD39BE5005963BD /* FriendsViewController.swift in Sources */,
@@ -500,11 +518,13 @@
 				F57395891DDCDF7B008D79D5 /* UserInfoTableViewCell.swift in Sources */,
 				9387B6EE1E4EFED5001FC066 /* APIManager+Friends.swift in Sources */,
 				F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */,
+				9335F6901E6ADC5600229234 /* StompError.swift in Sources */,
 				939507931E6188A40046CEFD /* ADIconButton.swift in Sources */,
 				F55DC5BD1DDB7C970051276C /* UserDetailsViewController.swift in Sources */,
 				F5B392921DCF49F2006621B5 /* UIColor+Addrass.swift in Sources */,
 				F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */,
 				F5B392941DCF4F3A006621B5 /* String+AddrassLocalization.swift in Sources */,
+				9335F68B1E6AB20400229234 /* StompClient.swift in Sources */,
 				F5CC583C1DE0484200133B01 /* EventDetailsViewController.swift in Sources */,
 				F5CE1EA61DD06E6B001A81C0 /* SignUpViewController.swift in Sources */,
 				F5DAD16D1E054B6500752EDE /* AlertExtensions.swift in Sources */,

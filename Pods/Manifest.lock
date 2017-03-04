@@ -1,11 +1,12 @@
 PODS:
-  - Alamofire (4.2.0)
+  - Alamofire (4.4.0)
   - AlamofireImage (3.2.0):
     - Alamofire (~> 4.1)
   - CZPicker (0.4.3)
   - DatePickerDialog (1.1.7)
   - FSCalendar (2.5.1)
   - SnapKit (3.0.2)
+  - Starscream (2.0.3)
   - SwiftGifOrigin (1.6.1)
 
 DEPENDENCIES:
@@ -15,17 +16,19 @@ DEPENDENCIES:
   - DatePickerDialog (~> 1.1)
   - FSCalendar (~> 2.5.1)
   - SnapKit (~> 3.0.2)
+  - Starscream (~> 2.0.3)
   - SwiftGifOrigin (~> 1.6.1)
 
 SPEC CHECKSUMS:
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   CZPicker: 55aa1751ea26e209814552da1a9a08cba8bbf72a
   DatePickerDialog: bd5e7e92e4da2c6a8966b28d5f5d8f335d6c2c63
   FSCalendar: 8efeb4b92240937204165c7743f4375923112fb5
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
+  Starscream: 3fdd5c277e57cca6b5c406d274e3f34a7c88f2ce
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
 
-PODFILE CHECKSUM: 5082960e08da38466c8dc0f20e3c43ae8d24cdcd
+PODFILE CHECKSUM: f5033ff5de77ec9eab0bd8a6250df95994b99d15
 
 COCOAPODS: 1.2.0
