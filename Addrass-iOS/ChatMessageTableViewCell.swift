@@ -144,7 +144,7 @@ class ChatMessageTableViewCell : UITableViewCell {
     static func cellHeight(forMessage message: Message, tableWidth: CGFloat) -> CGFloat {
         let labelsWidth = tableWidth * ChatMessageTableViewCell.cellToTableWidthRatio - ChatMessageTableViewCell.imageSize - 4.0 * 3
         let textHeight = UIFont.ad.bodyFont.height(forGivenText: message.text, width: labelsWidth)
-        let timeHeight = UIFont.ad.smallBoldFont.height(forGivenText: DateFormatter.timeDateFormatter.string(from: message.time!), width: labelsWidth)
+        let timeHeight = UIFont.ad.smallBoldFont.height(forGivenText: DateFormatter.timeDateFormatter.string(from: message.date!), width: labelsWidth)
         
         return 8.0 * 2 + max(ChatMessageTableViewCell.imageSize, textHeight + 4.0 + timeHeight)
     }
@@ -158,10 +158,12 @@ class ChatMessageTableViewCell : UITableViewCell {
         senderImageView.image = nil
         
         messageTextLabel.text = message.text
-        timeTextLabel.text = DateFormatter.timeDateFormatter.string(from: message.time!)
+        timeTextLabel.text = DateFormatter.timeDateFormatter.string(from: message.date!)
         
         if let imageLink = message.sender?.imageLink, let imageURL = URL(string: imageLink) {
             senderImageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "user-icon-placeholder"))
+        } else {
+            senderImageView.image = #imageLiteral(resourceName: "user-icon-placeholder")
         }
         
         setNeedsUpdateConstraints()

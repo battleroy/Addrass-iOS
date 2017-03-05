@@ -19,9 +19,8 @@ class CommonTabBarViewController: UITabBarController {
         
         let friendsVC = RootNavigationViewController(rootViewController: FriendsViewController(), tabBarImage: #imageLiteral(resourceName: "contacts-inactive-tb"), title: String.ad.friends)
         let calendarVC = RootNavigationViewController(rootViewController: CalendarViewController(), tabBarImage: #imageLiteral(resourceName: "calendar-inactive-tb"), title: String.ad.calendar)
-        let chatVC = RootNavigationViewController(rootViewController: ChatViewController(), tabBarImage: #imageLiteral(resourceName: "message-inactive-tb"), title: String.ad.chat)
 
-        viewControllers = [friendsVC, calendarVC, chatVC]
+        viewControllers = [friendsVC, calendarVC]
     }
 
 }

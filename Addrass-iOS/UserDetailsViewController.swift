@@ -29,6 +29,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     var userNameLabel: UILabel!
     var userImageView: UIImageView!
     var eventsButton: UIButton!
+    var chatButton: UIButton!
     
     var infoTableView: UITableView!
     
@@ -104,6 +105,10 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         eventsButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         headerContainerView.addSubview(eventsButton)
         
+        chatButton = ADIconButton.createButton(withButtonType: .chat)
+        chatButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
+        headerContainerView.addSubview(chatButton)
+        
         footerContainerView = UIView()
         footerContainerView.backgroundColor = UIColor.ad.gray
         view.addSubview(footerContainerView)
@@ -117,40 +122,45 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     
     
     func setConstraints() {
-        infoTableView.snp.makeConstraints({ (make) in
+        infoTableView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
-        })
+        }
         
-        headerContainerView.snp.makeConstraints({ (make) in
+        headerContainerView.snp.makeConstraints { (make) in
             make.height.equalTo(view).multipliedBy(0.3)
             make.left.right.top.equalTo(infoTableView)
-        })
+        }
         
-        userImageView.snp.makeConstraints({ (make) in
+        userImageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(headerContainerView)
             make.bottom.equalTo(headerContainerView).offset(15.0)
             make.height.width.equalTo(UserDetailsViewController.imageViewSize)
-        })
+        }
         
-        userNameLabel.snp.makeConstraints({ (make) in
+        userNameLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(headerContainerView)
             make.bottom.equalTo(userImageView.snp.top).offset(-16.0)
-        })
+        }
         
-        eventsButton.snp.makeConstraints({ (make) in
+        eventsButton.snp.makeConstraints { (make) in
             make.right.equalTo(headerContainerView).offset(-8.0)
             make.bottom.equalTo(headerContainerView).offset(-8.0)
-        })
+        }
         
-        footerContainerView.snp.makeConstraints({ (make) in
+        chatButton.snp.makeConstraints { (make) in
+            make.left.equalTo(headerContainerView).offset(8.0)
+            make.centerY.equalTo(eventsButton)
+        }
+        
+        footerContainerView.snp.makeConstraints { (make) in
             make.height.equalTo(view).multipliedBy(0.1)
             make.left.right.bottom.equalTo(view)
-        })
+        }
         
-        deleteButton.snp.makeConstraints({ (make) in
+        deleteButton.snp.makeConstraints { (make) in
             make.left.equalTo(footerContainerView).offset(8.0)
             make.bottom.equalTo(footerContainerView).offset(-8.0)
-        })
+        }
         
         infoTableView.contentInset = UIEdgeInsetsMake(0.3 * view.bounds.height, 0.0, 0.1 * view.bounds.height, 0.0)
     }
@@ -279,15 +289,20 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     func buttonWasPressed(_ sender: UIButton?) {
         if sender === deleteButton {
             if let currentUserLogin = fetchedUser?.login {
-                APIManager.deleteFriend(currentUserLogin, completion: { errorText in
+                APIManager.deleteFriend(currentUserLogin) { errorText in
                     if let deleteErrorText = errorText {
                         UIAlertController.presentErrorAlert(withText: deleteErrorText, parentController: self)
                         return
                     }
                     
                     _ = self.navigationController?.popViewController(animated: true)
-                })
+                }
             }
+        } else if sender === chatButton {
+            let chatVC = ChatViewController()
+            chatVC.friend = fetchedUser
+            
+            self.present(chatVC, animated: true, completion: nil)
         }
     }
     

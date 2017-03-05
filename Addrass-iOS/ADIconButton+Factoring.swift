@@ -18,6 +18,7 @@ extension ADIconButton {
         case events
         case save
         case cancel
+        case chat
     }
     
     
@@ -64,6 +65,14 @@ extension ADIconButton {
             icon = #imageLiteral(resourceName: "cross-white")
             attributedTitle = NSAttributedString(
                 string: String.ad.cancel, attributes: [
+                    NSFontAttributeName: UIFont.ad.boldFont,
+                    NSForegroundColorAttributeName: UIColor.ad.white
+                ]
+            )
+        case .chat:
+            icon = #imageLiteral(resourceName: "mail-light")
+            attributedTitle = NSAttributedString(
+                string: String.ad.chat, attributes: [
                     NSFontAttributeName: UIFont.ad.boldFont,
                     NSForegroundColorAttributeName: UIColor.ad.white
                 ]

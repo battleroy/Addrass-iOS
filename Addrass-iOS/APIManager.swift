@@ -11,10 +11,11 @@ import Alamofire
 import AlamofireImage
 
 
-class APIManager: NSObject {
+class APIManager {
     
     // MARK: Constants
     
     static let apiRoot: String = "http://localhost:8080" // "https://addrass.herokuapp.com";
+    static let chatEndpoint: URL = URL(string: "ws://localhost:8080/ws/websocket")!
     
 }

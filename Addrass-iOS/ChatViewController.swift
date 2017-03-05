@@ -15,12 +15,15 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
     
     // MARK: Fields
     
+    var friend: User?
     var messages: [Message]!
     var stompClient: StompClient?
     
     var messagesTableView: UITableView!
     var newMessageTextField: UITextField!
     var sendMessageButton: UIButton!
+    var navBar: UINavigationBar!
+    var closeBarButton: UIBarButtonItem!
     
     var bottomAnchorConstraint: Constraint?
     
@@ -30,6 +33,7 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
         super.viewDidLoad()
         edgesForExtendedLayout = []
         title = String.ad.chat
+        view.backgroundColor = UIColor.ad.darkGray
         
         messages = [Message]()
         
@@ -40,6 +44,7 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        updateMessages()
         connectToChat()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -69,25 +74,71 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
         messagesTableView.delegate = self
         view.addSubview(messagesTableView)
         
-        newMessageTextField = UITextField()
-        newMessageTextField.placeholder = String.ad.enterMessage
-        newMessageTextField.borderStyle = .roundedRect
+        newMessageTextField = ADPaddedTextField(forPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+        newMessageTextField.backgroundColor = UIColor.clear
+        newMessageTextField.font = UIFont.ad.bodyFont
+        newMessageTextField.textColor = UIColor.ad.white
+        newMessageTextField.attributedPlaceholder = NSAttributedString(
+            string: String.ad.enterMessage,
+            attributes: [
+                NSFontAttributeName: UIFont.ad.bodyFont,
+                NSForegroundColorAttributeName: UIColor.ad.lightGray
+            ]
+        )
+        newMessageTextField.layer.cornerRadius = 5.0
+        newMessageTextField.layer.borderColor = UIColor.white.cgColor
+        newMessageTextField.layer.borderWidth = 1.0
         newMessageTextField.setContentHuggingPriority(100, for: .vertical)
         view.addSubview(newMessageTextField)
         
         sendMessageButton = UIButton()
-        sendMessageButton.setTitle(String.ad.send, for: .normal)
-        sendMessageButton.setTitleColor(UIColor.blue, for: .normal)
+        sendMessageButton.setAttributedTitle(NSAttributedString(
+            string: String.ad.send,
+            attributes: [
+                NSFontAttributeName : UIFont.ad.boldFont,
+                NSForegroundColorAttributeName : UIColor.ad.yellow
+            ]),
+        for: .normal)
+        sendMessageButton.setTitleColor(UIColor.ad.yellow, for: .normal)
         sendMessageButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
         view.addSubview(sendMessageButton)
+        
+        createNavigationbar()
         
         setConstraints()
     }
     
     
+    func createNavigationbar() {
+        navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
+        navBar.shadowImage = UIImage()
+        navBar.setBackgroundImage(UIImage(), for: .default)
+        navBar.isTranslucent = false
+        navBar.tintColor = UIColor.ad.white
+        navBar.barTintColor = UIColor.ad.darkGray
+        navBar.titleTextAttributes = [
+            NSFontAttributeName: UIFont.ad.largeBoldFont,
+            NSForegroundColorAttributeName: UIColor.ad.white
+        ]
+        
+        let navItem = UINavigationItem()
+        navItem.title = friend?.fullName
+        
+        closeBarButton = UIBarButtonItem(title: String.ad.close, style: .plain, target: self, action: #selector(barButtonWasPressed(_:)))
+        navItem.leftBarButtonItem = closeBarButton
+        
+        navBar.items = [navItem]
+        
+        view.addSubview(navBar)
+        
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    
     func setConstraints() {
         messagesTableView.snp.remakeConstraints { (make) in
-            make.left.right.top.equalTo(view)
+            make.left.right.equalTo(view)
+            make.top.equalTo(navBar.snp.bottom)
         }
         
         newMessageTextField.snp.remakeConstraints { (make) in
@@ -95,6 +146,7 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
             make.bottom.equalTo(view).offset(-4.0)
             make.top.equalTo(messagesTableView.snp.bottom).offset(4.0)
             make.width.equalTo(view).multipliedBy(0.8)
+            make.height.equalTo(30.0)
         }
         
         sendMessageButton.snp.remakeConstraints { (make) in
@@ -105,17 +157,50 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
     }
     
     
+    func updateMessages() {
+        guard let friendLogin = friend?.login else {
+            return
+        }
+        
+        APIManager.messages(withFriendLogin: friendLogin) { (fetchedMessages, fetchErrorText) in
+            guard let messages = fetchedMessages else {
+                UIAlertController.presentErrorAlert(withText: fetchErrorText!, parentController: self)
+                return
+            }
+            
+            self.messages = messages
+            self.messagesTableView.reloadData()
+            if self.messages.count > 0 {
+                self.messagesTableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: false)
+            }
+        }
+    }
+    
+    
     func connectToChat() {
-        stompClient = StompClient(url: URL(string: "ws://localhost:8080/ws/websocket")!)
+        stompClient = StompClient(url: APIManager.chatEndpoint)
         stompClient?.delegate = self
         stompClient?.connect()
+    }
+    
+    
+    func acceptMessage(_ message: Message) {
+        messagesTableView.beginUpdates()
+        
+        messages.append(message)
+        let lastRowIndex = messagesTableView.numberOfRows(inSection: 0)
+        messagesTableView.insertRows(at: [IndexPath(row: lastRowIndex, section: 0)], with: .fade)
+        
+        messagesTableView.endUpdates()
+        
+        messagesTableView.scrollToRow(at: IndexPath(row: lastRowIndex, section: 0), at: .bottom, animated: true)
+
     }
     
     
     // MARK: StompClientDelegate
     
     func stompClientDidConnect(_ client: StompClient) {
-        print("conn")
         client.subscribe("/user/exchange/amq.direct/chat.message")
     }
     
@@ -131,9 +216,15 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
     
     
     func stompClientDidReceiveText(_ client: StompClient, text: String?) {
-        if let receivedText = text {
-            UIAlertController.presentInfoAlert(withText: "Privet. " + receivedText, parentController: self)
+        guard let receivedText = text else {
+            return
         }
+        
+        guard let messageJSON = (try? JSONSerialization.jsonObject(with: receivedText.data(using: .utf8)!, options: [])) as? [String : Any] else {
+            return
+        }
+        
+        acceptMessage(Message.message(withDictionary: messageJSON))
     }
     
     
@@ -172,27 +263,26 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
     }
     
     
+    // MARK: Overrides
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    
     // MARK: Actions
     
     func buttonWasPressed(_ sender: UIButton) {
-        if sender === sendMessageButton {
-            let stub = Message()
-            stub.sender = (arc4random() % 2 == 0 ? SessionManager.currentUser : nil)
-            stub.receiver = SessionManager.currentUser
-            stub.text = newMessageTextField.text
-            stub.time = Date()
-            
-            stompClient?.sendText(stub.text!, destination: "/app/chat.private.b")
-            
-            messagesTableView.beginUpdates()
-            
-            messages.append(stub)
-            let lastRowIndex = messagesTableView.numberOfRows(inSection: 0)
-            messagesTableView.insertRows(at: [IndexPath(row: lastRowIndex, section: 0)], with: .fade)
-            
-            messagesTableView.endUpdates()
-            
-            messagesTableView.scrollToRow(at: IndexPath(row: lastRowIndex, section: 0), at: .bottom, animated: true)
+        if sender === sendMessageButton, let messageText = newMessageTextField.text, let login = friend?.login {
+            stompClient?.sendText(messageText, destination: "/app/chat.private.\(login)")
+            newMessageTextField.text = ""
+        }
+    }
+    
+    
+    func barButtonWasPressed(_ sender: UIBarButtonItem) {
+        if sender === closeBarButton {
+            dismiss(animated: true, completion: nil)
         }
     }
     
