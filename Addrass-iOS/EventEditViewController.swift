@@ -56,6 +56,9 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     var eventTypeButton: UIButton!
     
     
+    var eventAccessibilityButton: ADIconButton!
+    
+    
     var deleteEventButton: UIButton!
     
     
@@ -68,7 +71,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         super.viewDidLoad()
         edgesForExtendedLayout = []
         
-        title = (eventData?.owner == SessionManager.currentUser ? String.ad.edit : String.ad.event)
+        title = (eventData?.owner == UserSessionManager.sharedManager.currentUser ? String.ad.edit : String.ad.event)
         contentScrollView.backgroundColor = UIColor.ad.gray
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: String.ad.cancel, style: .plain, target: self, action: #selector(barButtonPressed(_:)))
@@ -190,6 +193,18 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         contentScrollView.addSubview(deleteEventButton)
         
         
+        // ---- Accessibility ---- //
+        eventAccessibilityButton = ADIconButton(withIconSize: 16.0, icon: nil)
+        eventAccessibilityButton.addTarget(self, action: #selector(buttonWasPressed(_:)), for: .touchUpInside)
+        eventAccessibilityButton.setAttributedTitle(NSAttributedString(
+            string: String.ad.isPublic, attributes: [
+                NSFontAttributeName: UIFont.ad.boldFont,
+                NSForegroundColorAttributeName: UIColor.ad.white
+            ]
+            ), for: .normal)
+        contentScrollView.addSubview(eventAccessibilityButton)
+        
+        
         viewsForOwnerOnly = [nameEditButton, nameTextField, nameSaveButton, nameCancelButton, editMembersButton, dateEditButton, eventTypeButton, deleteEventButton]
     }
     
@@ -285,6 +300,11 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             make.left.greaterThanOrEqualTo(eventTypeLabel.snp.right).offset(8.0)
         }
         
+        eventAccessibilityButton.snp.remakeConstraints { (make) in
+            make.top.equalTo(eventTypeLabel.snp.bottom).offset(12.0)
+            make.left.equalTo(nameEditContainer)
+        }
+        
         
         deleteEventButton.snp.remakeConstraints { (make) in
             make.left.equalTo(nameEditContainer)
@@ -304,6 +324,8 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         nameTextField.text = event.name
         dateLabel.text = DateFormatter.fullDateFormatter.string(from: event.date!)
         eventTypeLabel.text = event.type.stringValue
+        eventAccessibilityButton.iconImage = event.isPublic ? #imageLiteral(resourceName: "checkmark-white") : #imageLiteral(resourceName: "cross-white")
+        eventAccessibilityButton.isEnabled = event.isOwnedByCurrentUser
         
         var members = [User]()
         for i in 0..<friends.count {
@@ -350,7 +372,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     
     func reloadDataForNewEvent() {
         
-        APIManager.friends { (fetchedFriends, fetchedFriendsErrorText) in
+        APIManager.sharedManager.friends { (fetchedFriends, fetchedFriendsErrorText) in
             guard let friends = fetchedFriends else {
                 UIAlertController.presentErrorAlert(withText: fetchedFriendsErrorText!, parentController: self)
                 return
@@ -377,14 +399,14 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
             saveBarButton.title = (existingEventData.isOwnedByCurrentUser ? String.ad.save : "")
         }
         
-        APIManager.membersFromEvent(forEventID: eventID) { (fetchedMembers, fetchMembersError) in
+        APIManager.sharedManager.membersFromEvent(forEventID: eventID) { (fetchedMembers, fetchMembersError) in
             if let members = fetchedMembers {
                 
                 for member in members {
                     friendsAreMembersDict[member] = true
                 }
                 
-                APIManager.friendsNotInEvent(forEventID: eventID) { (fetchedFriends, fetchErrorText) in
+                APIManager.sharedManager.friendsNotInEvent(forEventID: eventID) { (fetchedFriends, fetchErrorText) in
                     if let notMembers = fetchedFriends {
                         
                         for notMember in notMembers {
@@ -429,13 +451,13 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     
     
     func createEvent() {
-        APIManager.createEvent(eventData!) { (fetchedCreatedEvent, fetchedCreateErrorText) in
+        APIManager.sharedManager.createEvent(eventData!) { (fetchedCreatedEvent, fetchedCreateErrorText) in
             guard let createdEventID = fetchedCreatedEvent?.id else {
                 UIAlertController.presentErrorAlert(withText: fetchedCreateErrorText!, parentController: self)
                 return
             }
             
-            APIManager.membersUpdate(forEventID: createdEventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
+            APIManager.sharedManager.membersUpdate(forEventID: createdEventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
                 if let membersUpdateErrorText = fetchedMembersUpdateErrorText {
                     UIAlertController.presentErrorAlert(withText: membersUpdateErrorText, parentController: self)
                     return
@@ -450,7 +472,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
     func updateEvent() {
         let newEventData = eventData!
         
-        APIManager.updateEvent(newEventData) { updateErrorText in
+        APIManager.sharedManager.updateEvent(newEventData) { updateErrorText in
             if let updateError = updateErrorText {
                 UIAlertController.presentErrorAlert(withText: updateError, parentController: self)
                 return
@@ -461,7 +483,7 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
                 return
             }
             
-            APIManager.membersUpdate(forEventID: eventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
+            APIManager.sharedManager.membersUpdate(forEventID: eventID, newMembers: self.newMembersArray(), completion: { (fetchedMembersUpdateErrorText) in
                 if let membersUpdateErrorText = fetchedMembersUpdateErrorText {
                     UIAlertController.presentErrorAlert(withText: membersUpdateErrorText, parentController: self)
                     return
@@ -654,13 +676,28 @@ class EventEditViewController: ScrollableContentViewController, CZPickerViewData
         } else if sender === eventTypeButton {
             eventTypePicker.show()
         } else if sender === deleteEventButton {
-            APIManager.deleteEvent(forEventID: eventData.id!, completion: { fetchedDeleteErrorText in
+            APIManager.sharedManager.deleteEvent(forEventID: eventData.id!, completion: { fetchedDeleteErrorText in
                 if let deleteErrorText = fetchedDeleteErrorText {
                     UIAlertController.presentErrorAlert(withText: deleteErrorText, parentController: self)
                     return
                 }
                 
                 _ = self.navigationController?.popViewController(animated: true)
+            })
+        } else if sender === eventAccessibilityButton {
+            weak var weakSelf: EventEditViewController! = self
+            
+            UIView.animate(withDuration: 0.3, animations: { 
+                weakSelf.eventAccessibilityButton.alpha = 0.0
+            }, completion: { isCompleted in
+                guard isCompleted else { return }
+                
+                weakSelf.eventData.isPublic = !weakSelf.eventData.isPublic
+                weakSelf.updateView()
+                
+                UIView.animate(withDuration: 0.3) {
+                    weakSelf.eventAccessibilityButton.alpha = 1.0
+                }
             })
         }
     }

@@ -102,7 +102,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     func updateView() {
-        APIManager.friends { (friends, errorText) in
+        APIManager.sharedManager.friends { (friends, errorText) in
             self.friends = friends
             
             if friends == nil {
@@ -118,7 +118,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var cellUser: User? = nil
         if row == 0 {
-            cellUser = SessionManager.currentUser!
+            cellUser = UserSessionManager.sharedManager.currentUser!
         } else if let userFriends = friends {
             cellUser = userFriends[row - 1]
         }
@@ -197,7 +197,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func barButtonItemPressed(_ sender: UIBarButtonItem) {
         if sender == signOutButton {
-            APIManager.signOut {
+            APIManager.sharedManager.signOut {
                 self.dismiss(animated: true, completion: nil)
             }
         } else if sender == addFriendButton {
@@ -206,7 +206,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     return
                 }
                 
-                APIManager.addFriend(newFriendLogin, completion: { errorText in
+                APIManager.sharedManager.addFriend(newFriendLogin, completion: { errorText in
                     if let addErrorText = errorText {
                         UIAlertController.presentErrorAlert(withText: addErrorText, parentController: self)
                         return

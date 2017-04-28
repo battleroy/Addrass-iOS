@@ -29,19 +29,26 @@ public class StompClient {
     
     // MARK: Fields
     
-    var socket: WebSocket
+    fileprivate var socket: WebSocket
+    fileprivate var idsByDestination: [String : NSMutableArray]
+    
     weak var delegate: StompClientDelegate?
-    
-    var idsByDestination: [String : NSMutableArray]
-    
+
     
     // MARK: Init
     
     init(url: URL) {
-        idsByDestination = [String : NSMutableArray]()
+        self.idsByDestination = [String : NSMutableArray]()
 
-        socket = WebSocket(url: url)
-        socket.delegate = self
+        self.socket = WebSocket(url: url)
+        self.socket.delegate = self
+        
+        do {
+            let rootCertData = try Data(contentsOf: Bundle.main.url(forResource: "root", withExtension: "der")!)
+            self.socket.security = SSLSecurity(certs: [SSLCert(data: rootCertData)], usePublicKeys: false)
+        } catch {
+            
+        }
     }
     
     
@@ -140,7 +147,7 @@ extension StompClient: StompSubscriptionsRepository {
             subscriptionsIDs = idsByDestination[destination]
         }
         
-        subscriptionsIDs?.add("\(destination)-\(subscriptionsIDs?.count)")
+        subscriptionsIDs!.add("\(destination)-\(subscriptionsIDs!.count)")
         return subscriptionsIDs?.lastObject as! String
     }
     

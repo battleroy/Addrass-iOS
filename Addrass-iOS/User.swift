@@ -79,10 +79,11 @@ class User {
         result["userEmail"] = email ?? NSNull()
         result["userAddress"] = address ?? NSNull()
         
-        var iconDict = [String : Any]()
-        iconDict["imageName"] = imageName ?? NSNull()
-        
-        result["userIcon"] = iconDict
+        if imageName != nil {
+            var iconDict = [String : Any]()
+            iconDict["imageName"] = imageName
+            result["userIcon"] = iconDict
+        }
         
         return result
     }

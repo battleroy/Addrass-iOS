@@ -248,13 +248,13 @@ class CalendarViewController: UIViewController, UICollectionViewDataSource, UICo
         
         eventsByDay = nil
         ownEvents = nil
-        currentUpdateRequest = APIManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
+        currentUpdateRequest = APIManager.sharedManager.events(fromDate: calendarView.currentPage, to: lastDayOfPage) {
             (fetchedEvents, errorText) in
             guard let events = fetchedEvents else {
                 return
             }
             
-            APIManager.eventsForOwn { (fetchedOwnEvents, ownEventsErrorText) in
+            APIManager.sharedManager.eventsForOwn { (fetchedOwnEvents, ownEventsErrorText) in
                 guard let ownEvents = fetchedOwnEvents else {
                     return
                 }

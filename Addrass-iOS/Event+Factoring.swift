@@ -35,6 +35,8 @@ extension Event {
             event.owner = User.user(withDictionary: eventOwnerDict)
         }
         
+        event.isPublic = dict["public"] as? Bool ?? false
+        
         return event
     }
     

@@ -53,7 +53,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        APIManager.user(byLogin: userLogin) { (fetchedUser, fetchErrorText) in
+        APIManager.sharedManager.user(byLogin: userLogin) { (fetchedUser, fetchErrorText) in
             if fetchErrorText == nil {
                 self.fetchedUser = fetchedUser
             } else {
@@ -174,7 +174,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
         infoTableView.setContentOffset(scrollPoint, animated: false)
         
         if let currentUserLogin = userLogin, let editButton = navigationItem.rightBarButtonItem {
-            let isEditingSelf = (currentUserLogin == SessionManager.currentUser?.login)
+            let isEditingSelf = (currentUserLogin == UserSessionManager.sharedManager.currentUser?.login)
             
             editButton.isEnabled = isEditingSelf
             editButton.title = (isEditingSelf ? String.ad.edit : "")
@@ -278,7 +278,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
                 return
             }
             
-            if currentUser.id == SessionManager.currentUser?.id {
+            if currentUser.id == UserSessionManager.sharedManager.currentUser?.id {
                 let uevc = UserEditViewController()
                 navigationController?.pushViewController(uevc, animated: true)
             }
@@ -289,7 +289,7 @@ class UserDetailsViewController: UIViewController, UITableViewDataSource, UITabl
     func buttonWasPressed(_ sender: UIButton?) {
         if sender === deleteButton {
             if let currentUserLogin = fetchedUser?.login {
-                APIManager.deleteFriend(currentUserLogin) { errorText in
+                APIManager.sharedManager.deleteFriend(currentUserLogin) { errorText in
                     if let deleteErrorText = errorText {
                         UIAlertController.presentErrorAlert(withText: deleteErrorText, parentController: self)
                         return

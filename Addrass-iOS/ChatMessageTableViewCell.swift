@@ -152,7 +152,7 @@ class ChatMessageTableViewCell : UITableViewCell {
     
     func setupCell(forMessage message: Message) {
         
-        cellMode = (message.sender?.id == SessionManager.currentUser?.id ? .right : .left)
+        cellMode = (message.sender?.id == UserSessionManager.sharedManager.currentUser?.id ? .right : .left)
         
         senderImageView.af_cancelImageRequest()
         senderImageView.image = nil

@@ -14,11 +14,11 @@ extension APIManager {
     
     // MARK: Chat
     
-    static func messages(withFriendLogin friendLogin: String, completion: @escaping (([Message]?, String?) -> Void)) {
+    func messages(withFriendLogin friendLogin: String, completion: @escaping (([Message]?, String?) -> Void)) {
         
         let endpoint = "/message/\(friendLogin)"
         
-        Alamofire.request(apiRoot + endpoint).responseJSON { response in
+        self.sessionManager.request(APIManager.apiRoot + endpoint).responseJSON { response in
             switch response.result {
             case .success:
                 guard let JSON = response.result.value as? [[String : Any]] else {

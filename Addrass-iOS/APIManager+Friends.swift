@@ -14,11 +14,11 @@ extension APIManager {
     
     // MARK: Friends
     
-    static func friends(_ completion: @escaping ([User]?, String?) -> Void) {
+    func friends(_ completion: @escaping ([User]?, String?) -> Void) {
         
         let endpoint = "/friend/all"
         
-        Alamofire.request(apiRoot + endpoint).responseJSON { (response) in
+        Alamofire.request(APIManager.apiRoot + endpoint).responseJSON { (response) in
             guard let JSONList = response.result.value as? [[String: Any]] else {
                 completion(nil, "Can't fetch friends.")
                 return
@@ -29,21 +29,21 @@ extension APIManager {
     }
     
     
-    static func addFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
-        friendRequest(userLogin, method: .post, completion: completion)
+    func addFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
+        self.friendRequest(userLogin, method: .post, completion: completion)
     }
     
     
-    static func deleteFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
-        friendRequest(userLogin, method: .delete, completion: completion)
+    func deleteFriend(_ userLogin: String, completion: @escaping (String?) -> Void) {
+        self.friendRequest(userLogin, method: .delete, completion: completion)
     }
     
     
-    private static func friendRequest(_ userLogin: String, method: HTTPMethod, completion: @escaping (String?) -> Void) {
+    private func friendRequest(_ userLogin: String, method: HTTPMethod, completion: @escaping (String?) -> Void) {
         
         let endpoint = "/friend/\(userLogin)"
         
-        Alamofire.request(apiRoot + endpoint, method: method)
+        self.sessionManager.request(APIManager.apiRoot + endpoint, method: method)
             .validate(statusCode: 200..<300)
             .responseString { responseString in
             switch responseString.result {

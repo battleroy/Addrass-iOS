@@ -162,7 +162,7 @@ class ChatViewController : UIViewController, StompClientDelegate, UITableViewDat
             return
         }
         
-        APIManager.messages(withFriendLogin: friendLogin) { (fetchedMessages, fetchErrorText) in
+        APIManager.sharedManager.messages(withFriendLogin: friendLogin) { (fetchedMessages, fetchErrorText) in
             guard let messages = fetchedMessages else {
                 UIAlertController.presentErrorAlert(withText: fetchErrorText!, parentController: self)
                 return

@@ -93,6 +93,8 @@ extension String {
         let chat              = "Chat"
         let enterMessage      = "Enter message..."
         let send              = "Send"
+        
+        let isPublic          = "Is Public"
     }
     
     static let ad = ADLocalization()

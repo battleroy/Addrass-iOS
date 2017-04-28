@@ -12,21 +12,23 @@ import Alamofire
 
 extension APIManager {
     
-    static func membersFromEvent(forEventID eventID: Int, completion: @escaping ([User]?, String?) -> Void) {
+    // MARK: Event members
+    
+    func membersFromEvent(forEventID eventID: Int, completion: @escaping ([User]?, String?) -> Void) {
         let endpoint = "/member/\(eventID)"
-        members(endpoint, completion: completion)
+        self.members(endpoint, completion: completion)
     }
     
     
-    static func friendsNotInEvent(forEventID eventID: Int, completion: @escaping ([User]?, String?) -> Void) {
+    func friendsNotInEvent(forEventID eventID: Int, completion: @escaping ([User]?, String?) -> Void) {
         let endpoint = "/member/not/\(eventID)"
-        members(endpoint, completion: completion)
+        self.members(endpoint, completion: completion)
     }
     
     
-    private static func members(_ endpoint: String, completion: @escaping ([User]?, String?) -> Void) {
+    private func members(_ endpoint: String, completion: @escaping ([User]?, String?) -> Void) {
         
-        Alamofire.request(apiRoot + endpoint).responseJSON { responseData in
+        self.sessionManager.request(APIManager.apiRoot + endpoint).responseJSON { responseData in
             switch responseData.result {
             case .success:
                 completion(User.userList(withDictionaryList: responseData.result.value as! [[String : Any]]), nil)
@@ -38,15 +40,17 @@ extension APIManager {
     }
     
     
-    static func membersUpdate(forEventID eventID: Int, newMembers: [User]?, completion: @escaping ((String?) -> Void)) {
+    func membersUpdate(forEventID eventID: Int, newMembers: [User]?, completion: @escaping ((String?) -> Void)) {
         
-        membersFromEvent(forEventID: eventID) { (fetchedMembers, membersErrorText) in
+        self.membersFromEvent(forEventID: eventID) { (fetchedMembers, membersErrorText) in
             guard let members = fetchedMembers else {
                 completion(membersErrorText!)
                 return
             }
             
-            friendsNotInEvent(forEventID: eventID) { (fetchedNotMembers, notMembersErrorText) in
+            weak var weakSelf: APIManager! = self
+            
+            weakSelf.friendsNotInEvent(forEventID: eventID) { (fetchedNotMembers, notMembersErrorText) in
                 guard let notMembers = fetchedNotMembers else {
                     completion(notMembersErrorText!)
                     return
@@ -79,7 +83,7 @@ extension APIManager {
                 var errorText: String?
                 
                 for add in friendsToAdd {
-                    eventMemberRequest(forEventID: eventID, friendLogin: add.login!, method: .post) { fetchedAddError in
+                    weakSelf.eventMemberRequest(forEventID: eventID, friendLogin: add.login!, method: .post) { fetchedAddError in
                         if errorText == nil {
                             errorText = fetchedAddError
                         }
@@ -89,7 +93,7 @@ extension APIManager {
                 }
                 
                 for remove in friendsToRemove {
-                    eventMemberRequest(forEventID: eventID, friendLogin: remove.login!, method: .delete) { fetchedAddError in
+                    weakSelf.eventMemberRequest(forEventID: eventID, friendLogin: remove.login!, method: .delete) { fetchedAddError in
                         if errorText == nil {
                             errorText = fetchedAddError
                         }
@@ -107,11 +111,11 @@ extension APIManager {
     }
     
     
-    private static func eventMemberRequest(forEventID eventID: Int, friendLogin: String, method: HTTPMethod, completion: @escaping ((String?) -> Void)) {
+    private func eventMemberRequest(forEventID eventID: Int, friendLogin: String, method: HTTPMethod, completion: @escaping ((String?) -> Void)) {
         
         let endpoint = "/member/\(eventID)/\(friendLogin)"
         
-        Alamofire.request(apiRoot + endpoint, method: method).responseData { responseData in
+        self.sessionManager.request(APIManager.apiRoot + endpoint, method: method).responseData { responseData in
             switch responseData.result {
             case .success:
                 completion(nil)

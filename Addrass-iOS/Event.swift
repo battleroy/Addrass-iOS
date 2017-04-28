@@ -96,6 +96,7 @@ class Event {
     var name: String?
     var eventTypeName: String?
     var owner: User?
+    var isPublic: Bool
     
     
     // MARK: Properties
@@ -137,7 +138,7 @@ class Event {
     
     var isOwnedByCurrentUser: Bool {
         get {
-            return owner?.id == SessionManager.currentUser?.id
+            return owner?.id == UserSessionManager.sharedManager.currentUser?.id
         }
     }
     
@@ -145,18 +146,19 @@ class Event {
     // MARK: Initialization
     
     convenience init() {
-        self.init(withId: nil, timestamp: nil, name: String.ad.newEvent, eventTypeName: nil, owner: SessionManager.currentUser)
+        self.init(withId: nil, timestamp: nil, name: String.ad.newEvent, eventTypeName: nil, isPublic: nil, owner: UserSessionManager.sharedManager.currentUser)
         self.date = Date()
         self.type = .other
     }
     
     
-    init(withId id: Int?, timestamp: Int64?, name: String?, eventTypeName: String?, owner: User?) {
+    init(withId id: Int?, timestamp: Int64?, name: String?, eventTypeName: String?, isPublic: Bool?, owner: User?) {
         self.id = id
         self.timestamp = timestamp
         self.name = name
         self.eventTypeName = eventTypeName
         self.owner = owner
+        self.isPublic = isPublic ?? false
     }
     
     
@@ -169,6 +171,7 @@ class Event {
         result["id"] = id ?? NSNull()
         result["eventTimestamp"] = timestamp ?? NSNull()
         result["eventName"] = name ?? NSNull()
+        result["public"] = isPublic
         
         if let eventTypeName = eventTypeName {
             var eventTypeDictionary = [String : String]()

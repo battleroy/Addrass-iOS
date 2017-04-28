@@ -264,7 +264,7 @@ open class WebSocket : NSObject, StreamDelegate {
         
         // ------ ALERT ------- //
         
-        if let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: "http://localhost:8080/j_spring_security_check")!) {
+        if let cookies = HTTPCookieStorage.shared.cookies(for: URL(string: "https://localhost:8443/addrass/j_spring_security_check")!) {
             var cookieHeaderString = ""
             for cookie in cookies {
                 cookieHeaderString += "\(cookie.name)=\(cookie.value); "

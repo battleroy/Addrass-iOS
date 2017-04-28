@@ -193,7 +193,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, UIScrollViewD
         
         
         if !isEmptyFieldPresented {
-            APIManager.signIn(withLogin: loginTextField.text!, password: passwordTextField.text!) { (user, errorText) in
+            APIManager.sharedManager.signIn(withLogin: loginTextField.text!, password: passwordTextField.text!) { (user, errorText) in
                 guard user != nil else {
                     UIAlertController.presentErrorAlert(withText: errorText ?? "", parentController: self)
                     return

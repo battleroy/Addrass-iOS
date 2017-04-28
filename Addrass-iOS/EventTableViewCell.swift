@@ -26,6 +26,7 @@ class EventTableViewCell: ADTableViewCell {
     var eventTimeImageView: UIImageView!
     var eventTypeLabel: UILabel!
     var eventOwnedLabel: UILabel!
+    var eventIsPrivateImageView: UIImageView!
     
     
     // MARK: Properties
@@ -69,6 +70,10 @@ class EventTableViewCell: ADTableViewCell {
         eventOwnedLabel.font = UIFont.ad.boldFont
         eventOwnedLabel.textColor = UIColor.ad.lightGray
         addSubview(eventOwnedLabel)
+        
+        eventIsPrivateImageView = UIImageView()
+        eventIsPrivateImageView.contentMode = .scaleAspectFit
+        addSubview(eventIsPrivateImageView)
     }
     
     
@@ -106,6 +111,12 @@ class EventTableViewCell: ADTableViewCell {
             make.right.equalTo(eventTypeLabel)
             make.centerY.equalTo(eventTitleLabel)
         }
+        
+        eventIsPrivateImageView.snp.remakeConstraints { (make) in
+            make.right.equalTo(eventTypeLabel.snp.left).offset(-4.0)
+            make.centerY.equalTo(eventTypeLabel)
+            make.height.width.equalTo(16.0)
+        }
     }
     
     
@@ -120,6 +131,7 @@ class EventTableViewCell: ADTableViewCell {
         
         eventTypeLabel.text = event.type.stringValue
         eventOwnedLabel.text = event.isOwnedByCurrentUser ? String.ad.owner : ""
+        eventIsPrivateImageView.image = event.isPublic ? #imageLiteral(resourceName: "acc-public-inactive") : #imageLiteral(resourceName: "acc-private-inactive")
     }
     
 }

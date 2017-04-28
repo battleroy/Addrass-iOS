@@ -10,6 +10,7 @@
 		9303D7081E6BFE0D00B42564 /* APIManager+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9303D7071E6BFE0D00B42564 /* APIManager+Chat.swift */; };
 		9303D70A1E6C034F00B42564 /* Message+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9303D7091E6C034F00B42564 /* Message+Factoring.swift */; };
 		9303D70C1E6C139000B42564 /* ADIconButton+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9303D70B1E6C139000B42564 /* ADIconButton+Factoring.swift */; };
+		9321B0571EB361C200278DE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9321B0561EB361C200278DE5 /* Assets.xcassets */; };
 		932C7C261E5B703E003668D5 /* DateFormatter+Addrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */; };
 		932C7C281E5B7A30003668D5 /* Event+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C271E5B7A30003668D5 /* Event+Factoring.swift */; };
 		932C7C2A1E5B7A63003668D5 /* User+Factoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932C7C291E5B7A63003668D5 /* User+Factoring.swift */; };
@@ -24,11 +25,12 @@
 		9387B6F01E4EFEF4001FC066 /* APIManager+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */; };
 		9387B6F21E4F5160001FC066 /* UserEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9387B6F11E4F5160001FC066 /* UserEditViewController.swift */; };
 		939507931E6188A40046CEFD /* ADIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939507921E6188A40046CEFD /* ADIconButton.swift */; };
+		93B33F541EB2708E00F564FE /* root.der in Resources */ = {isa = PBXBuildFile; fileRef = 93B33F531EB2708E00F564FE /* root.der */; };
 		93F7353F1E64A8DA00F89D4B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7353E1E64A8DA00F89D4B /* ChatViewController.swift */; };
 		93F735411E64A97C00F89D4B /* ChatMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F735401E64A97C00F89D4B /* ChatMessageTableViewCell.swift */; };
 		93F735431E64AF7500F89D4B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F735421E64AF7500F89D4B /* Message.swift */; };
 		B619CBEE5453F21EFAE87D57 /* Pods_Addrass_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */; };
-		F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5020BA01E0497A000AB36F7 /* SessionManager.swift */; };
+		F5020BA11E0497A000AB36F7 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5020BA01E0497A000AB36F7 /* UserSessionManager.swift */; };
 		F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53B40121DDE447A00B500F9 /* CalendarViewController.swift */; };
 		F54045681DF2067B003C600F /* ScrollableContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54045671DF2067B003C600F /* ScrollableContentViewController.swift */; };
 		F54083601DE36F4700A282DC /* CalendarWeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */; };
@@ -57,7 +59,6 @@
 		F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FEAD4B1DE98BA500901069 /* EventTableViewCell.swift */; };
 		F5FEAD4E1DE98BF900901069 /* ADTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FEAD4D1DE98BF900901069 /* ADTableViewCell.swift */; };
 		F5FF3D541DCE7EC200BAD7B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */; };
-		F5FF3D5B1DCE7EC200BAD7B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */; };
 		F5FF3D5E1DCE7EC200BAD7B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5FF3D5C1DCE7EC200BAD7B9 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		9303D7071E6BFE0D00B42564 /* APIManager+Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Chat.swift"; sourceTree = "<group>"; };
 		9303D7091E6C034F00B42564 /* Message+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Message+Factoring.swift"; sourceTree = "<group>"; };
 		9303D70B1E6C139000B42564 /* ADIconButton+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ADIconButton+Factoring.swift"; sourceTree = "<group>"; };
+		9321B0561EB361C200278DE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		932C7C251E5B703E003668D5 /* DateFormatter+Addrass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Addrass.swift"; sourceTree = "<group>"; };
 		932C7C271E5B7A30003668D5 /* Event+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Event+Factoring.swift"; sourceTree = "<group>"; };
 		932C7C291E5B7A63003668D5 /* User+Factoring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Factoring.swift"; sourceTree = "<group>"; };
@@ -80,12 +82,13 @@
 		9387B6EF1E4EFEF4001FC066 /* APIManager+Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+Events.swift"; sourceTree = "<group>"; };
 		9387B6F11E4F5160001FC066 /* UserEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEditViewController.swift; sourceTree = "<group>"; };
 		939507921E6188A40046CEFD /* ADIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADIconButton.swift; sourceTree = "<group>"; };
+		93B33F531EB2708E00F564FE /* root.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = root.der; sourceTree = "<group>"; };
 		93F7353E1E64A8DA00F89D4B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		93F735401E64A97C00F89D4B /* ChatMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageTableViewCell.swift; sourceTree = "<group>"; };
 		93F735421E64AF7500F89D4B /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BB95753A457CE31A7FB75C79 /* Pods_Addrass_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Addrass_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBBB1F8BDF1D554F741711A1 /* Pods-Addrass-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Addrass-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Addrass-iOS/Pods-Addrass-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		F5020BA01E0497A000AB36F7 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		F5020BA01E0497A000AB36F7 /* UserSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
 		F53B40121DDE447A00B500F9 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F54045671DF2067B003C600F /* ScrollableContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableContentViewController.swift; sourceTree = "<group>"; };
 		F540835F1DE36F4700A282DC /* CalendarWeekDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarWeekDayCell.swift; sourceTree = "<group>"; };
@@ -115,7 +118,6 @@
 		F5FEAD4D1DE98BF900901069 /* ADTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADTableViewCell.swift; sourceTree = "<group>"; };
 		F5FF3D501DCE7EC200BAD7B9 /* Addrass-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Addrass-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F5FF3D5D1DCE7EC200BAD7B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F5FF3D5F1DCE7EC200BAD7B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +173,7 @@
 		F5020B9F1E04974000AB36F7 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				F5020BA01E0497A000AB36F7 /* SessionManager.swift */,
+				F5020BA01E0497A000AB36F7 /* UserSessionManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -356,6 +358,8 @@
 		F5FF3D521DCE7EC200BAD7B9 /* Addrass-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9321B0561EB361C200278DE5 /* Assets.xcassets */,
+				93B33F531EB2708E00F564FE /* root.der */,
 				F5020B9F1E04974000AB36F7 /* Managers */,
 				F5CC58371DE0463000133B01 /* API */,
 				F5AFC9251DD39EB7005963BD /* Model */,
@@ -363,7 +367,6 @@
 				F5B3929B1DCF6484006621B5 /* Views */,
 				F5B3928E1DCF490A006621B5 /* Helpers */,
 				F5FF3D531DCE7EC200BAD7B9 /* AppDelegate.swift */,
-				F5FF3D5A1DCE7EC200BAD7B9 /* Assets.xcassets */,
 				F5FF3D5C1DCE7EC200BAD7B9 /* LaunchScreen.storyboard */,
 				F5FF3D5F1DCE7EC200BAD7B9 /* Info.plist */,
 			);
@@ -434,8 +437,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B33F541EB2708E00F564FE /* root.der in Resources */,
+				9321B0571EB361C200278DE5 /* Assets.xcassets in Resources */,
 				F5FF3D5E1DCE7EC200BAD7B9 /* LaunchScreen.storyboard in Resources */,
-				F5FF3D5B1DCE7EC200BAD7B9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,7 +505,7 @@
 				932C7C261E5B703E003668D5 /* DateFormatter+Addrass.swift in Sources */,
 				F53B40131DDE447A00B500F9 /* CalendarViewController.swift in Sources */,
 				F5AFC9271DD39EC3005963BD /* User.swift in Sources */,
-				F5020BA11E0497A000AB36F7 /* SessionManager.swift in Sources */,
+				F5020BA11E0497A000AB36F7 /* UserSessionManager.swift in Sources */,
 				F5FEAD4C1DE98BA600901069 /* EventTableViewCell.swift in Sources */,
 				F5AFC9241DD39E41005963BD /* FriendTableViewCell.swift in Sources */,
 				93F7353F1E64A8DA00F89D4B /* ChatViewController.swift in Sources */,

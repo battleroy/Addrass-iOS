@@ -130,7 +130,7 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     
     func updateView() {
-        let editingContact = SessionManager.currentUser!
+        let editingContact = UserSessionManager.sharedManager.currentUser!
         
         firstNameTextField.text = editingContact.firstName
         lastNameTextField.text = editingContact.lastName
@@ -171,7 +171,7 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     
     func saveChangesAndLeaveIfSuccess() {
-        let user = SessionManager.currentUser!
+        let user = UserSessionManager.sharedManager.currentUser!
         
         user.firstName = firstNameTextField.text
         user.lastName = lastNameTextField.text
@@ -179,14 +179,14 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
         user.email = emailTextField.text
         user.address = addressTextField.text
         
-        APIManager.updateUser(user) { updateError in
+        APIManager.sharedManager.updateUser(user) { updateError in
             if updateError != nil {
                 UIAlertController.presentErrorAlert(withText: updateError!, parentController: self)
                 return
             }
             
             if self.isUserIconChanged {
-                APIManager.setUserIcon(self.imageView.image, completion: { (setImageError) in
+                APIManager.sharedManager.setUserIcon(self.imageView.image, completion: { (setImageError) in
                     if setImageError != nil {
                         UIAlertController.presentErrorAlert(withText: setImageError!, parentController: self)
                         return
@@ -202,7 +202,7 @@ class UserEditViewController: ScrollableContentViewController, UITextFieldDelega
     
     
     func updateSessionAndLeaveIfSuccess() {
-        SessionManager.refreshSessionUser { refreshErrorText in
+        UserSessionManager.sharedManager.refreshSessionUser { _, refreshErrorText in
             if let refreshError = refreshErrorText {
                 UIAlertController.presentErrorAlert(withText: refreshError, parentController: self)
             } else {

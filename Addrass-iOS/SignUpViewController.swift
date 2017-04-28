@@ -69,7 +69,6 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
         nonEmptyTextFields.append(repeatPasswordTextField)
         nonEmptyTextFields.append(firstNameTextField)
         nonEmptyTextFields.append(lastNameTextField)
-        nonEmptyTextFields.append(phoneTextField)
         
         doneButton = UIButton(type: .roundedRect)
         doneButton.backgroundColor = UIColor.yellow
@@ -214,7 +213,7 @@ class SignUpViewController: ScrollableContentViewController, UITextFieldDelegate
             newUser.address = addressTextField.text
         
             
-            APIManager.createUser(newUser) { errorText in
+            APIManager.sharedManager.createUser(newUser) { errorText in
                 guard (errorText == nil) else {
                     UIAlertController.presentErrorAlert(withText: errorText!, parentController: self)
                     return
